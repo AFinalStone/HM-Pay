@@ -1,0 +1,15 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.hm.iou.pay">
+
+    <application>
+        <!-- 微信支付页面 -->
+        <activity
+            android:name="com.hm.iou.pay.business.wxpay.WXPayActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:theme="@style/UikitTranslucentThemeActivity" />
+
+    </application>
+
+
+</manifest>
