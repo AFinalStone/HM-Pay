@@ -9,7 +9,7 @@ import retrofit2.http.GET;
  * Created by syl on 2018/7/12.
  */
 
-public interface WeiXinPayService {
+public interface PayService {
 
     @GET("/pay/iou/wx/v1/payTest")
     Flowable<PayTestReqBean> payTest();

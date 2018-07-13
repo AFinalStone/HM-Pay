@@ -20,6 +20,7 @@ public class WXPayActivity extends BaseActivity<WXPayPresenter> implements WXPay
 
     @Override
     protected void initEventAndData(Bundle bundle) {
+
         mPresenter.payByWx();
     }
 

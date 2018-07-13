@@ -4,12 +4,12 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.hm.iou.base.event.OpenWxResultEvent;
-import com.hm.iou.base.wxapi.WXPayEntryActivity;
-import com.hm.iou.pay.api.WeiXinPayApi;
 import com.hm.iou.base.mvp.MvpActivityPresenter;
 import com.hm.iou.base.utils.CommSubscriber;
+import com.hm.iou.pay.api.PayApi;
 import com.hm.iou.pay.bean.PayTestReqBean;
 import com.hm.iou.tools.SystemUtil;
+import com.hm.iou.wxapi.WXPayEntryActivity;
 import com.trello.rxlifecycle2.android.ActivityEvent;
 
 import org.greenrobot.eventbus.EventBus;
@@ -44,7 +44,7 @@ public class WXPayPresenter extends MvpActivityPresenter<WXPayContract.View> imp
 
     private void wxPay() {
         mView.showLoadingView();
-        WeiXinPayApi.payTest()
+        PayApi.payTest()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .compose(getProvider().<PayTestReqBean>bindUntilEvent(ActivityEvent.DESTROY))
@@ -95,6 +95,7 @@ public class WXPayPresenter extends MvpActivityPresenter<WXPayContract.View> imp
             } else {
                 mView.toastMessage("微信支付失败");
             }
+            mView.closeCurrPage();
         }
     }
 

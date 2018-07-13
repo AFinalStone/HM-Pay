@@ -11,10 +11,10 @@ import io.reactivex.schedulers.Schedulers;
  * Created by syl on 2018/6/28.
  */
 
-public class WeiXinPayApi {
+public class PayApi {
 
-    private static WeiXinPayService getService() {
-        return HttpReqManager.getInstance().getService(WeiXinPayService.class);
+    private static PayService getService() {
+        return HttpReqManager.getInstance().getService(PayService.class);
     }
 
     public static Flowable<PayTestReqBean> payTest() {
