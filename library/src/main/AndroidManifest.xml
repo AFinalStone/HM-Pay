@@ -4,10 +4,10 @@
     <application>
         <!-- 微信支付页面 -->
         <activity
-            android:name="com.hm.iou.pay.business.wxpay.WXPayActivity"
+            android:name="com.hm.iou.pay.business.type.SelectPayTypeActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait"
-            android:theme="@style/UikitTranslucentThemeActivity" />
+            android:theme="@style/PaySelectPayTypeThemeActivity" />
 
     </application>
 

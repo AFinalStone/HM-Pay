@@ -5,7 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import com.hm.iou.pay.business.wxpay.WXPayActivity;
+import com.hm.iou.pay.business.type.SelectPayTypeActivity;
+import com.hm.iou.router.Router;
 
 
 public class MainActivity extends Activity {
@@ -18,7 +19,11 @@ public class MainActivity extends Activity {
         findViewById(R.id.btn_wxPay).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, WXPayActivity.class));
+                Router.getInstance()
+                        .buildWithUrl("hmiou://m.54jietiao.com/pay/select_pay_type")
+                        .withString("time_card_num", "1")
+                        .withString("time_card_money", "10")
+                        .navigation(MainActivity.this);
             }
         });
         findViewById(R.id.btn_checkPayResult).setOnClickListener(new View.OnClickListener() {

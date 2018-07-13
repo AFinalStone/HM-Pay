@@ -1,4 +1,4 @@
-package com.hm.iou.pay.business.wxpay;
+package com.hm.iou.pay.business.timecard;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -26,12 +26,12 @@ import io.reactivex.schedulers.Schedulers;
  * @author syl
  * @time 2018/5/17 下午5:24
  */
-public class WXPayPresenter extends MvpActivityPresenter<WXPayContract.View> implements WXPayContract.Presenter {
+public class TimeCardRechargePresenter extends MvpActivityPresenter<TimeCardRechargeContract.View> implements TimeCardRechargeContract.Presenter {
 
     private static final String PACKAGE_NAME_OF_WX_CHAT = "com.tencent.mm";
     private static final String KEY_WX_PAY_COE = "wxmodule.wxpay";
 
-    public WXPayPresenter(@NonNull Context context, @NonNull WXPayContract.View view) {
+    public TimeCardRechargePresenter(@NonNull Context context, @NonNull TimeCardRechargeContract.View view) {
         super(context, view);
         EventBus.getDefault().register(this);
     }
@@ -71,7 +71,6 @@ public class WXPayPresenter extends MvpActivityPresenter<WXPayContract.View> imp
     }
 
 
-    @Override
     public void payByWx() {
         boolean flag = SystemUtil.isAppInstalled(mContext, PACKAGE_NAME_OF_WX_CHAT);
         if (flag) {
@@ -83,7 +82,7 @@ public class WXPayPresenter extends MvpActivityPresenter<WXPayContract.View> imp
     }
 
     /**
-     * 打开微信进行支付操作
+     * 微信支付结果
      *
      * @param openWxResultEvent
      */
@@ -91,11 +90,8 @@ public class WXPayPresenter extends MvpActivityPresenter<WXPayContract.View> imp
     public void onEvenBusOpenWXResult(OpenWxResultEvent openWxResultEvent) {
         if (KEY_WX_PAY_COE.equals(openWxResultEvent.getKey())) {
             if (openWxResultEvent.getIfPaySuccess()) {
-                mView.toastMessage("微信支付成功");
-            } else {
-                mView.toastMessage("微信支付失败");
+//                mView.showWXPayResult("微信支付成功");
             }
-            mView.closeCurrPage();
         }
     }
 
