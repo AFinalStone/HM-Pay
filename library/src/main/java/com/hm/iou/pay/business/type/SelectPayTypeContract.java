@@ -39,6 +39,11 @@ public interface SelectPayTypeContract {
          */
         void setCheckPayResultBtnEnable(boolean enable);
 
+        /**
+         * 设置结果确定
+         */
+        void setResultOK();
+
     }
 
     interface Presenter extends BaseContract.BasePresenter {
@@ -46,6 +51,11 @@ public interface SelectPayTypeContract {
          * 通过微信进行付款
          */
         void payByWx();
+
+        /**
+         * 校验支付结果
+         */
+        void checkPayResult();
 
     }
 }

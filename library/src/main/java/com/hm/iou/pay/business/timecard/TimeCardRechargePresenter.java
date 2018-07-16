@@ -3,96 +3,104 @@ package com.hm.iou.pay.business.timecard;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import com.hm.iou.base.event.OpenWxResultEvent;
 import com.hm.iou.base.mvp.MvpActivityPresenter;
-import com.hm.iou.base.utils.CommSubscriber;
-import com.hm.iou.pay.api.PayApi;
-import com.hm.iou.pay.bean.PayTestReqBean;
-import com.hm.iou.tools.SystemUtil;
-import com.hm.iou.wxapi.WXPayEntryActivity;
+import com.hm.iou.pay.bean.TimeCardBean;
+import com.hm.iou.pay.business.timecard.view.ITimeCardItem;
 import com.trello.rxlifecycle2.android.ActivityEvent;
 
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
+import io.reactivex.Flowable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 
 /**
- * 选择登录方式
+ * 次卡充值
  *
  * @author syl
  * @time 2018/5/17 下午5:24
  */
 public class TimeCardRechargePresenter extends MvpActivityPresenter<TimeCardRechargeContract.View> implements TimeCardRechargeContract.Presenter {
 
-    private static final String PACKAGE_NAME_OF_WX_CHAT = "com.tencent.mm";
-    private static final String KEY_WX_PAY_COE = "wxmodule.wxpay";
+    private Disposable mListDisposable;
 
     public TimeCardRechargePresenter(@NonNull Context context, @NonNull TimeCardRechargeContract.View view) {
         super(context, view);
-        EventBus.getDefault().register(this);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        EventBus.getDefault().unregister(this);
     }
 
-    private void wxPay() {
-        mView.showLoadingView();
-        PayApi.payTest()
+    @Override
+    public void init() {
+        if (mListDisposable != null && !mListDisposable.isDisposed()) {
+            mListDisposable.dispose();
+        }
+        mView.showInitLoading();
+        mListDisposable = Flowable.just(0)
+                .delay(1000, TimeUnit.MILLISECONDS)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .compose(getProvider().<PayTestReqBean>bindUntilEvent(ActivityEvent.DESTROY))
-                .subscribeWith(new CommSubscriber<PayTestReqBean>(mView) {
+                .compose(getProvider().<Integer>bindUntilEvent(ActivityEvent.DESTROY))
+                .subscribe(new Consumer<Integer>() {
                     @Override
-                    public void handleResult(PayTestReqBean payTestReqBean) {
-                        mView.dismissLoadingView();
-                        String partnerId = payTestReqBean.getPartnerid();
-                        String prepayid = payTestReqBean.getPrepayid();
-                        String packageValue = payTestReqBean.getPackageValue();
-                        String nonceStr = payTestReqBean.getNoncestr();
-                        String timeStamp = payTestReqBean.getTimestamp();
-                        String sign = payTestReqBean.getSign();
-                        WXPayEntryActivity.wxPay(mContext, partnerId, prepayid, packageValue
-                                , nonceStr, timeStamp, sign, KEY_WX_PAY_COE);
+                    public void accept(Integer integer) throws Exception {
+                        mView.hideInitLoading();
+                        List<ITimeCardItem> list = new ArrayList<>();
+                        list.add(new TimeCardBean("5", "10"));
+                        list.add(new TimeCardBean("2", "2"));
+                        list.add(new TimeCardBean("1", "10"));
+                        mView.showList(list);
+                        mView.showRemainNum("5");
+                        mView.enableRefresh(true);
                     }
-
+                }, new Consumer<Throwable>() {
                     @Override
-                    public void handleException(Throwable throwable, String code, String msg) {
-                        mView.dismissLoadingView();
-                        mView.closeCurrPage();
+                    public void accept(Throwable throwable) throws Exception {
+                        mView.hideInitLoading();
+                        mView.showInitFailed("数据异常");
+                        mView.enableRefresh(false);
                     }
                 });
     }
 
-
-    public void payByWx() {
-        boolean flag = SystemUtil.isAppInstalled(mContext, PACKAGE_NAME_OF_WX_CHAT);
-        if (flag) {
-            wxPay();
-        } else {
-            mView.toastMessage("当前手机未安装微信");
-            mView.closeCurrPage();
+    @Override
+    public void refresh() {
+        if (mListDisposable != null && !mListDisposable.isDisposed()) {
+            mListDisposable.dispose();
         }
-    }
-
-    /**
-     * 微信支付结果
-     *
-     * @param openWxResultEvent
-     */
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEvenBusOpenWXResult(OpenWxResultEvent openWxResultEvent) {
-        if (KEY_WX_PAY_COE.equals(openWxResultEvent.getKey())) {
-            if (openWxResultEvent.getIfPaySuccess()) {
-//                mView.showWXPayResult("微信支付成功");
-            }
-        }
+        mListDisposable = Flowable.just(0)
+                .delay(1000, TimeUnit.MILLISECONDS)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(getProvider().<Integer>bindUntilEvent(ActivityEvent.DESTROY))
+                .subscribe(new Consumer<Integer>() {
+                    @Override
+                    public void accept(Integer integer) throws Exception {
+                        mView.hidePullDownRefresh();
+                        List<ITimeCardItem> list = new ArrayList<>();
+                        list.add(new TimeCardBean("5", "100"));
+                        list.add(new TimeCardBean("2", "2"));
+                        list.add(new TimeCardBean("1", "5"));
+                        mView.showList(list);
+                        mView.showRemainNum("5");
+                        mView.enableRefresh(true);
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        mView.hidePullDownRefresh();
+                        mView.showInitFailed("数据异常");
+                        mView.enableRefresh(false);
+                    }
+                });
     }
 
 }

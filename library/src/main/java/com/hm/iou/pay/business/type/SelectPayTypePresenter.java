@@ -27,7 +27,7 @@ import io.reactivex.schedulers.Schedulers;
 
 
 /**
- * 微信支付
+ * 选择付款方式
  *
  * @author syl
  * @time 2018/5/17 下午5:24
@@ -147,6 +147,11 @@ public class SelectPayTypePresenter extends MvpActivityPresenter<SelectPayTypeCo
         }
     }
 
+    @Override
+    public void checkPayResult() {
+
+    }
+
     /**
      * 微信支付成功，关闭当前页面
      *
@@ -156,6 +161,7 @@ public class SelectPayTypePresenter extends MvpActivityPresenter<SelectPayTypeCo
     public void onEvenBusOpenWXResult(OpenWxResultEvent openWxResultEvent) {
         if (KEY_WX_PAY_CODE.equals(openWxResultEvent.getKey())) {
             if (openWxResultEvent.getIfPaySuccess()) {
+                mView.setResultOK();
                 mView.closeCurrPage();
             }
         }

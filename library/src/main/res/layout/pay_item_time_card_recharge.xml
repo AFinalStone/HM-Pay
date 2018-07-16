@@ -1,0 +1,32 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_background"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="15dp"
+    android:layout_marginEnd="10dp"
+    android:layout_marginStart="10dp"
+    android:layout_marginTop="15dp"
+    android:background="@drawable/pay_shape_bg_item_time_card_recharge_selector"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:paddingBottom="15dp"
+    android:paddingTop="15dp">
+
+    <TextView
+        android:id="@+id/tv_timeCardNum"
+        style="@style/UikitTextView"
+        android:textColor="@color/pay_color_item_time_card_text_selector"
+        android:textSize="@dimen/textFontSize_16"
+        tools:text="5次卡" />
+
+    <TextView
+        android:id="@+id/tv_discountsMoney"
+        style="@style/UikitTextView"
+        android:layout_marginTop="2dp"
+        android:textColor="@color/pay_color_item_time_card_text_money_selector"
+        android:textSize="@dimen/textFontSize_12"
+        tools:text="优惠¥10" />
+
+</LinearLayout>
+

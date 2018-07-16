@@ -108,4 +108,9 @@ public class SelectPayTypeActivity extends BaseActivity<SelectPayTypePresenter> 
     public void setCheckPayResultBtnEnable(boolean enable) {
         mBtnCheckPayResult.setEnabled(enable);
     }
+
+    @Override
+    public void setResultOK() {
+        setResult(RESULT_OK);
+    }
 }

@@ -8,6 +8,10 @@
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait"
             android:theme="@style/PaySelectPayTypeThemeActivity" />
+        <activity
+            android:name="com.hm.iou.pay.business.timecard.view.TimeCardRechargeActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait" />
 
     </application>
 

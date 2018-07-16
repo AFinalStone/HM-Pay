@@ -21,4 +21,11 @@
         android:gravity="center"
         android:text="校验支付结果" />
 
+    <Button
+        android:id="@+id/btn_timeCardRecharge"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="次卡充值" />
+
 </LinearLayout>
