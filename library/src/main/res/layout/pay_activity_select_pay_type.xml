@@ -114,7 +114,7 @@
                 android:layout_width="239dp"
                 android:layout_height="43dp"
                 android:layout_marginTop="18dp"
-                android:background="@drawable/pay_select_btn_check_pay_result"
+                android:background="@drawable/pay_selector_btn_check_pay_result"
                 android:text="手动校验  30:00"
                 android:textSize="@dimen/textFontSize_16"
                 android:textColor="@color/uikit_text_common_color"

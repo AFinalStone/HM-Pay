@@ -42,6 +42,14 @@ public class MainActivity extends Activity {
                         .navigation(MainActivity.this);
             }
         });
+        findViewById(R.id.btn_expendTimeCardNum).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Router.getInstance()
+                        .buildWithUrl("hmiou://m.54jietiao.com/pay/expend_time_card_num")
+                        .navigation(MainActivity.this);
+            }
+        });
 
         findViewById(R.id.btn_four_elements).setOnClickListener(new View.OnClickListener() {
             @Override

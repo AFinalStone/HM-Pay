@@ -1,4 +1,4 @@
-package com.hm.iou.pay.business.timecard;
+package com.hm.iou.pay.business.expend;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -25,11 +25,11 @@ import io.reactivex.schedulers.Schedulers;
  * @author syl
  * @time 2018/5/17 下午5:24
  */
-public class TimeCardRechargePresenter extends MvpActivityPresenter<TimeCardRechargeContract.View> implements TimeCardRechargeContract.Presenter {
+public class ExpendPresenter extends MvpActivityPresenter<ExpendContract.View> implements ExpendContract.Presenter {
 
     private Disposable mListDisposable;
 
-    public TimeCardRechargePresenter(@NonNull Context context, @NonNull TimeCardRechargeContract.View view) {
+    public ExpendPresenter(@NonNull Context context, @NonNull ExpendContract.View view) {
         super(context, view);
     }
 

@@ -1,6 +1,6 @@
 package com.hm.iou.pay.bean;
 
-import com.hm.iou.pay.business.timecard.view.ITimeCardItem;
+import com.hm.iou.pay.comm.ITimeCardItem;
 
 /**
  * @author syl

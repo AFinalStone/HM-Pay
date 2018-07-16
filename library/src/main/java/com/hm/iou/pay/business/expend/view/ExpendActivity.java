@@ -1,4 +1,4 @@
-package com.hm.iou.pay.business.timecard.view;
+package com.hm.iou.pay.business.expend.view;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,8 +11,8 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.hm.iou.base.BaseActivity;
 import com.hm.iou.pay.R;
 import com.hm.iou.pay.R2;
-import com.hm.iou.pay.business.timecard.TimeCardRechargeContract;
-import com.hm.iou.pay.business.timecard.TimeCardRechargePresenter;
+import com.hm.iou.pay.business.expend.ExpendContract;
+import com.hm.iou.pay.business.expend.ExpendPresenter;
 import com.hm.iou.pay.comm.ITimeCardItem;
 import com.hm.iou.pay.comm.TimeCardListAdapter;
 import com.hm.iou.router.Router;
@@ -26,7 +26,7 @@ import java.util.List;
 
 import butterknife.BindView;
 
-public class TimeCardRechargeActivity extends BaseActivity<TimeCardRechargePresenter> implements TimeCardRechargeContract.View {
+public class ExpendActivity extends BaseActivity<ExpendPresenter> implements ExpendContract.View {
 
     private static final int REQ_OPEN_SELECT_PAY_TYPE = 100;
 
@@ -40,8 +40,8 @@ public class TimeCardRechargeActivity extends BaseActivity<TimeCardRechargePrese
     HMLoadingView mLoadingInitView;
 
     TimeCardListAdapter mAdapter;
-    TimeCardListHeaderHelp mTimeCardListHeaderHelp;
-    TimeCardListFooterHelp mTimeCardListFooterHelp;
+    ExpendListHeaderHelp mExpendListHeaderHelp;
+    ExpendListFooterHelp mExpendListFooterHelp;
 
     @Override
     protected int getLayoutId() {
@@ -49,8 +49,8 @@ public class TimeCardRechargeActivity extends BaseActivity<TimeCardRechargePrese
     }
 
     @Override
-    protected TimeCardRechargePresenter initPresenter() {
-        return new TimeCardRechargePresenter(this, this);
+    protected ExpendPresenter initPresenter() {
+        return new ExpendPresenter(this, this);
     }
 
 
@@ -85,17 +85,11 @@ public class TimeCardRechargeActivity extends BaseActivity<TimeCardRechargePrese
         mAdapter = new TimeCardListAdapter();
         mRvTimeCardList.setLayoutManager(new GridLayoutManager(mContext, 3));
         //头部
-        mTimeCardListHeaderHelp = new TimeCardListHeaderHelp(mRvTimeCardList);
-        mAdapter.addHeaderView(mTimeCardListHeaderHelp.getHeaderView());
+        mExpendListHeaderHelp = new ExpendListHeaderHelp(mRvTimeCardList, this);
+        mAdapter.addHeaderView(mExpendListHeaderHelp.getHeaderView());
         //尾部
-        mTimeCardListFooterHelp = new TimeCardListFooterHelp(mRvTimeCardList);
-        mTimeCardListFooterHelp.setOnFirstTryBtnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                toastMessage("首次体验");
-            }
-        });
-        mAdapter.addFooterView(mTimeCardListFooterHelp.getFooterView());
+        mExpendListFooterHelp = new ExpendListFooterHelp(mRvTimeCardList, this);
+        mAdapter.addFooterView(mExpendListFooterHelp.getFooterView());
 
         mRvTimeCardList.setAdapter(mAdapter);
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
@@ -114,7 +108,8 @@ public class TimeCardRechargeActivity extends BaseActivity<TimeCardRechargePrese
         });
     }
 
-    private void toSelectPayType(String num, String money) {
+    @Override
+    public void toSelectPayType(String num, String money) {
         Router.getInstance()
                 .buildWithUrl("hmiou://m.54jietiao.com/pay/select_pay_type")
                 .withString("time_card_num", num)
@@ -124,7 +119,7 @@ public class TimeCardRechargeActivity extends BaseActivity<TimeCardRechargePrese
 
     @Override
     public void showRemainNum(String num) {
-        mTimeCardListHeaderHelp.setRemainderNum(num);
+        mExpendListHeaderHelp.setRemainderNum(num);
     }
 
     @Override
@@ -163,10 +158,5 @@ public class TimeCardRechargeActivity extends BaseActivity<TimeCardRechargePrese
                 mPresenter.init();
             }
         });
-    }
-
-    @Override
-    public void showAdvertisement(String adImageUrl, String adLinkUrl) {
-        mTimeCardListFooterHelp.showAdvertisement(adImageUrl, adLinkUrl);
     }
 }

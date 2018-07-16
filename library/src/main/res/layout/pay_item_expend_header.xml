@@ -1,0 +1,93 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="15dp"
+        android:background="@color/uikit_background" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingBottom="30dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingTop="20dp">
+
+        <TextView
+            android:id="@+id/tv_remainderNum"
+            style="@style/UikitTextView"
+            android:minHeight="70dp"
+            android:minWidth="30dp"
+            android:text="3"
+            android:textSize="50dp" />
+
+        <TextView
+            style="@style/UikitTextView"
+            android:minHeight="22dp"
+            android:minWidth="96dp"
+            android:text="剩余签章次数"
+            android:textSize="@dimen/textFontSize_16" />
+
+        <Button
+            android:id="@+id/btn_expend"
+            style="@style/UikitButton"
+            android:layout_width="match_parent"
+            android:layout_marginTop="24dp"
+            android:background="@drawable/uikit_shape_common_btn_selector"
+            android:minHeight="60dp"
+            android:text="消耗1次签章"
+            android:textSize="@dimen/textFontSize_16" />
+
+        <Button
+            android:id="@+id/btn_exit"
+            style="@style/UikitButton"
+            android:layout_width="match_parent"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/pay_shape_btn_expend_exit"
+            android:minHeight="60dp"
+            android:text="退出下次再签"
+            android:textSize="@dimen/textFontSize_16" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="15dp"
+        android:background="@color/uikit_background" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/iv_check"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="10dp"
+            android:padding="10dp"
+            android:src="@mipmap/uikit_icon_check_green" />
+
+        <TextView
+            style="@style/UikitTextView"
+            android:minHeight="20dp"
+            android:text="我已阅读并同意"
+            android:textSize="@dimen/textFontSize_14" />
+
+        <TextView
+            android:id="@+id/tv_rechargeAgreement"
+            style="@style/UikitTextView"
+            android:minHeight="20dp"
+            android:text="《用户充值协议》"
+            android:textColor="@color/uikit_blue"
+            android:textSize="@dimen/textFontSize_14" />
+    </LinearLayout>
+
+</LinearLayout>
+

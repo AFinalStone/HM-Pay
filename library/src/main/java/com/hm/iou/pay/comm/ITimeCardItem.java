@@ -1,4 +1,4 @@
-package com.hm.iou.pay.business.timecard.view;
+package com.hm.iou.pay.comm;
 
 /**
  * @author syl

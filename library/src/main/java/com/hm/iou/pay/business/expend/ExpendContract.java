@@ -1,4 +1,4 @@
-package com.hm.iou.pay.business.timecard;
+package com.hm.iou.pay.business.expend;
 
 
 import com.hm.iou.base.mvp.BaseContract;
@@ -7,12 +7,12 @@ import com.hm.iou.pay.comm.ITimeCardItem;
 import java.util.List;
 
 /**
- * 次卡充值
+ * 次卡消费
  *
  * @author syl
  * @time 2018/7/13 下午3:19
  */
-public interface TimeCardRechargeContract {
+public interface ExpendContract {
 
     interface View extends BaseContract.BaseView {
         /**
@@ -51,12 +51,12 @@ public interface TimeCardRechargeContract {
         void showList(List<ITimeCardItem> list);
 
         /**
-         * 显示广告
+         * 充值
          *
-         * @param adImageUrl 广告图片
-         * @param adLinkUrl  广告链接
+         * @param num
+         * @param money
          */
-        void showAdvertisement(String adImageUrl, String adLinkUrl);
+        void toSelectPayType(String num, String money);
     }
 
     interface Presenter extends BaseContract.BasePresenter {

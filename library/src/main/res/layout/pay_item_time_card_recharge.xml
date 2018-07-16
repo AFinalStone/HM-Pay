@@ -7,7 +7,7 @@
     android:layout_marginEnd="10dp"
     android:layout_marginStart="10dp"
     android:layout_marginTop="15dp"
-    android:background="@drawable/pay_shape_bg_item_time_card_recharge_selector"
+    android:background="@drawable/pay_selector_bg_item_time_card_recharge"
     android:gravity="center"
     android:orientation="vertical"
     android:paddingBottom="15dp"

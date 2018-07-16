@@ -6,10 +6,8 @@ import android.support.annotation.NonNull;
 import com.hm.iou.base.mvp.MvpActivityPresenter;
 import com.hm.iou.pay.bean.HistoryItemBean;
 import com.hm.iou.pay.bean.HistoryItemChildBean;
-import com.hm.iou.pay.bean.TimeCardBean;
 import com.hm.iou.pay.business.history.view.IHistoryItem;
 import com.hm.iou.pay.business.history.view.IHistoryItemChild;
-import com.hm.iou.pay.business.timecard.view.ITimeCardItem;
 import com.trello.rxlifecycle2.android.ActivityEvent;
 
 import java.util.ArrayList;

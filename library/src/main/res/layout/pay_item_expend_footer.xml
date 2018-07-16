@@ -17,14 +17,5 @@
         android:textColor="@color/pay_color_item_time_card_text_selector"
         android:textSize="@dimen/textFontSize_16" />
 
-
-    <ImageView
-        android:id="@+id/iv_advertisement"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
-        android:background="@drawable/uikit_bg_pic_loading_place"
-        android:minHeight="153dp"
-        android:scaleType="centerCrop" />
 </LinearLayout>
 
