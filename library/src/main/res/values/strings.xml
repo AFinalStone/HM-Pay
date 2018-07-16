@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">library</string>
+
+    <string name="pay_give_up_real_name">通过高级认证会免费获得1次价值¥10的体验福利，如果不想放弃，请选择继续认证。</string>
+
 </resources>

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import com.hm.iou.pay.business.fourelements.RealNameActivity;
 import com.hm.iou.pay.business.type.SelectPayTypeActivity;
 import com.hm.iou.router.Router;
 
@@ -31,6 +32,13 @@ public class MainActivity extends Activity {
                 Router.getInstance()
                         .buildWithUrl("hmiou://m.54jietiao.com/pay/time_card_recharge")
                         .navigation(MainActivity.this);
+            }
+        });
+
+        findViewById(R.id.btn_four_elements).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, RealNameActivity.class));
             }
         });
     }
