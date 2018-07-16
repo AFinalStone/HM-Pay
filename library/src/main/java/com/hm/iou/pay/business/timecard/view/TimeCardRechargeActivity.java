@@ -34,7 +34,7 @@ public class TimeCardRechargeActivity extends BaseActivity<TimeCardRechargePrese
     @BindView(R2.id.refreshLayout)
     SmartRefreshLayout mRefreshLayout;
     @BindView(R2.id.loading_init)
-    HMLoadingView mLoadingInit;
+    HMLoadingView mLoadingInitView;
 
     TimeCardListAdapter mAdapter;
     TimeCardListHeaderHelp mTimeCardListHeaderHelp;
@@ -53,7 +53,20 @@ public class TimeCardRechargeActivity extends BaseActivity<TimeCardRechargePrese
 
     @Override
     protected void initEventAndData(Bundle bundle) {
-        mAdapter = new TimeCardListAdapter(mContext);
+        initView();
+        mPresenter.init();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (REQ_OPEN_SELECT_PAY_TYPE == requestCode && RESULT_OK == resultCode) {
+            mPresenter.refresh();
+        }
+    }
+
+    private void initView() {
+        mAdapter = new TimeCardListAdapter();
         mRvTimeCardList.setLayoutManager(new GridLayoutManager(mContext, 3));
         //头部
         mTimeCardListHeaderHelp = new TimeCardListHeaderHelp(mRvTimeCardList);
@@ -83,15 +96,6 @@ public class TimeCardRechargeActivity extends BaseActivity<TimeCardRechargePrese
                 mPresenter.refresh();
             }
         });
-        mPresenter.init();
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (REQ_OPEN_SELECT_PAY_TYPE == requestCode && RESULT_OK == resultCode) {
-            mPresenter.refresh();
-        }
     }
 
     private void toSelectPayType(String num, String money) {
@@ -114,13 +118,13 @@ public class TimeCardRechargeActivity extends BaseActivity<TimeCardRechargePrese
 
     @Override
     public void showInitLoading() {
-        mLoadingInit.setVisibility(View.VISIBLE);
-        mLoadingInit.showDataLoading();
+        mLoadingInitView.setVisibility(View.VISIBLE);
+        mLoadingInitView.showDataLoading();
     }
 
     @Override
     public void hideInitLoading() {
-        mLoadingInit.setVisibility(View.GONE);
+        mLoadingInitView.setVisibility(View.GONE);
     }
 
     @Override
@@ -136,8 +140,8 @@ public class TimeCardRechargeActivity extends BaseActivity<TimeCardRechargePrese
 
     @Override
     public void showInitFailed(String errorMsg) {
-        mLoadingInit.setVisibility(View.VISIBLE);
-        mLoadingInit.showDataFail(errorMsg, new View.OnClickListener() {
+        mLoadingInitView.setVisibility(View.VISIBLE);
+        mLoadingInitView.showDataFail(errorMsg, new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mPresenter.init();

@@ -34,6 +34,14 @@ public class MainActivity extends Activity {
                         .navigation(MainActivity.this);
             }
         });
+        findViewById(R.id.btn_timeCardHistory).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Router.getInstance()
+                        .buildWithUrl("hmiou://m.54jietiao.com/pay/history")
+                        .navigation(MainActivity.this);
+            }
+        });
 
         findViewById(R.id.btn_four_elements).setOnClickListener(new View.OnClickListener() {
             @Override

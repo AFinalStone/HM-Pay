@@ -1,0 +1,21 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/tv_time"
+        style="@style/UikitTextView"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:textSize="@dimen/textFontSize_12"
+        tools:text="2018.02.12  12:34" />
+
+    <TextView
+        android:id="@+id/tv_type"
+        style="@style/UikitTextView"
+        android:textSize="@dimen/textFontSize_12"
+        tools:text="待支付" />
+</LinearLayout>
+

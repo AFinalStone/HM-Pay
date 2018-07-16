@@ -12,8 +12,10 @@
             android:name="com.hm.iou.pay.business.timecard.view.TimeCardRechargeActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait" />
-
-
+        <activity
+            android:name=".business.history.view.HistoryActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".business.fourelements.RealNameActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"

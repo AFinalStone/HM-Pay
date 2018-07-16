@@ -1,0 +1,37 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_background"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="vertical"
+    android:paddingLeft="30dp"
+    android:paddingRight="30dp"
+    android:paddingTop="15dp">
+
+    <TextView
+        android:id="@+id/tv_title"
+        style="@style/UikitTextView"
+        android:layout_marginEnd="5dp"
+        android:layout_marginStart="5dp"
+        android:textColor="@color/pay_color_item_time_card_text_selector"
+        android:textSize="@dimen/textFontSize_20"
+        tools:text="充值3次" />
+
+    <LinearLayout
+        android:id="@+id/ll_childList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="5dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:orientation="vertical" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="3dip"
+        android:layout_marginTop="15dp"
+        android:background="@drawable/pay_line_dash_black"
+        android:layerType="software" />
+</LinearLayout>
+

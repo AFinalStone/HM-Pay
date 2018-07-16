@@ -511,6 +511,11 @@
       "url": "hmiou://m.54jietiao.com/pay/time_card_recharge",
       "iclass": "",
       "aclass": "com.hm.iou.pay.business.timecard.view.TimeCardRechargeActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/pay/history",
+      "iclass": "",
+      "aclass": "com.hm.iou.pay.business.history.view.HistoryActivity"
     }
   ]
 }

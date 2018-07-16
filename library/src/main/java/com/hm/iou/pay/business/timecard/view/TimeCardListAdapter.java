@@ -13,7 +13,7 @@ import com.hm.iou.pay.R;
 public class TimeCardListAdapter extends BaseQuickAdapter<ITimeCardItem, BaseViewHolder> {
 
 
-    public TimeCardListAdapter(Context context) {
+    public TimeCardListAdapter() {
         super(R.layout.pay_item_time_card_recharge);
     }
 
