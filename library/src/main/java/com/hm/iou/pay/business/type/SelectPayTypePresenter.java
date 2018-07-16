@@ -35,7 +35,7 @@ import io.reactivex.schedulers.Schedulers;
 public class SelectPayTypePresenter extends MvpActivityPresenter<SelectPayTypeContract.View> implements SelectPayTypeContract.Presenter {
 
     private static final String PACKAGE_NAME_OF_WX_CHAT = "com.tencent.mm";
-    private static final String KEY_WX_PAY_COE = "wxmodule.createPreparePayOrder";
+    private static final String KEY_WX_PAY_CODE = "selecttype.wxpay";
     private long mCountDownTime = 10;
 
     public SelectPayTypePresenter(@NonNull Context context, @NonNull SelectPayTypeContract.View view) {
@@ -124,7 +124,7 @@ public class SelectPayTypePresenter extends MvpActivityPresenter<SelectPayTypeCo
                         String timeStamp = payTestReqBean.getTimestamp();
                         String sign = payTestReqBean.getSign();
                         WXPayEntryActivity.wxPay(mContext, partnerId, prepayid, packageValue
-                                , nonceStr, timeStamp, sign, KEY_WX_PAY_COE);
+                                , nonceStr, timeStamp, sign, KEY_WX_PAY_CODE);
                         startCountDown();
                     }
 
@@ -154,7 +154,7 @@ public class SelectPayTypePresenter extends MvpActivityPresenter<SelectPayTypeCo
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvenBusOpenWXResult(OpenWxResultEvent openWxResultEvent) {
-        if (KEY_WX_PAY_COE.equals(openWxResultEvent.getKey())) {
+        if (KEY_WX_PAY_CODE.equals(openWxResultEvent.getKey())) {
             if (openWxResultEvent.getIfPaySuccess()) {
                 mView.closeCurrPage();
             }
