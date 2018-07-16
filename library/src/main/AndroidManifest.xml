@@ -9,6 +9,13 @@
             android:screenOrientation="portrait"
             android:theme="@style/PaySelectPayTypeThemeActivity" />
 
+
+        <activity
+            android:name=".business.fourelements.RealNameActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait" />
+
+
     </application>
 
 
