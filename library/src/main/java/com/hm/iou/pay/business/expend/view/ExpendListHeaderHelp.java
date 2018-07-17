@@ -7,6 +7,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.hm.iou.base.BaseBizAppLike;
+import com.hm.iou.pay.Constants;
 import com.hm.iou.pay.R;
 import com.hm.iou.pay.business.expend.ExpendContract;
 import com.hm.iou.router.Router;
@@ -40,13 +42,22 @@ public class ExpendListHeaderHelp {
         mHeaderView.findViewById(R.id.btn_expend).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                expendView.toSelectPayType("1", "10");
+                expendView.toExpendOnceTime();
             }
         });
         mHeaderView.findViewById(R.id.btn_exit).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 expendView.closeCurrPage();
+            }
+        });
+        mHeaderView.findViewById(R.id.tv_rechargeAgreement).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Router.getInstance()
+                        .buildWithUrl("hmiou://m.54jietiao.com/webview/index")
+                        .withString("url", BaseBizAppLike.getInstance().getH5Server() + Constants.H5_URL_RECHARGE_AGREEMENT)
+                        .navigation(parentView.getContext());
             }
         });
     }

@@ -21,14 +21,18 @@ public class ExpendListFooterHelp {
     TextView mTvFirstTry;
     private View mFooterView;
 
-    public ExpendListFooterHelp(ViewGroup parentView, ExpendContract.View expendView) {
+    public ExpendListFooterHelp(ViewGroup parentView) {
         mContext = parentView.getContext();
         mFooterView = LayoutInflater.from(mContext).inflate(R.layout.pay_item_expend_footer, parentView, false);
         mTvFirstTry = mFooterView.findViewById(R.id.tv_firstTry);
+    }
+
+    public void showFirstTry(String desc, ExpendContract.View expendView) {
+        mTvFirstTry.setText(desc);
         mTvFirstTry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                expendView.toSelectPayType("1", "5");
+                expendView.toAddTimeCardNum("1次卡", "¥5");
             }
         });
     }

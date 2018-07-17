@@ -503,7 +503,7 @@
   ],
   "pay": [
     {
-      "url": "hmiou://m.54jietiao.com/pay/select_pay_type?time_card_num=*&time_card_money=*",
+      "url": "hmiou://m.54jietiao.com/pay/select_pay_type?time_card_num=*&time_card_money=*&time_card_unit_price=*",
       "iclass": "",
       "aclass": "com.hm.iou.pay.business.type.SelectPayTypeActivity"
     },

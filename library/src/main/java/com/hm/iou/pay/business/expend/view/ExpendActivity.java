@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -39,13 +40,14 @@ public class ExpendActivity extends BaseActivity<ExpendPresenter> implements Exp
     @BindView(R2.id.loading_init)
     HMLoadingView mLoadingInitView;
 
-    TimeCardListAdapter mAdapter;
-    ExpendListHeaderHelp mExpendListHeaderHelp;
-    ExpendListFooterHelp mExpendListFooterHelp;
+    private TimeCardListAdapter mAdapter;
+    private ExpendListHeaderHelp mExpendListHeaderHelp;
+    private ExpendListFooterHelp mExpendListFooterHelp;
+    private String mRemainNum;
 
     @Override
     protected int getLayoutId() {
-        return R.layout.pay_activity_time_card_recharge;
+        return R.layout.pay_activity_expend_time_card_num;
     }
 
     @Override
@@ -87,16 +89,12 @@ public class ExpendActivity extends BaseActivity<ExpendPresenter> implements Exp
         //头部
         mExpendListHeaderHelp = new ExpendListHeaderHelp(mRvTimeCardList, this);
         mAdapter.addHeaderView(mExpendListHeaderHelp.getHeaderView());
-        //尾部
-        mExpendListFooterHelp = new ExpendListFooterHelp(mRvTimeCardList, this);
-        mAdapter.addFooterView(mExpendListFooterHelp.getFooterView());
 
         mRvTimeCardList.setAdapter(mAdapter);
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                toastMessage("次数" + mAdapter.getItem(position).getTimeCardNum() + "----优惠" + mAdapter.getItem(position).getDiscountsMoney());
-                toSelectPayType(mAdapter.getItem(position).getTimeCardNum(), mAdapter.getItem(position).getDiscountsMoney());
+                toAddTimeCardNum(mAdapter.getItem(position).getTimeCardNum(), mAdapter.getItem(position).getDiscountsMoney());
             }
         });
         //设置下拉刷新监听
@@ -108,8 +106,20 @@ public class ExpendActivity extends BaseActivity<ExpendPresenter> implements Exp
         });
     }
 
-    @Override
-    public void toSelectPayType(String num, String money) {
+    public void toExpendOnceTime() {
+        if (TextUtils.isEmpty(mRemainNum) || "0".equals(mRemainNum)) {
+            toAddTimeCardNum("1次卡", "¥10");
+        } else {
+            Router.getInstance().buildWithUrl("hmiou://m.54jietiao.com/signature/check_sign_psd_from_bottom")
+                    .withString("url", "hmiou://m.54jietiao.com/signature/signature_list_select")
+                    .navigation(mContext);
+        }
+    }
+
+    /**
+     * 增加次卡数量
+     */
+    public void toAddTimeCardNum(String num, String money) {
         Router.getInstance()
                 .buildWithUrl("hmiou://m.54jietiao.com/pay/select_pay_type")
                 .withString("time_card_num", num)
@@ -119,12 +129,22 @@ public class ExpendActivity extends BaseActivity<ExpendPresenter> implements Exp
 
     @Override
     public void showRemainNum(String num) {
+        mRemainNum = num;
         mExpendListHeaderHelp.setRemainderNum(num);
     }
 
     @Override
     public void showList(List<ITimeCardItem> list) {
         mAdapter.setNewData(list);
+    }
+
+    @Override
+    public void showFirstTry(String desc) {
+        if (mExpendListFooterHelp == null) {
+            mExpendListFooterHelp = new ExpendListFooterHelp(mRvTimeCardList);
+            mAdapter.addFooterView(mExpendListFooterHelp.getFooterView());
+        }
+        mExpendListFooterHelp.showFirstTry(desc, this);
     }
 
     @Override

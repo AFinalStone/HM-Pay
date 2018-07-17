@@ -1,6 +1,7 @@
 package com.hm.iou.pay.business.type;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -19,6 +20,7 @@ public class SelectPayTypeActivity extends BaseActivity<SelectPayTypePresenter> 
 
     public static final String EXTRA_TIME_CARD_NUM = "time_card_num";
     public static final String EXTRA_TIME_CARD_MONEY = "time_card_money";
+    public static final String EXTRA_TIME_CARD_UNIT_PRICE = "time_card_unit_price";
 
     @BindView(R2.id.tv_payTimeCardNum)
     TextView mTvPayTimeCardNum;
@@ -36,8 +38,9 @@ public class SelectPayTypeActivity extends BaseActivity<SelectPayTypePresenter> 
     @BindView(R2.id.btn_checkPayResult)
     Button mBtnCheckPayResult;
 
-    private String mPayTimeCareNum;
-    private String mPayTimeCardMoney;
+    private String mPayTimeCareNum;//次数
+    private String mPayTimeCardMoney;//总金额
+    private String mPayTimeCardUnitPrice; //单价
 
     @Override
     protected int getLayoutId() {
@@ -54,13 +57,29 @@ public class SelectPayTypeActivity extends BaseActivity<SelectPayTypePresenter> 
     protected void initEventAndData(Bundle bundle) {
         mPayTimeCareNum = getIntent().getStringExtra(EXTRA_TIME_CARD_NUM);
         mPayTimeCardMoney = getIntent().getStringExtra(EXTRA_TIME_CARD_MONEY);
+        mPayTimeCardUnitPrice = getIntent().getStringExtra(EXTRA_TIME_CARD_UNIT_PRICE);
         if (bundle != null) {
             mPayTimeCareNum = bundle.getString(EXTRA_TIME_CARD_NUM);
             mPayTimeCardMoney = bundle.getString(EXTRA_TIME_CARD_MONEY);
+            mPayTimeCardUnitPrice = bundle.getString(EXTRA_TIME_CARD_UNIT_PRICE);
         }
-        mTvPayTimeCardNum.setText("充值" + mPayTimeCareNum + "次");
-        mTvPayTimeCardMoney.setText(getString(R.string.uikit_money) + mPayTimeCardMoney);
-        mTvPayTimeCardDesc.setText(getString(R.string.uikit_money) + mPayTimeCardMoney + "签约/次，包含以下服务：");
+        if (!TextUtils.isEmpty(mPayTimeCareNum)) {
+            mTvPayTimeCardNum.setText("充值" + mPayTimeCareNum);
+        }
+        if (!TextUtils.isEmpty(mPayTimeCardMoney)) {
+            mTvPayTimeCardMoney.setText(mPayTimeCardMoney);
+        }
+        if (!TextUtils.isEmpty(mPayTimeCardUnitPrice)) {
+            mTvPayTimeCardDesc.setText(getString(R.string.uikit_money) + mPayTimeCardUnitPrice + "签约/次，包含以下服务：");
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(EXTRA_TIME_CARD_NUM, mPayTimeCareNum);
+        outState.putString(EXTRA_TIME_CARD_MONEY, mPayTimeCardMoney);
+        outState.putString(EXTRA_TIME_CARD_UNIT_PRICE, mPayTimeCardUnitPrice);
     }
 
     //关闭Activity的切换动画

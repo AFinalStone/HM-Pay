@@ -51,12 +51,24 @@ public interface ExpendContract {
         void showList(List<ITimeCardItem> list);
 
         /**
-         * 充值
+         * 显示首次体验的信息描述
+         *
+         * @param desc
+         */
+        void showFirstTry(String desc);
+
+        /**
+         * 增加签章次数
          *
          * @param num
          * @param money
          */
-        void toSelectPayType(String num, String money);
+        void toAddTimeCardNum(String num, String money);
+
+        /**
+         * 消耗一次次卡数量
+         */
+        void toExpendOnceTime();
     }
 
     interface Presenter extends BaseContract.BasePresenter {

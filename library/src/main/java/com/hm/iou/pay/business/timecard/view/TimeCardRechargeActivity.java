@@ -11,6 +11,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.hm.iou.base.BaseActivity;
 import com.hm.iou.pay.R;
 import com.hm.iou.pay.R2;
+import com.hm.iou.pay.business.expend.view.ExpendListFooterHelp;
 import com.hm.iou.pay.business.timecard.TimeCardRechargeContract;
 import com.hm.iou.pay.business.timecard.TimeCardRechargePresenter;
 import com.hm.iou.pay.comm.ITimeCardItem;
@@ -87,21 +88,11 @@ public class TimeCardRechargeActivity extends BaseActivity<TimeCardRechargePrese
         //头部
         mTimeCardListHeaderHelp = new TimeCardListHeaderHelp(mRvTimeCardList);
         mAdapter.addHeaderView(mTimeCardListHeaderHelp.getHeaderView());
-        //尾部
-        mTimeCardListFooterHelp = new TimeCardListFooterHelp(mRvTimeCardList);
-        mTimeCardListFooterHelp.setOnFirstTryBtnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                toastMessage("首次体验");
-            }
-        });
-        mAdapter.addFooterView(mTimeCardListFooterHelp.getFooterView());
 
         mRvTimeCardList.setAdapter(mAdapter);
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                toastMessage("次数" + mAdapter.getItem(position).getTimeCardNum() + "----优惠" + mAdapter.getItem(position).getDiscountsMoney());
                 toSelectPayType(mAdapter.getItem(position).getTimeCardNum(), mAdapter.getItem(position).getDiscountsMoney());
             }
         });
@@ -114,7 +105,8 @@ public class TimeCardRechargeActivity extends BaseActivity<TimeCardRechargePrese
         });
     }
 
-    private void toSelectPayType(String num, String money) {
+    @Override
+    public void toSelectPayType(String num, String money) {
         Router.getInstance()
                 .buildWithUrl("hmiou://m.54jietiao.com/pay/select_pay_type")
                 .withString("time_card_num", num)
@@ -130,6 +122,15 @@ public class TimeCardRechargeActivity extends BaseActivity<TimeCardRechargePrese
     @Override
     public void showList(List<ITimeCardItem> list) {
         mAdapter.setNewData(list);
+    }
+
+    @Override
+    public void showFirstTry(String desc) {
+        if (mTimeCardListFooterHelp == null) {
+            mTimeCardListFooterHelp = new TimeCardListFooterHelp(mRvTimeCardList);
+            mAdapter.addFooterView(mTimeCardListFooterHelp.getFooterView());
+        }
+        mTimeCardListFooterHelp.showFirstTry(desc, this);
     }
 
     @Override

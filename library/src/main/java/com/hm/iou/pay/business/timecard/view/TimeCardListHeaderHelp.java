@@ -6,6 +6,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.hm.iou.base.BaseBizAppLike;
+import com.hm.iou.pay.Constants;
 import com.hm.iou.pay.R;
 import com.hm.iou.router.Router;
 
@@ -40,7 +42,7 @@ public class TimeCardListHeaderHelp {
             public void onClick(View view) {
                 Router.getInstance()
                         .buildWithUrl("hmiou://m.54jietiao.com/webview/index")
-                        .withString("url", "https://www.baidu.com")
+                        .withString("url", BaseBizAppLike.getInstance().getH5Server() + Constants.H5_URL_RECHARGE_AGREEMENT)
                         .navigation(parentView.getContext());
             }
         });

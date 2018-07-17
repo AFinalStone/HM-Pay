@@ -17,8 +17,8 @@ public class TimeCardListAdapter extends BaseQuickAdapter<ITimeCardItem, BaseVie
 
     @Override
     protected void convert(BaseViewHolder helper, ITimeCardItem item) {
-        helper.setText(R.id.tv_timeCardNum, item.getTimeCardNum() + "次卡");
-        helper.setText(R.id.tv_discountsMoney, "优惠" + item.getDiscountsMoney() + "元");
+        helper.setText(R.id.tv_timeCardNum, item.getTimeCardNum());
+        helper.setText(R.id.tv_discountsMoney, item.getDiscountsMoney());
     }
 
 
