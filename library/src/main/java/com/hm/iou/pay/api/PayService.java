@@ -11,7 +11,7 @@ import retrofit2.http.GET;
 
 public interface PayService {
 
-    @GET("/pay/iou/wx/v1/payTest")
+    @GET("/pay/iou/v1/test")
     Flowable<PayTestReqBean> payTest();
 
 }
