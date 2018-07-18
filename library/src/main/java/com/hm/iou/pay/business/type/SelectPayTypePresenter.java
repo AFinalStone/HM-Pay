@@ -36,7 +36,7 @@ public class SelectPayTypePresenter extends MvpActivityPresenter<SelectPayTypeCo
 
     private static final String PACKAGE_NAME_OF_WX_CHAT = "com.tencent.mm";
     private static final String KEY_WX_PAY_CODE = "selecttype.wxpay";
-    private long mCountDownTime = 10;
+    private long mCountDownTime = 1800;
 
     public SelectPayTypePresenter(@NonNull Context context, @NonNull SelectPayTypeContract.View view) {
         super(context, view);
@@ -59,6 +59,7 @@ public class SelectPayTypePresenter extends MvpActivityPresenter<SelectPayTypeCo
                 .take(mCountDownTime)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .compose(getProvider().bindUntilEvent(ActivityEvent.DESTROY))
                 .map(new Function<Long, String>() {
                     @Override
                     public String apply(Long time) throws Exception {

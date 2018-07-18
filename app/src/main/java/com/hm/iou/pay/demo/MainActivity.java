@@ -21,8 +21,8 @@ public class MainActivity extends Activity {
             public void onClick(View view) {
                 Router.getInstance()
                         .buildWithUrl("hmiou://m.54jietiao.com/pay/select_pay_type")
-                        .withString("time_card_num", "1")
-                        .withString("time_card_money", "10")
+                        .withString("time_card_num", "1次卡")
+                        .withString("time_card_money", "¥10")
                         .navigation(MainActivity.this);
             }
         });
