@@ -115,7 +115,7 @@ public class RealNameActivity extends BaseActivity<RealNamePresenter> implements
                     }).show();
         } else if (v.getId() == R.id.iv_fourelement_cardno_i) {
             new IOSAlertDialog.Builder(this)
-                    .setMessage("银行卡必须“62”或“60”开头16-19位纯数字")
+                    .setMessage(mPresenter.isCardNoInputError() ? "银行卡必须“62”或“60”开头" : "银行卡必须“62”或“60”开头16-19位纯数字")
                     .setPositiveButton("知道了", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -124,7 +124,7 @@ public class RealNameActivity extends BaseActivity<RealNamePresenter> implements
                     }).show();
         } else if (v.getId() == R.id.iv_fourelement_mobile_i) {
             new IOSAlertDialog.Builder(this)
-                    .setMessage("必须为本人的11位纯数字手机号")
+                    .setMessage(mPresenter.isMobileInputError() ? "请使用正常号段的手机号码" : "必须为本人的11位纯数字手机号")
                     .setPositiveButton("知道了", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -144,6 +144,16 @@ public class RealNameActivity extends BaseActivity<RealNamePresenter> implements
     @Override
     public void enableSubmitButton(boolean enabled) {
         mBtnSubmit.setEnabled(enabled);
+    }
+
+    @Override
+    public void updateCardNoAboutIcon(int iconResId) {
+        mIvCardNoAbout.setImageResource(iconResId);
+    }
+
+    @Override
+    public void updateMobileAboutIcon(int iconResId) {
+        mIvMobileAbout.setImageResource(iconResId);
     }
 
     /**

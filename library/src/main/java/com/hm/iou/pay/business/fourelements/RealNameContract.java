@@ -18,6 +18,10 @@ public interface RealNameContract {
         void showUserName(CharSequence userName);
 
         void enableSubmitButton(boolean enabled);
+
+        void updateCardNoAboutIcon(int iconResId);
+
+        void updateMobileAboutIcon(int iconResId);
     }
 
     interface Presenter extends BaseContract.BasePresenter {
@@ -39,5 +43,9 @@ public interface RealNameContract {
          * @param mobile
          */
         void doFourElementsRealName(String cardNo, String mobile);
+
+        boolean isCardNoInputError();
+
+        boolean isMobileInputError();
     }
 }
