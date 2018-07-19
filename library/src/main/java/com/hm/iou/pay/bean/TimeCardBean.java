@@ -2,10 +2,13 @@ package com.hm.iou.pay.bean;
 
 import com.hm.iou.pay.comm.ITimeCardItem;
 
+import lombok.Data;
+
 /**
  * @author syl
  * @time 2018/7/16 下午2:35
  */
+@Data
 public class TimeCardBean implements ITimeCardItem {
 
 
@@ -18,12 +21,12 @@ public class TimeCardBean implements ITimeCardItem {
      * packageId : 0
      */
 
-    private int actualPrice;
+    private long actualPrice;
     private String concessions;
     private String content;
     private String goodsId;
-    private int originalPrice;
-    private int packageId;
+    private long originalPrice;
+    private String packageId;
 
     @Override
     public String getTimeCardNum() {
@@ -31,8 +34,18 @@ public class TimeCardBean implements ITimeCardItem {
     }
 
     @Override
-    public String getDiscountsMoney() {
+    public String getTimeCardPackageId() {
+        return packageId;
+    }
+
+    @Override
+    public String getTimeCardDiscounts() {
         return concessions;
+    }
+
+    @Override
+    public long getTimeCardPayMoney() {
+        return actualPrice;
     }
 
 }

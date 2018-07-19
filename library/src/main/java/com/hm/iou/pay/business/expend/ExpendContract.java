@@ -59,11 +59,8 @@ public interface ExpendContract {
 
         /**
          * 增加签章次数
-         *
-         * @param num
-         * @param money
          */
-        void toAddTimeCardNum(String num, String money);
+        void toFirstTry();
 
         /**
          * 消耗一次次卡数量
@@ -82,5 +79,13 @@ public interface ExpendContract {
          * 刷新数据
          */
         void refresh();
+
+        /**
+         * 增加次卡数量
+         *
+         * @param isFirstTry
+         * @param position
+         */
+        void toAddTimeCardNum(boolean isFirstTry, int position);
     }
 }

@@ -18,6 +18,21 @@ public interface ITimeCardItem {
      *
      * @return
      */
-    String getDiscountsMoney();
+    String getTimeCardDiscounts();
+
+    /**
+     * 获取支付金额
+     *
+     * @return
+     */
+    long getTimeCardPayMoney();
+
+    /**
+     * 获取套餐id
+     *
+     * @return
+     */
+    String getTimeCardPackageId();
+
 
 }

@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.hm.iou.pay.R;
 import com.hm.iou.pay.business.expend.ExpendContract;
+import com.hm.iou.pay.comm.ITimeCardItem;
 
 /**
  * @author syl
@@ -27,12 +28,12 @@ public class ExpendListFooterHelp {
         mTvFirstTry = mFooterView.findViewById(R.id.tv_firstTry);
     }
 
-    public void showFirstTry(String desc, ExpendContract.View expendView) {
-        mTvFirstTry.setText(desc);
+    public void showFirstTry(ITimeCardItem item, ExpendContract.View expendView) {
+        mTvFirstTry.setText(item.getTimeCardNum());
         mTvFirstTry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                expendView.toAddTimeCardNum("1次卡", "¥5");
+                expendView.toFirstTry();
             }
         });
     }

@@ -30,7 +30,7 @@ public interface PayService {
     @GET("/pay/iou/v1/getHistory")
     Flowable<BaseResponse<List<HistoryItemBean>>> getHistory();
 
-    @GET("/pay/iou/package/v1/searchPackageList")
+    @POST("/pay/iou/package/v1/searchPackageList")
     Flowable<BaseResponse<SearchTimeCardListResBean>> searchTimeCardPackageList();
 
     @GET("/pay/iou/v1/createOrder")
@@ -39,7 +39,7 @@ public interface PayService {
     @GET("/pay/iou/v1/queryOrderWhilePaying")
     Flowable<BaseResponse<String>> queryOrderPayState(@Query("orderId") String orderId);
 
-    @GET("/pay/iou/v1/unifiedOrder")
+    @POST("/pay/iou/v1/unifiedOrder")
     Flowable<BaseResponse<PayTestBean>> createPreparePayOrder(@Body CreatePreparePayReqBean reqBean);
 
     @POST("/pay/welfare/v1/bindBankCardInfo")

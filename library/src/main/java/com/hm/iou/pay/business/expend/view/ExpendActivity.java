@@ -17,6 +17,8 @@ import com.hm.iou.pay.business.expend.ExpendPresenter;
 import com.hm.iou.pay.comm.ITimeCardItem;
 import com.hm.iou.pay.comm.TimeCardListAdapter;
 import com.hm.iou.router.Router;
+import com.hm.iou.tools.MoneyFormatUtil;
+import com.hm.iou.tools.StringUtil;
 import com.hm.iou.uikit.HMLoadingView;
 import com.hm.iou.uikit.HMTopBarView;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -94,7 +96,7 @@ public class ExpendActivity extends BaseActivity<ExpendPresenter> implements Exp
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                toAddTimeCardNum(mAdapter.getItem(position).getTimeCardNum(), mAdapter.getItem(position).getDiscountsMoney());
+                mPresenter.toAddTimeCardNum(false, position);
             }
         });
         //设置下拉刷新监听
@@ -106,25 +108,15 @@ public class ExpendActivity extends BaseActivity<ExpendPresenter> implements Exp
         });
     }
 
+    @Override
     public void toExpendOnceTime() {
         if (TextUtils.isEmpty(mRemainNum) || "0".equals(mRemainNum)) {
-            toAddTimeCardNum("1次卡", "¥10");
+//            toAddTimeCardNum("1次卡", "¥10");
         } else {
             Router.getInstance().buildWithUrl("hmiou://m.54jietiao.com/signature/check_sign_psd_from_bottom")
                     .withString("url", "hmiou://m.54jietiao.com/signature/signature_list_select")
                     .navigation(mContext);
         }
-    }
-
-    /**
-     * 增加次卡数量
-     */
-    public void toAddTimeCardNum(String num, String money) {
-        Router.getInstance()
-                .buildWithUrl("hmiou://m.54jietiao.com/pay/select_pay_type")
-                .withString("time_card_num", num)
-                .withString("time_card_money", money)
-                .navigation(mContext, REQ_OPEN_SELECT_PAY_TYPE);
     }
 
     @Override
@@ -144,7 +136,12 @@ public class ExpendActivity extends BaseActivity<ExpendPresenter> implements Exp
             mExpendListFooterHelp = new ExpendListFooterHelp(mRvTimeCardList);
             mAdapter.addFooterView(mExpendListFooterHelp.getFooterView());
         }
-//        mExpendListFooterHelp.showFirstTry(desc, this);
+        mExpendListFooterHelp.showFirstTry(firstBean, this);
+    }
+
+    @Override
+    public void toFirstTry() {
+        mPresenter.toAddTimeCardNum(true, 0);
     }
 
     @Override
