@@ -105,11 +105,6 @@ public class HistoryActivity extends BaseActivity<HistoryPresenter> implements H
     }
 
     @Override
-    public void enableLoadMore(boolean enable) {
-        mRefreshLayout.setEnableLoadMore(enable);
-    }
-
-    @Override
     public void hidePullDownRefresh() {
         mRefreshLayout.finishRefresh();
     }

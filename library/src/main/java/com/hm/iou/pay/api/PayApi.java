@@ -6,6 +6,8 @@ import com.hm.iou.pay.bean.PayTestBean;
 import com.hm.iou.pay.bean.SearchTimeCardListResBean;
 import com.hm.iou.sharedata.model.BaseResponse;
 
+import java.util.List;
+
 import io.reactivex.Flowable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
@@ -23,7 +25,7 @@ public class PayApi {
         return getService().payTest().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
 
-    public static Flowable<BaseResponse<HistoryItemBean>> getHistory() {
+    public static Flowable<BaseResponse<List<HistoryItemBean>>> getHistory() {
         return getService().getHistory().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
 

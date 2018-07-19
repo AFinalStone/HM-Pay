@@ -4,10 +4,14 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.hm.iou.base.mvp.MvpActivityPresenter;
+import com.hm.iou.base.utils.CommSubscriber;
+import com.hm.iou.base.utils.RxUtil;
+import com.hm.iou.pay.api.PayApi;
 import com.hm.iou.pay.bean.HistoryItemBean;
 import com.hm.iou.pay.bean.HistoryItemChildBean;
 import com.hm.iou.pay.business.history.view.IHistoryItem;
 import com.hm.iou.pay.business.history.view.IHistoryItemChild;
+import com.hm.iou.sharedata.model.BaseResponse;
 import com.trello.rxlifecycle2.android.ActivityEvent;
 
 import java.util.ArrayList;
@@ -42,42 +46,30 @@ public class HistoryPresenter extends MvpActivityPresenter<HistoryContract.View>
 
     @Override
     public void init() {
+        mView.showInitLoading();
         if (mListDisposable != null && !mListDisposable.isDisposed()) {
             mListDisposable.dispose();
         }
-        mView.showInitLoading();
-        mListDisposable = Flowable.just(0)
-                .delay(1000, TimeUnit.MILLISECONDS)
+        mListDisposable = PayApi.getHistory()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .compose(getProvider().<Integer>bindUntilEvent(ActivityEvent.DESTROY))
-                .subscribe(new Consumer<Integer>() {
+                .compose(getProvider().<BaseResponse<List<HistoryItemBean>>>bindUntilEvent(ActivityEvent.DESTROY))
+                .map(RxUtil.<List<HistoryItemBean>>handleResponse())
+                .subscribeWith(new CommSubscriber<List<HistoryItemBean>>(mView) {
+
                     @Override
-                    public void accept(Integer integer) throws Exception {
+                    public void handleResult(List<HistoryItemBean> historyItemBeans) {
                         mView.hideInitLoading();
                         mView.enableRefresh(true);
-                        //child
-//                        HistoryItemChildBean childBean = new HistoryItemChildBean("2018-12-03 12:00:00", "待支付");
-//                        List<IHistoryItemChild> childList = new ArrayList<>();
-//                        childList.add(childBean);
-//                        //item
-                        List<IHistoryItem> itemList = new ArrayList<>();
-//                        HistoryItemBean itemBean = new HistoryItemBean("充值3次", (ArrayList) childList);
-//                        itemList.add(itemBean);
-//
-//                        //child
-//                        childBean = new HistoryItemChildBean("2019-07-13 08:00:00", "已赠送");
-//                        childList.add(childBean);
-//                        childBean = new HistoryItemChildBean("2019-08-17 17:33:44", "已使用");
-//                        childList.add(childBean);
-//                        //item
-//                        itemBean = new HistoryItemBean("赠送5次", (ArrayList) childList);
-//                        itemList.add(itemBean);
-                        mView.showList(itemList);
+                        if (historyItemBeans == null && historyItemBeans.isEmpty()) {
+                            mView.showDataEmpty();
+                        } else {
+                            mView.showList((ArrayList) historyItemBeans);
+                        }
                     }
-                }, new Consumer<Throwable>() {
+
                     @Override
-                    public void accept(Throwable throwable) throws Exception {
+                    public void handleException(Throwable throwable, String s, String s1) {
                         mView.hideInitLoading();
                         mView.showInitFailed("数据异常");
                         mView.enableRefresh(false);
@@ -90,28 +82,33 @@ public class HistoryPresenter extends MvpActivityPresenter<HistoryContract.View>
         if (mListDisposable != null && !mListDisposable.isDisposed()) {
             mListDisposable.dispose();
         }
-        mListDisposable = Flowable.just(0)
-                .delay(1000, TimeUnit.MILLISECONDS)
+        mListDisposable = PayApi.getHistory()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .compose(getProvider().<Integer>bindUntilEvent(ActivityEvent.DESTROY))
-                .subscribe(new Consumer<Integer>() {
+                .compose(getProvider().<BaseResponse<List<HistoryItemBean>>>bindUntilEvent(ActivityEvent.DESTROY))
+                .map(RxUtil.<List<HistoryItemBean>>handleResponse())
+                .subscribeWith(new CommSubscriber<List<HistoryItemBean>>(mView) {
+
                     @Override
-                    public void accept(Integer integer) throws Exception {
-                        mView.hidePullDownRefresh();
-                        mView.showDataEmpty();
-                        List<IHistoryItem> itemList = new ArrayList<>();
-                        mView.showList(itemList);
+                    public void handleResult(List<HistoryItemBean> historyItemBeans) {
+                        mView.hideInitLoading();
+                        mView.enableRefresh(true);
+                        if (historyItemBeans == null && historyItemBeans.isEmpty()) {
+                            mView.showDataEmpty();
+                        } else {
+                            mView.showList((ArrayList) historyItemBeans);
+                        }
                     }
-                }, new Consumer<Throwable>() {
+
                     @Override
-                    public void accept(Throwable throwable) throws Exception {
+                    public void handleException(Throwable throwable, String s, String s1) {
                         mView.hidePullDownRefresh();
                         mView.showInitFailed("数据异常");
                         mView.enableRefresh(false);
                     }
                 });
     }
+
 
     @Override
     public void getMore() {

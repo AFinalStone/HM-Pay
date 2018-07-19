@@ -5,6 +5,8 @@ import com.hm.iou.pay.bean.PayTestBean;
 import com.hm.iou.pay.bean.SearchTimeCardListResBean;
 import com.hm.iou.sharedata.model.BaseResponse;
 
+import java.util.List;
+
 import io.reactivex.Flowable;
 import retrofit2.http.GET;
 
@@ -18,7 +20,7 @@ public interface PayService {
     Flowable<PayTestBean> payTest();
 
     @GET("/pay/iou/v1/getHistory")
-    Flowable<BaseResponse<HistoryItemBean>> getHistory();
+    Flowable<BaseResponse<List<HistoryItemBean>>> getHistory();
 
     @GET("/pay/iou/package/v1/searchPackageList")
     Flowable<BaseResponse<SearchTimeCardListResBean>> searchTimeCardPackageList();

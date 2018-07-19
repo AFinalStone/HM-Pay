@@ -31,13 +31,6 @@ public interface HistoryContract {
         void enableRefresh(boolean enable);
 
         /**
-         * 允许加载更多
-         *
-         * @param enable
-         */
-        void enableLoadMore(boolean enable);
-
-        /**
          * 隐藏下拉刷新View
          */
         void hidePullDownRefresh();
