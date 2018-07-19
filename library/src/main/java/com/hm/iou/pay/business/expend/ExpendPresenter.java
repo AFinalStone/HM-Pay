@@ -10,7 +10,9 @@ import com.hm.iou.pay.api.PayApi;
 import com.hm.iou.pay.bean.SearchTimeCardListResBean;
 import com.hm.iou.pay.bean.TimeCardBean;
 import com.hm.iou.pay.comm.ITimeCardItem;
+import com.hm.iou.router.Router;
 import com.hm.iou.sharedata.model.BaseResponse;
+import com.hm.iou.tools.MoneyFormatUtil;
 import com.trello.rxlifecycle2.android.ActivityEvent;
 
 import java.util.ArrayList;
@@ -33,6 +35,9 @@ import io.reactivex.schedulers.Schedulers;
 public class ExpendPresenter extends MvpActivityPresenter<ExpendContract.View> implements ExpendContract.Presenter {
 
     private Disposable mListDisposable;
+    private long mSignUnitPrice; //单价
+    private TimeCardBean mFirstTryTimeCard; //首次体验
+    private List<TimeCardBean> mListData = new ArrayList<>();
 
     public ExpendPresenter(@NonNull Context context, @NonNull ExpendContract.View view) {
         super(context, view);
@@ -61,27 +66,41 @@ public class ExpendPresenter extends MvpActivityPresenter<ExpendContract.View> i
                             mView.showInitFailed("数据异常");
                             return;
                         }
+                        mSignUnitPrice = searchTimeCardListResBean.getSignUnitPrice();
                         //初次体验
-                        TimeCardBean firstBean = searchTimeCardListResBean.getFirstPackage();
-                        if (firstBean != null) {
-                            mView.showFirstTry(firstBean);
+                        mFirstTryTimeCard = searchTimeCardListResBean.getFirstPackage();
+                        if (mFirstTryTimeCard != null) {
+                            mView.showFirstTry(mFirstTryTimeCard);
                         }
                         //套餐列表
                         List<TimeCardBean> list = searchTimeCardListResBean.getPackageRespList();
+                        mListData.clear();
                         if (list != null) {
-                            mView.showList((ArrayList) list);
+                            mListData.addAll(list);
+                            mView.showList((ArrayList) mListData);
                         }
                         //剩余次数
-                        int countSign = searchTimeCardListResBean.getCountSign();
+                        long countSign = searchTimeCardListResBean.getCountSign();
                         mView.showRemainNum(String.valueOf(countSign));
                         mView.enableRefresh(true);
                     }
 
                     @Override
                     public void handleException(Throwable throwable, String code, String errorMsg) {
+                        mListData.clear();
                         mView.hideInitLoading();
                         mView.showInitFailed(errorMsg);
                         mView.enableRefresh(false);
+                    }
+
+                    @Override
+                    public boolean isShowBusinessError() {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean isShowCommError() {
+                        return false;
                     }
                 });
 
@@ -92,7 +111,6 @@ public class ExpendPresenter extends MvpActivityPresenter<ExpendContract.View> i
         if (mListDisposable != null && !mListDisposable.isDisposed()) {
             mListDisposable.dispose();
         }
-        mView.showInitLoading();
         mListDisposable = PayApi.searchTimeCardPackageList()
                 .compose(getProvider().<BaseResponse<SearchTimeCardListResBean>>bindUntilEvent(ActivityEvent.DESTROY))
                 .map(RxUtil.<SearchTimeCardListResBean>handleResponse())
@@ -106,28 +124,85 @@ public class ExpendPresenter extends MvpActivityPresenter<ExpendContract.View> i
                             return;
                         }
                         //初次体验
-                        TimeCardBean firstBean = searchTimeCardListResBean.getFirstPackage();
-                        if (firstBean != null) {
-                            mView.showFirstTry(firstBean);
+                        mFirstTryTimeCard = searchTimeCardListResBean.getFirstPackage();
+                        if (mFirstTryTimeCard != null) {
+                            mView.showFirstTry(mFirstTryTimeCard);
                         }
                         //套餐列表
                         List<TimeCardBean> list = searchTimeCardListResBean.getPackageRespList();
+                        mListData.clear();
                         if (list != null) {
-                            mView.showList((ArrayList) list);
+                            mListData.addAll(list);
+                            mView.showList((ArrayList) mListData);
                         }
                         //剩余次数
-                        int countSign = searchTimeCardListResBean.getCountSign();
+                        long countSign = searchTimeCardListResBean.getCountSign();
                         mView.showRemainNum(String.valueOf(countSign));
                         mView.enableRefresh(true);
                     }
 
                     @Override
                     public void handleException(Throwable throwable, String code, String errorMsg) {
+                        mListData.clear();
                         mView.hidePullDownRefresh();
                         mView.showInitFailed(errorMsg);
                         mView.enableRefresh(false);
                     }
+
+                    @Override
+                    public boolean isShowBusinessError() {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean isShowCommError() {
+                        return false;
+                    }
                 });
     }
+
+    @Override
+    public void toAddTimeCardNum(boolean isFirstTry, int position) {
+        TimeCardBean timeCardBean;
+        String strTimeCardNum;
+        if (isFirstTry) {
+            if (mFirstTryTimeCard == null) {
+                return;
+            }
+            timeCardBean = mFirstTryTimeCard;
+            strTimeCardNum = "1次卡";
+        } else {
+            if (position >= mListData.size()) {
+                return;
+            }
+            timeCardBean = mListData.get(position);
+            strTimeCardNum = timeCardBean.getTimeCardNum();
+        }
+        String strIsFirstTry = String.valueOf(isFirstTry);
+        String strPackageId = timeCardBean.getPackageId();
+        String strTimeCardPayMoney = null;
+        try {
+            strTimeCardPayMoney = MoneyFormatUtil.changeF2Y(timeCardBean.getActualPrice());
+        } catch (Exception e) {
+            e.printStackTrace();
+            mView.toastMessage("发生异常，请稍后再试");
+            return;
+        }
+        String strTimeCardUnitMoney = "0";
+        try {
+            strTimeCardUnitMoney = MoneyFormatUtil.changeF2Y(mSignUnitPrice);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        Router.getInstance()
+                .buildWithUrl("hmiou://m.54jietiao.com/pay/select_pay_type")
+                .withString("is_first_try", strIsFirstTry)
+                .withString("package_id", strPackageId)
+                .withString("time_card_num", strTimeCardNum)
+                .withString("time_card_pay_money", strTimeCardPayMoney)
+                .withString("time_card_unit_price", strTimeCardUnitMoney)
+                .navigation(mContext);
+    }
+
 
 }

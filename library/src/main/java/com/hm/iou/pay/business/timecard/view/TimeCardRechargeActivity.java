@@ -93,7 +93,7 @@ public class TimeCardRechargeActivity extends BaseActivity<TimeCardRechargePrese
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                toSelectPayType(mAdapter.getItem(position).getTimeCardNum(), mAdapter.getItem(position).getDiscountsMoney());
+                toSelectPayType(mAdapter.getItem(position).getTimeCardNum(), mAdapter.getItem(position).getTimeCardDiscounts());
             }
         });
         //设置下拉刷新监听

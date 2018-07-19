@@ -11,6 +11,7 @@ import java.util.List;
 import io.reactivex.Flowable;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.POST;
 import retrofit2.http.Query;
 
 /**
@@ -25,7 +26,7 @@ public interface PayService {
     @GET("/pay/iou/v1/getHistory")
     Flowable<BaseResponse<List<HistoryItemBean>>> getHistory();
 
-    @GET("/pay/iou/package/v1/searchPackageList")
+    @POST("/pay/iou/package/v1/searchPackageList")
     Flowable<BaseResponse<SearchTimeCardListResBean>> searchTimeCardPackageList();
 
     @GET("/pay/iou/v1/createOrder")
@@ -34,7 +35,7 @@ public interface PayService {
     @GET("/pay/iou/v1/queryOrderWhilePaying")
     Flowable<BaseResponse<String>> queryOrderPayState(@Query("orderId") String orderId);
 
-    @GET("/pay/iou/v1/unifiedOrder")
+    @POST("/pay/iou/v1/unifiedOrder")
     Flowable<BaseResponse<PayTestBean>> createPreparePayOrder(@Body CreatePreparePayReqBean reqBean);
 
 }

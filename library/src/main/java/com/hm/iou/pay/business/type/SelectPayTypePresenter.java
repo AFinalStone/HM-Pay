@@ -6,8 +6,11 @@ import android.support.annotation.NonNull;
 import com.hm.iou.base.event.OpenWxResultEvent;
 import com.hm.iou.base.mvp.MvpActivityPresenter;
 import com.hm.iou.base.utils.CommSubscriber;
+import com.hm.iou.base.utils.RxUtil;
 import com.hm.iou.pay.api.PayApi;
 import com.hm.iou.pay.bean.PayTestBean;
+import com.hm.iou.pay.bean.req.ChannelEnumReqBean;
+import com.hm.iou.sharedata.model.BaseResponse;
 import com.hm.iou.tools.SystemUtil;
 import com.hm.iou.wxapi.WXPayEntryActivity;
 import com.trello.rxlifecycle2.android.ActivityEvent;
@@ -37,6 +40,7 @@ public class SelectPayTypePresenter extends MvpActivityPresenter<SelectPayTypeCo
     private static final String PACKAGE_NAME_OF_WX_CHAT = "com.tencent.mm";
     private static final String KEY_WX_PAY_CODE = "selecttype.wxpay";
     private long mCountDownTime = 1800;
+    private String mTimeCareOrderId;//次卡充值订单Id
 
     public SelectPayTypePresenter(@NonNull Context context, @NonNull SelectPayTypeContract.View view) {
         super(context, view);
@@ -106,14 +110,40 @@ public class SelectPayTypePresenter extends MvpActivityPresenter<SelectPayTypeCo
     }
 
     /**
-     * 创建预付订单
+     * 创建次卡充值订单
      */
-    private void createPreparePayOrder() {
+    private void createTimeCardOrder(String packageId) {
         mView.showLoadingView();
-        PayApi.payTest()
+        PayApi.createOrder(packageId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .compose(getProvider().<PayTestBean>bindUntilEvent(ActivityEvent.DESTROY))
+                .compose(getProvider().<BaseResponse<String>>bindUntilEvent(ActivityEvent.DESTROY))
+                .map(RxUtil.<String>handleResponse())
+                .subscribeWith(new CommSubscriber<String>(mView) {
+                    @Override
+                    public void handleResult(String orderId) {
+                        mView.dismissLoadingView();
+                        mTimeCareOrderId = orderId;
+                        createPayByWxPrepareOrder();
+                    }
+
+                    @Override
+                    public void handleException(Throwable throwable, String s, String s1) {
+
+                    }
+                });
+    }
+
+    /**
+     * 创建微信预支付订单
+     */
+    private void createPayByWxPrepareOrder() {
+        mView.showLoadingView();
+        PayApi.createPreparePayOrder(ChannelEnumReqBean.PayByWx, mTimeCareOrderId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(getProvider().<BaseResponse<PayTestBean>>bindUntilEvent(ActivityEvent.DESTROY))
+                .map(RxUtil.<PayTestBean>handleResponse())
                 .subscribeWith(new CommSubscriber<PayTestBean>(mView) {
                     @Override
                     public void handleResult(PayTestBean payTestBean) {
@@ -130,7 +160,7 @@ public class SelectPayTypePresenter extends MvpActivityPresenter<SelectPayTypeCo
                     }
 
                     @Override
-                    public void handleException(Throwable throwable, String code, String msg) {
+                    public void handleException(Throwable throwable, String s, String s1) {
                         mView.dismissLoadingView();
                     }
                 });
@@ -138,10 +168,10 @@ public class SelectPayTypePresenter extends MvpActivityPresenter<SelectPayTypeCo
 
 
     @Override
-    public void payByWx() {
+    public void payByWx(String packageId) {
         boolean flag = SystemUtil.isAppInstalled(mContext, PACKAGE_NAME_OF_WX_CHAT);
         if (flag) {
-            createPreparePayOrder();
+            createTimeCardOrder(packageId);
         } else {
             mView.toastMessage("当前手机未安装微信");
             mView.closeCurrPage();

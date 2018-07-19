@@ -26,10 +26,10 @@ public class HMApplication extends Application {
         baseBizAppLike.onCreate(this);
 //        baseBizAppLike.initServer("http://192.168.1.82:8021", "http://192.168.1.254",
 //                "http://192.168.1.254");
-//        baseBizAppLike.initServer("http://192.168.1.217", "http://192.168.1.217",
-//                "http://192.168.1.217");
-        baseBizAppLike.initServer("http://192.168.1.254:8021", "http://192.168.1.254",
-                "http://192.168.1.254");
+        baseBizAppLike.initServer("http://192.168.1.217", "http://192.168.1.217",
+                "http://192.168.1.217");
+//        baseBizAppLike.initServer("http://192.168.1.254:8021", "http://192.168.1.254",
+//                "http://192.168.1.254");
         initNetwork();
     }
 

@@ -49,8 +49,10 @@ public interface SelectPayTypeContract {
     interface Presenter extends BaseContract.BasePresenter {
         /**
          * 通过微信进行付款
+         *
+         * @param packageId 套餐id
          */
-        void payByWx();
+        void payByWx(String packageId);
 
         /**
          * 校验支付结果
