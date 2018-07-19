@@ -57,22 +57,22 @@ public class HistoryPresenter extends MvpActivityPresenter<HistoryContract.View>
                         mView.hideInitLoading();
                         mView.enableRefresh(true);
                         //child
-                        HistoryItemChildBean childBean = new HistoryItemChildBean("2018-12-03 12:00:00", "待支付");
-                        List<IHistoryItemChild> childList = new ArrayList<>();
-                        childList.add(childBean);
-                        //item
+//                        HistoryItemChildBean childBean = new HistoryItemChildBean("2018-12-03 12:00:00", "待支付");
+//                        List<IHistoryItemChild> childList = new ArrayList<>();
+//                        childList.add(childBean);
+//                        //item
                         List<IHistoryItem> itemList = new ArrayList<>();
-                        HistoryItemBean itemBean = new HistoryItemBean("充值3次", (ArrayList) childList);
-                        itemList.add(itemBean);
-
-                        //child
-                        childBean = new HistoryItemChildBean("2019-07-13 08:00:00", "已赠送");
-                        childList.add(childBean);
-                        childBean = new HistoryItemChildBean("2019-08-17 17:33:44", "已使用");
-                        childList.add(childBean);
-                        //item
-                        itemBean = new HistoryItemBean("赠送5次", (ArrayList) childList);
-                        itemList.add(itemBean);
+//                        HistoryItemBean itemBean = new HistoryItemBean("充值3次", (ArrayList) childList);
+//                        itemList.add(itemBean);
+//
+//                        //child
+//                        childBean = new HistoryItemChildBean("2019-07-13 08:00:00", "已赠送");
+//                        childList.add(childBean);
+//                        childBean = new HistoryItemChildBean("2019-08-17 17:33:44", "已使用");
+//                        childList.add(childBean);
+//                        //item
+//                        itemBean = new HistoryItemBean("赠送5次", (ArrayList) childList);
+//                        itemList.add(itemBean);
                         mView.showList(itemList);
                     }
                 }, new Consumer<Throwable>() {

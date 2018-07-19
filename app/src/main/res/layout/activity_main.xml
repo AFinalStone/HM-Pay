@@ -6,7 +6,12 @@
     android:fitsSystemWindows="true"
     android:orientation="vertical"
     tools:context="com.hm.iou.pay.demo.MainActivity">
-
+    <Button
+        android:id="@+id/btn_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="登录" />
     <Button
         android:id="@+id/btn_wxPay"
         android:layout_width="match_parent"

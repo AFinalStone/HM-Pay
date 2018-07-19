@@ -54,9 +54,9 @@ public class TimeCardRechargePresenter extends MvpActivityPresenter<TimeCardRech
                     public void accept(Integer integer) throws Exception {
                         mView.hideInitLoading();
                         List<ITimeCardItem> list = new ArrayList<>();
-                        list.add(new TimeCardBean("5次卡", "优惠¥10"));
-                        list.add(new TimeCardBean("2次卡", "优惠¥12"));
-                        list.add(new TimeCardBean("1次卡", "¥10"));
+//                        list.add(new TimeCardBean("5次卡", "优惠¥10"));
+//                        list.add(new TimeCardBean("2次卡", "优惠¥12"));
+//                        list.add(new TimeCardBean("1次卡", "¥10"));
                         mView.showList(list);
                         mView.showRemainNum("5");
                         mView.enableRefresh(true);
@@ -86,9 +86,9 @@ public class TimeCardRechargePresenter extends MvpActivityPresenter<TimeCardRech
                     public void accept(Integer integer) throws Exception {
                         mView.hidePullDownRefresh();
                         List<ITimeCardItem> list = new ArrayList<>();
-                        list.add(new TimeCardBean("5次卡", "优惠¥10"));
-                        list.add(new TimeCardBean("2次卡", "优惠¥12"));
-                        list.add(new TimeCardBean("1次卡", "¥10"));
+//                        list.add(new TimeCardBean("5次卡", "优惠¥10"));
+//                        list.add(new TimeCardBean("2次卡", "优惠¥12"));
+//                        list.add(new TimeCardBean("1次卡", "¥10"));
                         mView.showList(list);
                         mView.showRemainNum("5");
                         mView.showFirstTry("初次体验 ¥5");
