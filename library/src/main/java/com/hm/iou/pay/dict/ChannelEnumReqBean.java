@@ -1,4 +1,4 @@
-package com.hm.iou.pay.bean.req;
+package com.hm.iou.pay.dict;
 
 import java.io.Serializable;
 

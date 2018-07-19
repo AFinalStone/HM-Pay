@@ -7,7 +7,7 @@ import com.hm.iou.pay.bean.HistoryItemBean;
 import com.hm.iou.pay.bean.PayTestBean;
 import com.hm.iou.pay.bean.SearchTimeCardListResBean;
 import com.hm.iou.pay.bean.WelfareAdvertiseBean;
-import com.hm.iou.pay.bean.req.ChannelEnumReqBean;
+import com.hm.iou.pay.dict.ChannelEnumReqBean;
 import com.hm.iou.pay.bean.req.CreatePreparePayReqBean;
 import com.hm.iou.sharedata.model.BaseResponse;
 
@@ -80,6 +80,11 @@ public class PayApi {
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
+    /**
+     * 查询用户银行卡四要素认证的状态
+     *
+     * @return
+     */
     public static Flowable<BaseResponse<FourElementsVerifyStatus>> checkFourElementsVerifyStatus() {
         return getService().checkFourElementStatus()
                 .subscribeOn(Schedulers.io())

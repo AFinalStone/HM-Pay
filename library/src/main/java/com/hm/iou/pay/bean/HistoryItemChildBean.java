@@ -32,7 +32,7 @@ public class HistoryItemChildBean implements IHistoryItemChild {
 
     @Override
     public String getTime() {
-        return showDate;
+        return showDateStr;
     }
 
     @Override

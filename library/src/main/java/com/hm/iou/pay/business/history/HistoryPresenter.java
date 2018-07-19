@@ -91,7 +91,7 @@ public class HistoryPresenter extends MvpActivityPresenter<HistoryContract.View>
 
                     @Override
                     public void handleResult(List<HistoryItemBean> historyItemBeans) {
-                        mView.hideInitLoading();
+                        mView.hidePullDownRefresh();
                         mView.enableRefresh(true);
                         if (historyItemBeans == null && historyItemBeans.isEmpty()) {
                             mView.showDataEmpty();

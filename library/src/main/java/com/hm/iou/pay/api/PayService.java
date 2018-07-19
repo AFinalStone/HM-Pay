@@ -30,7 +30,7 @@ public interface PayService {
     @GET("/pay/iou/v1/getHistory")
     Flowable<BaseResponse<List<HistoryItemBean>>> getHistory();
 
-    @POST("/pay/iou/package/v1/searchPackageList")
+    @GET("/pay/iou/package/v1/searchPackageList")
     Flowable<BaseResponse<SearchTimeCardListResBean>> searchTimeCardPackageList();
 
     @GET("/pay/iou/v1/createOrder")

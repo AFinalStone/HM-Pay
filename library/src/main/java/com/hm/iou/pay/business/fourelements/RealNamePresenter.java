@@ -12,6 +12,7 @@ import com.hm.iou.pay.Constants;
 import com.hm.iou.pay.R;
 import com.hm.iou.pay.api.PayApi;
 import com.hm.iou.pay.bean.WelfareAdvertiseBean;
+import com.hm.iou.pay.comm.PaySPUtil;
 import com.hm.iou.pay.event.FourElementsAuthSuccEvent;
 import com.hm.iou.sharedata.UserManager;
 import com.hm.iou.sharedata.model.BaseResponse;
@@ -26,7 +27,7 @@ import org.greenrobot.eventbus.EventBus;
 
 public class RealNamePresenter extends MvpActivityPresenter<RealNameContract.View> implements RealNameContract.Presenter {
 
-    private static final String ERR_CODE_CANNOT_AUTH= "300005";     //3次认证机会均失败，不能再认证了
+    private static final String ERR_CODE_CANNOT_AUTH = "300005";     //3次认证机会均失败，不能再认证了
     private static final String ERR_CODE_AUTH_FAIL = "300006";      //认证失败，剩余还剩尝试机会
 
     private boolean mInputMobileError;
@@ -126,12 +127,9 @@ public class RealNamePresenter extends MvpActivityPresenter<RealNameContract.Vie
                     public void handleResult(Object o) {
                         mView.dismissLoadingView();
                         mView.toastMessage("认证成功");
-                        //四要素认证已经成功，用SharedPreferences保存下来，采用userId拼接的字符串作为key来存储
-                        String userId = UserManager.getInstance(mContext).getUserId();
-                        SPUtil.put(mContext, Constants.SP_NAME, Constants.SP_KEY_FOUR_ELEMENTS + userId, true);
-
+                        //四要素认证已经成功，用SharedPreferences保存下来，
+                        PaySPUtil.saveUserBindBankSuccess(mContext);
                         mView.closeCurrPage();
-                        //4要素认证已经成功
                         EventBus.getDefault().post(new FourElementsAuthSuccEvent());
                     }
 

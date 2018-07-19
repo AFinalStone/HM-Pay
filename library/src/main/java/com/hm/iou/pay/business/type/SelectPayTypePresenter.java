@@ -9,7 +9,7 @@ import com.hm.iou.base.utils.CommSubscriber;
 import com.hm.iou.base.utils.RxUtil;
 import com.hm.iou.pay.api.PayApi;
 import com.hm.iou.pay.bean.PayTestBean;
-import com.hm.iou.pay.bean.req.ChannelEnumReqBean;
+import com.hm.iou.pay.dict.ChannelEnumReqBean;
 import com.hm.iou.sharedata.model.BaseResponse;
 import com.hm.iou.tools.SystemUtil;
 import com.hm.iou.wxapi.WXPayEntryActivity;

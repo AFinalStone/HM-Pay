@@ -30,6 +30,7 @@ public class HistoryListAdapter extends BaseQuickAdapter<IHistoryItem, BaseViewH
     protected void convert(BaseViewHolder helper, IHistoryItem item) {
         helper.setText(R.id.tv_title, item.getTitle());
         LinearLayout llChild = helper.getView(R.id.ll_childList);
+        llChild.removeAllViews();
         List<IHistoryItemChild> list = item.getChild();
         for (IHistoryItemChild child : list) {
             HistoryItemChildHelp help = new HistoryItemChildHelp(llChild, child);

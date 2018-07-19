@@ -7,9 +7,12 @@ import com.hm.iou.base.mvp.MvpActivityPresenter;
 import com.hm.iou.base.utils.CommSubscriber;
 import com.hm.iou.base.utils.RxUtil;
 import com.hm.iou.pay.api.PayApi;
+import com.hm.iou.pay.bean.FourElementsVerifyStatus;
 import com.hm.iou.pay.bean.SearchTimeCardListResBean;
 import com.hm.iou.pay.bean.TimeCardBean;
 import com.hm.iou.pay.comm.ITimeCardItem;
+import com.hm.iou.pay.comm.PaySPUtil;
+import com.hm.iou.pay.dict.FourElementStatusEnumBean;
 import com.hm.iou.router.Router;
 import com.hm.iou.sharedata.model.BaseResponse;
 import com.hm.iou.tools.MoneyFormatUtil;
@@ -46,6 +49,15 @@ public class ExpendPresenter extends MvpActivityPresenter<ExpendContract.View> i
     @Override
     public void onDestroy() {
         super.onDestroy();
+    }
+
+    /**
+     * 校验签约密码，选择签章类型，然后创建电子PDF
+     */
+    private void toCheckSignPsd() {
+        Router.getInstance().buildWithUrl("hmiou://m.54jietiao.com/signature/check_sign_psd_from_bottom")
+                .withString("url", "hmiou://m.54jietiao.com/signature/signature_list_select")
+                .navigation(mContext);
     }
 
     @Override
@@ -204,5 +216,32 @@ public class ExpendPresenter extends MvpActivityPresenter<ExpendContract.View> i
                 .navigation(mContext);
     }
 
+    @Override
+    public void checkFourElementsVerifyStatus() {
+        if (PaySPUtil.checkUserHaveBindBankSuccess(mContext)) {
+            toCheckSignPsd();
+            return;
+        }
+        PayApi.checkFourElementsVerifyStatus()
+                .compose(getProvider().<BaseResponse<FourElementsVerifyStatus>>bindUntilEvent(ActivityEvent.DESTROY))
+                .map(RxUtil.<FourElementsVerifyStatus>handleResponse())
+                .subscribeWith(new CommSubscriber<FourElementsVerifyStatus>(mView) {
+                    @Override
+                    public void handleResult(FourElementsVerifyStatus status) {
+                        if (FourElementStatusEnumBean.NoBindBank.getStatius() == status.getStatus()) {
+                            Router.getInstance()
+                                    .buildWithUrl("hmiou://m.54jietiao.com/pay/user_bind_bank")
+                                    .navigation(mContext);
+                        } else {
+                            PaySPUtil.saveUserBindBankSuccess(mContext);
+                        }
+                    }
+
+                    @Override
+                    public void handleException(Throwable throwable, String code, String errMsg) {
+                        toCheckSignPsd();
+                    }
+                });
+    }
 
 }

@@ -521,6 +521,11 @@
       "url": "hmiou://m.54jietiao.com/pay/expend_time_card_num",
       "iclass": "",
       "aclass": "com.hm.iou.pay.business.expend.view.ExpendActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/pay/user_bind_bank",
+      "iclass": "",
+      "aclass": "com.hm.iou.pay.business.fourelements.RealNameActivity"
     }
   ]
 }

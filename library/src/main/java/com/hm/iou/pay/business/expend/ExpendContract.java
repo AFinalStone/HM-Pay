@@ -87,5 +87,10 @@ public interface ExpendContract {
          * @param position
          */
         void toAddTimeCardNum(boolean isFirstTry, int position);
+
+        /**
+         * 查询用户银行卡四要素认证的状态
+         */
+        void checkFourElementsVerifyStatus();
     }
 }

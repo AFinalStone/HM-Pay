@@ -70,7 +70,9 @@ public class MainActivity extends Activity {
         findViewById(R.id.btn_four_elements).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, RealNameActivity.class));
+                Router.getInstance()
+                        .buildWithUrl("hmiou://m.54jietiao.com/pay/user_bind_bank")
+                        .navigation(MainActivity.this);
             }
         });
     }

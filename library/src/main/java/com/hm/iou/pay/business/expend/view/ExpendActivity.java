@@ -110,13 +110,13 @@ public class ExpendActivity extends BaseActivity<ExpendPresenter> implements Exp
 
     @Override
     public void toExpendOnceTime() {
-        if (TextUtils.isEmpty(mRemainNum) || "0".equals(mRemainNum)) {
-//            toAddTimeCardNum("1次卡", "¥10");
-        } else {
-            Router.getInstance().buildWithUrl("hmiou://m.54jietiao.com/signature/check_sign_psd_from_bottom")
-                    .withString("url", "hmiou://m.54jietiao.com/signature/signature_list_select")
-                    .navigation(mContext);
-        }
+        mPresenter.checkFourElementsVerifyStatus();
+        return;
+//        if (TextUtils.isEmpty(mRemainNum) || "0".equals(mRemainNum)) {
+//            mPresenter.toAddTimeCardNum(false, 0);
+//        } else {
+//            mPresenter.checkFourElementsVerifyStatus();
+//        }
     }
 
     @Override
