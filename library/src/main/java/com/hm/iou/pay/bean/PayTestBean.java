@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by hjy on 2018/5/29.
  */
 
-public class PayTestReqBean {
+public class PayTestBean {
 
     private String appid;
     private String noncestr;

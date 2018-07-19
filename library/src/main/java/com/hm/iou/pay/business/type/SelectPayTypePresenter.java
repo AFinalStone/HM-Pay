@@ -7,7 +7,7 @@ import com.hm.iou.base.event.OpenWxResultEvent;
 import com.hm.iou.base.mvp.MvpActivityPresenter;
 import com.hm.iou.base.utils.CommSubscriber;
 import com.hm.iou.pay.api.PayApi;
-import com.hm.iou.pay.bean.PayTestReqBean;
+import com.hm.iou.pay.bean.PayTestBean;
 import com.hm.iou.tools.SystemUtil;
 import com.hm.iou.wxapi.WXPayEntryActivity;
 import com.trello.rxlifecycle2.android.ActivityEvent;
@@ -113,17 +113,17 @@ public class SelectPayTypePresenter extends MvpActivityPresenter<SelectPayTypeCo
         PayApi.payTest()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .compose(getProvider().<PayTestReqBean>bindUntilEvent(ActivityEvent.DESTROY))
-                .subscribeWith(new CommSubscriber<PayTestReqBean>(mView) {
+                .compose(getProvider().<PayTestBean>bindUntilEvent(ActivityEvent.DESTROY))
+                .subscribeWith(new CommSubscriber<PayTestBean>(mView) {
                     @Override
-                    public void handleResult(PayTestReqBean payTestReqBean) {
+                    public void handleResult(PayTestBean payTestBean) {
                         mView.dismissLoadingView();
-                        String partnerId = payTestReqBean.getPartnerid();
-                        String prepayid = payTestReqBean.getPrepayid();
-                        String packageValue = payTestReqBean.getPackageValue();
-                        String nonceStr = payTestReqBean.getNoncestr();
-                        String timeStamp = payTestReqBean.getTimestamp();
-                        String sign = payTestReqBean.getSign();
+                        String partnerId = payTestBean.getPartnerid();
+                        String prepayid = payTestBean.getPrepayid();
+                        String packageValue = payTestBean.getPackageValue();
+                        String nonceStr = payTestBean.getNoncestr();
+                        String timeStamp = payTestBean.getTimestamp();
+                        String sign = payTestBean.getSign();
                         WXPayEntryActivity.wxPay(mContext, partnerId, prepayid, packageValue
                                 , nonceStr, timeStamp, sign, KEY_WX_PAY_CODE);
                         startCountDown();

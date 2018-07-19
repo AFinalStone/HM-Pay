@@ -8,21 +8,31 @@ import com.hm.iou.pay.comm.ITimeCardItem;
  */
 public class TimeCardBean implements ITimeCardItem {
 
-    private String desc1;
-    private String desc2;
 
-    public TimeCardBean(String desc1, String desc2) {
-        this.desc1 = desc1;
-        this.desc2 = desc2;
-    }
+    /**
+     * actualPrice : 0
+     * concessions : string
+     * content : string
+     * goodsId : string
+     * originalPrice : 0
+     * packageId : 0
+     */
+
+    private int actualPrice;
+    private String concessions;
+    private String content;
+    private String goodsId;
+    private int originalPrice;
+    private int packageId;
 
     @Override
     public String getTimeCardNum() {
-        return desc1;
+        return content;
     }
 
     @Override
     public String getDiscountsMoney() {
-        return  desc2;
+        return concessions;
     }
+
 }

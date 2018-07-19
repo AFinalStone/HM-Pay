@@ -8,21 +8,35 @@ import com.hm.iou.pay.business.history.view.IHistoryItemChild;
  */
 public class HistoryItemChildBean implements IHistoryItemChild {
 
-    private String time;
-    private String type;
+    /**
+     * showDate : 2018-07-19T02:12:47.525Z
+     * showDateStr : string
+     * showState : string
+     */
 
-    public HistoryItemChildBean(String time, String type) {
-        this.time = time;
-        this.type = type;
+    private String showDate;
+    private String showDateStr;
+    private String showState;
+
+    public void setShowDate(String showDate) {
+        this.showDate = showDate;
+    }
+
+    public void setShowDateStr(String showDateStr) {
+        this.showDateStr = showDateStr;
+    }
+
+    public void setShowState(String showState) {
+        this.showState = showState;
     }
 
     @Override
     public String getTime() {
-        return time;
+        return showDate;
     }
 
     @Override
     public String getType() {
-        return type;
+        return showState;
     }
 }

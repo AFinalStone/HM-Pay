@@ -12,13 +12,16 @@ import java.util.List;
  */
 public class HistoryItemBean implements IHistoryItem {
 
-    private String title;
-    private List<HistoryItemChildBean> list;
 
-    public HistoryItemBean(String title, List<HistoryItemChildBean> list) {
-        this.title = title;
-        this.list = list;
-    }
+    /**
+     * records : [{"showDate":"2018-07-19T02:12:47.525Z","showDateStr":"string","showState":"string"}]
+     * sortDate : 2018-07-19T02:12:47.525Z
+     * title : string
+     */
+
+    private String sortDate;
+    private String title;
+    private List<HistoryItemChildBean> records;
 
     @Override
     public String getTitle() {
@@ -27,6 +30,19 @@ public class HistoryItemBean implements IHistoryItem {
 
     @Override
     public List<IHistoryItemChild> getChild() {
-        return (ArrayList) list;
+        return (ArrayList) records;
     }
+
+    public String getSortDate() {
+        return sortDate;
+    }
+
+    public void setSortDate(String sortDate) {
+        this.sortDate = sortDate;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
 }
