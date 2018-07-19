@@ -110,13 +110,16 @@ public class ExpendActivity extends BaseActivity<ExpendPresenter> implements Exp
 
     @Override
     public void toExpendOnceTime() {
-        mPresenter.checkFourElementsVerifyStatus();
-        return;
-//        if (TextUtils.isEmpty(mRemainNum) || "0".equals(mRemainNum)) {
-//            mPresenter.toAddTimeCardNum(false, 0);
-//        } else {
-//            mPresenter.checkFourElementsVerifyStatus();
-//        }
+        if (TextUtils.isEmpty(mRemainNum) || "0".equals(mRemainNum)) {
+            mPresenter.toAddTimeCardNum(false, 0);
+        } else {
+            mPresenter.checkFourElementsVerifyStatus();
+        }
+    }
+
+    @Override
+    public void refresh() {
+        mRefreshLayout.autoRefresh();
     }
 
     @Override

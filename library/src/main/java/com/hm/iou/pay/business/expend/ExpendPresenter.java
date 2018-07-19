@@ -3,6 +3,7 @@ package com.hm.iou.pay.business.expend;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
+import com.hm.iou.base.event.OpenWxResultEvent;
 import com.hm.iou.base.mvp.MvpActivityPresenter;
 import com.hm.iou.base.utils.CommSubscriber;
 import com.hm.iou.base.utils.RxUtil;
@@ -13,10 +14,15 @@ import com.hm.iou.pay.bean.TimeCardBean;
 import com.hm.iou.pay.comm.ITimeCardItem;
 import com.hm.iou.pay.comm.PaySPUtil;
 import com.hm.iou.pay.dict.FourElementStatusEnumBean;
+import com.hm.iou.pay.event.PaySuccessEvent;
 import com.hm.iou.router.Router;
 import com.hm.iou.sharedata.model.BaseResponse;
 import com.hm.iou.tools.MoneyFormatUtil;
 import com.trello.rxlifecycle2.android.ActivityEvent;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,11 +50,13 @@ public class ExpendPresenter extends MvpActivityPresenter<ExpendContract.View> i
 
     public ExpendPresenter(@NonNull Context context, @NonNull ExpendContract.View view) {
         super(context, view);
+        EventBus.getDefault().register(this);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
     /**
@@ -228,7 +236,7 @@ public class ExpendPresenter extends MvpActivityPresenter<ExpendContract.View> i
                 .subscribeWith(new CommSubscriber<FourElementsVerifyStatus>(mView) {
                     @Override
                     public void handleResult(FourElementsVerifyStatus status) {
-                        if (FourElementStatusEnumBean.NoBindBank.getStatius() == status.getStatus()) {
+                        if (FourElementStatusEnumBean.NoBindBank.getStatus() == status.getStatus()) {
                             Router.getInstance()
                                     .buildWithUrl("hmiou://m.54jietiao.com/pay/user_bind_bank")
                                     .navigation(mContext);
@@ -242,6 +250,16 @@ public class ExpendPresenter extends MvpActivityPresenter<ExpendContract.View> i
                         toCheckSignPsd();
                     }
                 });
+    }
+
+    /**
+     * 支付成功
+     *
+     * @param paySuccessEvent
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvenBusPaySuccess(PaySuccessEvent paySuccessEvent) {
+        mView.refresh();
     }
 
 }

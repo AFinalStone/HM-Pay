@@ -66,6 +66,11 @@ public interface ExpendContract {
          * 消耗一次次卡数量
          */
         void toExpendOnceTime();
+
+        /**
+         * 刷新页面数据
+         */
+        void refresh();
     }
 
     interface Presenter extends BaseContract.BasePresenter {

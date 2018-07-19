@@ -7,7 +7,7 @@ import com.hm.iou.pay.bean.HistoryItemBean;
 import com.hm.iou.pay.bean.PayTestBean;
 import com.hm.iou.pay.bean.SearchTimeCardListResBean;
 import com.hm.iou.pay.bean.WelfareAdvertiseBean;
-import com.hm.iou.pay.dict.ChannelEnumReqBean;
+import com.hm.iou.pay.dict.ChannelEnumBean;
 import com.hm.iou.pay.bean.req.CreatePreparePayReqBean;
 import com.hm.iou.sharedata.model.BaseResponse;
 
@@ -118,7 +118,7 @@ public class PayApi {
      * @param orderId
      * @return
      */
-    public static Flowable<BaseResponse<PayTestBean>> createPreparePayOrder(ChannelEnumReqBean chanel, String orderId) {
+    public static Flowable<BaseResponse<PayTestBean>> createPreparePayOrder(ChannelEnumBean chanel, String orderId) {
         CreatePreparePayReqBean reqBean = new CreatePreparePayReqBean();
         reqBean.setChannel(chanel.getValue());
         reqBean.setOrderId(orderId);

@@ -2,14 +2,14 @@ package com.hm.iou.pay.dict;
 
 import java.io.Serializable;
 
-public enum ChannelEnumReqBean implements Serializable {
+public enum ChannelEnumBean implements Serializable {
 
     PayByWx(1, "微信支付"), PayByApple(2, "苹果支付");
 
     int channel;
     String name;
 
-    ChannelEnumReqBean(int channel, String name) {
+    ChannelEnumBean(int channel, String name) {
         this.channel = channel;
         this.name = name;
     }

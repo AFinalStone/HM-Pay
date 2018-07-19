@@ -14,7 +14,7 @@ public enum FourElementStatusEnumBean implements Serializable {
         this.name = name;
     }
 
-    public int getStatius() {
+    public int getStatus() {
         return status;
     }
 

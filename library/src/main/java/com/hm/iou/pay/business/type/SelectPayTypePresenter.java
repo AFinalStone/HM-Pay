@@ -9,7 +9,8 @@ import com.hm.iou.base.utils.CommSubscriber;
 import com.hm.iou.base.utils.RxUtil;
 import com.hm.iou.pay.api.PayApi;
 import com.hm.iou.pay.bean.PayTestBean;
-import com.hm.iou.pay.dict.ChannelEnumReqBean;
+import com.hm.iou.pay.dict.ChannelEnumBean;
+import com.hm.iou.pay.dict.OrderPayStatusEnumBean;
 import com.hm.iou.sharedata.model.BaseResponse;
 import com.hm.iou.tools.SystemUtil;
 import com.hm.iou.wxapi.WXPayEntryActivity;
@@ -139,9 +140,7 @@ public class SelectPayTypePresenter extends MvpActivityPresenter<SelectPayTypeCo
      */
     private void createPayByWxPrepareOrder() {
         mView.showLoadingView();
-        PayApi.createPreparePayOrder(ChannelEnumReqBean.PayByWx, mTimeCareOrderId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+        PayApi.createPreparePayOrder(ChannelEnumBean.PayByWx, mTimeCareOrderId)
                 .compose(getProvider().<BaseResponse<PayTestBean>>bindUntilEvent(ActivityEvent.DESTROY))
                 .map(RxUtil.<PayTestBean>handleResponse())
                 .subscribeWith(new CommSubscriber<PayTestBean>(mView) {
@@ -180,7 +179,27 @@ public class SelectPayTypePresenter extends MvpActivityPresenter<SelectPayTypeCo
 
     @Override
     public void checkPayResult() {
+        mView.showLoadingView();
+        PayApi.queryOrderPayState(mTimeCareOrderId)
+                .compose(getProvider().<BaseResponse<String>>bindUntilEvent(ActivityEvent.DESTROY))
+                .map(RxUtil.<String>handleResponse())
+                .subscribeWith(new CommSubscriber<String>(mView) {
+                    @Override
+                    public void handleResult(String code) {
+                        mView.dismissLoadingView();
+                        if (OrderPayStatusEnumBean.PaySuccess.getStatus().equals(code)) {
+                            mView.setResultOK();
+                            mView.closeCurrPage();
+                        } else if (OrderPayStatusEnumBean.PayFailed.getStatus().equals(code)) {
+                            mView.toastMessage("付款失败，请稍后重试...");
+                        }
+                    }
 
+                    @Override
+                    public void handleException(Throwable throwable, String code, String errorMsg) {
+                        mView.dismissLoadingView();
+                    }
+                });
     }
 
     /**
@@ -192,8 +211,7 @@ public class SelectPayTypePresenter extends MvpActivityPresenter<SelectPayTypeCo
     public void onEvenBusOpenWXResult(OpenWxResultEvent openWxResultEvent) {
         if (KEY_WX_PAY_CODE.equals(openWxResultEvent.getKey())) {
             if (openWxResultEvent.getIfPaySuccess()) {
-                mView.setResultOK();
-                mView.closeCurrPage();
+                checkPayResult();
             }
         }
     }
