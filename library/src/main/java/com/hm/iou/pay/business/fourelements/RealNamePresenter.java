@@ -5,9 +5,18 @@ import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import com.hm.iou.base.mvp.MvpActivityPresenter;
+import com.hm.iou.base.utils.CommSubscriber;
+import com.hm.iou.base.utils.RxUtil;
 import com.hm.iou.logger.Logger;
 import com.hm.iou.pay.R;
+import com.hm.iou.pay.api.PayApi;
+import com.hm.iou.pay.bean.WelfareAdvertiseBean;
+import com.hm.iou.pay.event.FourElementsAuthSuccEvent;
 import com.hm.iou.sharedata.UserManager;
+import com.hm.iou.sharedata.model.BaseResponse;
+import com.trello.rxlifecycle2.android.ActivityEvent;
+
+import org.greenrobot.eventbus.EventBus;
 
 /**
  * Created by hjy on 2018/7/16.
@@ -15,8 +24,13 @@ import com.hm.iou.sharedata.UserManager;
 
 public class RealNamePresenter extends MvpActivityPresenter<RealNameContract.View> implements RealNameContract.Presenter {
 
+    private static final String ERR_CODE_CANNOT_AUTH= "300005";     //3次认证机会均失败，不能再认证了
+    private static final String ERR_CODE_AUTH_FAIL = "300006";      //认证失败，剩余还剩尝试机会
+
     private boolean mInputMobileError;
     private boolean mInputCardNoError;
+
+    private WelfareAdvertiseBean mWelfareAdData;
 
     public RealNamePresenter(@NonNull Context context, @NonNull RealNameContract.View view) {
         super(context, view);
@@ -26,6 +40,34 @@ public class RealNamePresenter extends MvpActivityPresenter<RealNameContract.Vie
     public void getUserRealName() {
         String userName = UserManager.getInstance(mContext).getUserInfo().getName();
         mView.showUserName(userName);
+    }
+
+    @Override
+    public void getTopAd() {
+        PayApi.getWelfareAdvertise()
+                .compose(getProvider().<BaseResponse<WelfareAdvertiseBean>>bindUntilEvent(ActivityEvent.DESTROY))
+                .map(RxUtil.<WelfareAdvertiseBean>handleResponse())
+                .subscribeWith(new CommSubscriber<WelfareAdvertiseBean>(mView) {
+                    @Override
+                    public void handleResult(WelfareAdvertiseBean data) {
+                        mWelfareAdData = data;
+                        mView.showTopAd(data.getWelfareUrl());
+                    }
+
+                    @Override
+                    public void handleException(Throwable throwable, String s, String s1) {
+                    }
+
+                    @Override
+                    public boolean isShowBusinessError() {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean isShowCommError() {
+                        return false;
+                    }
+                });
     }
 
     @Override
@@ -73,7 +115,40 @@ public class RealNamePresenter extends MvpActivityPresenter<RealNameContract.Vie
         if (mInputMobileError || mInputCardNoError) {
             return;
         }
+        mView.showLoadingView();
+        PayApi.bindBankCard(cardNo, mobile)
+                .compose(getProvider().<BaseResponse<Object>>bindUntilEvent(ActivityEvent.DESTROY))
+                .map(RxUtil.<Object>handleResponse())
+                .subscribeWith(new CommSubscriber<Object>(mView) {
+                    @Override
+                    public void handleResult(Object o) {
+                        mView.dismissLoadingView();
+                        mView.toastMessage("认证成功");
+                        mView.closeCurrPage();
+                        //4要素认证已经成功
+                        EventBus.getDefault().post(new FourElementsAuthSuccEvent());
+                    }
 
+                    @Override
+                    public void handleException(Throwable throwable, String code, String errMsg) {
+                        mView.dismissLoadingView();
+                        if (!TextUtils.isEmpty(code)) {
+                            if (code.equals(ERR_CODE_CANNOT_AUTH)) {
+                                mView.showAuthFailExceedCount(errMsg);
+                                return;
+                            } else if (code.equals(ERR_CODE_AUTH_FAIL)) {
+                                mView.showAuthFailRetryDialog(errMsg);
+                                return;
+                            }
+                            mView.toastMessage(errMsg);
+                            return;
+                        }
+                    }
 
+                    @Override
+                    public boolean isShowBusinessError() {
+                        return false;
+                    }
+                });
     }
 }

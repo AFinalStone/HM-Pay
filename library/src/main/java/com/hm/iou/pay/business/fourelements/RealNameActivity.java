@@ -2,6 +2,7 @@ package com.hm.iou.pay.business.fourelements;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,6 +14,7 @@ import com.hm.iou.pay.R;
 import com.hm.iou.pay.R2;
 import com.hm.iou.pay.event.CancelFourElementsAuthEvent;
 import com.hm.iou.router.Router;
+import com.hm.iou.tools.ImageLoader;
 import com.hm.iou.uikit.HMTopBarView;
 import com.hm.iou.uikit.dialog.IOSAlertDialog;
 import com.jakewharton.rxbinding2.widget.RxTextView;
@@ -31,6 +33,8 @@ public class RealNameActivity extends BaseActivity<RealNamePresenter> implements
 
     @BindView(R2.id.topBar)
     HMTopBarView mTopBarView;
+    @BindView(R2.id.iv_foureelement_ad)
+    ImageView mIvAd;
     @BindView(R2.id.tv_fourelement_name)
     TextView mTvName;
     @BindView(R2.id.et_fourelement_cardno)
@@ -95,6 +99,7 @@ public class RealNameActivity extends BaseActivity<RealNamePresenter> implements
         });
 
         mPresenter.getUserRealName();
+        mPresenter.getTopAd();
     }
 
     @Override
@@ -154,6 +159,46 @@ public class RealNameActivity extends BaseActivity<RealNamePresenter> implements
     @Override
     public void updateMobileAboutIcon(int iconResId) {
         mIvMobileAbout.setImageResource(iconResId);
+    }
+
+    @Override
+    public void showAuthFailRetryDialog(String msg) {
+        new IOSAlertDialog.Builder(this)
+                .setTitle("管家提醒")
+                .setMessage(msg)
+                .setPositiveButton("再给一次机会", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .setCancelable(false)
+                .show();
+    }
+
+    @Override
+    public void showAuthFailExceedCount(String msg) {
+        new IOSAlertDialog.Builder(this)
+                .setTitle("管家提醒")
+                .setMessage(msg)
+                .setPositiveButton("下一步", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        closeCurrPage();
+                        EventBus.getDefault().post(new CancelFourElementsAuthEvent());
+                    }
+                })
+                .setCancelable(false)
+                .show();
+    }
+
+    @Override
+    public void showTopAd(String adUrl) {
+        if (TextUtils.isEmpty(adUrl)) {
+            return;
+        }
+        ImageLoader.getInstance(this).displayImage(adUrl, mIvAd);
     }
 
     /**
