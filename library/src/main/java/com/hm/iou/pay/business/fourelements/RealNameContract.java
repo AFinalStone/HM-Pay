@@ -22,11 +22,32 @@ public interface RealNameContract {
         void updateCardNoAboutIcon(int iconResId);
 
         void updateMobileAboutIcon(int iconResId);
+
+        /**
+         * 认证失败，弹出重试提醒对话框
+         *
+         * @param msg
+         */
+        void showAuthFailRetryDialog(String msg);
+
+        /**
+         * 认证失败，并且已经超过当日次数限制
+         *
+         * @param msg
+         */
+        void showAuthFailExceedCount(String msg);
+
+        void showTopAd(String adUrl);
     }
 
     interface Presenter extends BaseContract.BasePresenter {
 
         void getUserRealName();
+
+        /**
+         * 获取顶部的广告
+         */
+        void getTopAd();
 
         /**
          * 验证输入是否合法
