@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.hm.iou.pay.R;
 import com.hm.iou.pay.business.expend.ExpendContract;
 import com.hm.iou.pay.business.timecard.TimeCardRechargeContract;
+import com.hm.iou.pay.comm.ITimeCardItem;
 import com.hm.iou.router.Router;
 import com.hm.iou.tools.ImageLoader;
 
@@ -35,13 +36,13 @@ public class TimeCardListFooterHelp {
         return mFooterView;
     }
 
-    public void showFirstTry(String desc, TimeCardRechargeContract.View timeCardRechargeView) {
+    public void showFirstTry(ITimeCardItem item, TimeCardRechargeContract.View timeCardRechargeView) {
         mTvFirstTry.setVisibility(View.VISIBLE);
-        mTvFirstTry.setText(desc);
+        mTvFirstTry.setText(item.getTimeCardNum());
         mTvFirstTry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                timeCardRechargeView.toSelectPayType("1次卡", "¥5");
+                timeCardRechargeView.toFirstTry();
             }
         });
     }

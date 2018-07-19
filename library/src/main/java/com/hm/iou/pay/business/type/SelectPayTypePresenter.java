@@ -11,6 +11,7 @@ import com.hm.iou.pay.api.PayApi;
 import com.hm.iou.pay.bean.PayTestBean;
 import com.hm.iou.pay.dict.ChannelEnumBean;
 import com.hm.iou.pay.dict.OrderPayStatusEnumBean;
+import com.hm.iou.pay.event.PaySuccessEvent;
 import com.hm.iou.sharedata.model.BaseResponse;
 import com.hm.iou.tools.SystemUtil;
 import com.hm.iou.wxapi.WXPayEntryActivity;
@@ -130,7 +131,7 @@ public class SelectPayTypePresenter extends MvpActivityPresenter<SelectPayTypeCo
 
                     @Override
                     public void handleException(Throwable throwable, String s, String s1) {
-
+                        mView.dismissLoadingView();
                     }
                 });
     }
@@ -188,7 +189,7 @@ public class SelectPayTypePresenter extends MvpActivityPresenter<SelectPayTypeCo
                     public void handleResult(String code) {
                         mView.dismissLoadingView();
                         if (OrderPayStatusEnumBean.PaySuccess.getStatus().equals(code)) {
-                            mView.setResultOK();
+                            EventBus.getDefault().post(new PaySuccessEvent());
                             mView.closeCurrPage();
                         } else if (OrderPayStatusEnumBean.PayFailed.getStatus().equals(code)) {
                             mView.toastMessage("付款失败，请稍后重试...");

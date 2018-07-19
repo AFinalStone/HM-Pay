@@ -123,7 +123,6 @@ public class ExpendPresenter extends MvpActivityPresenter<ExpendContract.View> i
                         return false;
                     }
                 });
-
     }
 
     @Override

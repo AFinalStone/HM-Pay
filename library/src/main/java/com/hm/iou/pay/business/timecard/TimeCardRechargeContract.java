@@ -51,13 +51,6 @@ public interface TimeCardRechargeContract {
         void showList(List<ITimeCardItem> list);
 
         /**
-         * 显示首次体验的信息描述
-         *
-         * @param desc
-         */
-        void showFirstTry(String desc);
-
-        /**
          * 显示广告
          *
          * @param adImageUrl 广告图片
@@ -66,12 +59,21 @@ public interface TimeCardRechargeContract {
         void showAdvertisement(String adImageUrl, String adLinkUrl);
 
         /**
-         * 充值
+         * 显示首次体验的信息描述
          *
-         * @param num
-         * @param money
+         * @param firstTryBean
          */
-        void toSelectPayType(String num, String money);
+        void showFirstTry(ITimeCardItem firstTryBean);
+
+        /**
+         * 增加签章次数
+         */
+        void toFirstTry();
+
+        /**
+         * 刷新页面数据
+         */
+        void refresh();
     }
 
     interface Presenter extends BaseContract.BasePresenter {
@@ -85,5 +87,13 @@ public interface TimeCardRechargeContract {
          * 刷新数据
          */
         void refresh();
+
+        /**
+         * 增加次卡数量
+         *
+         * @param isFirstTry
+         * @param position
+         */
+        void toAddTimeCardNum(boolean isFirstTry, int position);
     }
 }

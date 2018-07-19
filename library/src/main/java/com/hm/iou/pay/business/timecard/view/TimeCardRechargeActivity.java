@@ -93,7 +93,7 @@ public class TimeCardRechargeActivity extends BaseActivity<TimeCardRechargePrese
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                toSelectPayType(mAdapter.getItem(position).getTimeCardNum(), mAdapter.getItem(position).getTimeCardDiscounts());
+                mPresenter.toAddTimeCardNum(false, position);
             }
         });
         //设置下拉刷新监听
@@ -106,15 +106,6 @@ public class TimeCardRechargeActivity extends BaseActivity<TimeCardRechargePrese
     }
 
     @Override
-    public void toSelectPayType(String num, String money) {
-        Router.getInstance()
-                .buildWithUrl("hmiou://m.54jietiao.com/pay/select_pay_type")
-                .withString("time_card_num", num)
-                .withString("time_card_money", money)
-                .navigation(mContext, REQ_OPEN_SELECT_PAY_TYPE);
-    }
-
-    @Override
     public void showRemainNum(String num) {
         mTimeCardListHeaderHelp.setRemainderNum(num);
     }
@@ -124,14 +115,6 @@ public class TimeCardRechargeActivity extends BaseActivity<TimeCardRechargePrese
         mAdapter.setNewData(list);
     }
 
-    @Override
-    public void showFirstTry(String desc) {
-        if (mTimeCardListFooterHelp == null) {
-            mTimeCardListFooterHelp = new TimeCardListFooterHelp(mRvTimeCardList);
-            mAdapter.addFooterView(mTimeCardListFooterHelp.getFooterView());
-        }
-        mTimeCardListFooterHelp.showFirstTry(desc, this);
-    }
 
     @Override
     public void showInitLoading() {
@@ -169,5 +152,24 @@ public class TimeCardRechargeActivity extends BaseActivity<TimeCardRechargePrese
     @Override
     public void showAdvertisement(String adImageUrl, String adLinkUrl) {
         mTimeCardListFooterHelp.showAdvertisement(adImageUrl, adLinkUrl);
+    }
+
+    @Override
+    public void showFirstTry(ITimeCardItem firstTryBean) {
+        if (mTimeCardListFooterHelp == null) {
+            mTimeCardListFooterHelp = new TimeCardListFooterHelp(mRvTimeCardList);
+            mAdapter.addFooterView(mTimeCardListFooterHelp.getFooterView());
+        }
+        mTimeCardListFooterHelp.showFirstTry(firstTryBean, this);
+    }
+
+    @Override
+    public void toFirstTry() {
+        mPresenter.toAddTimeCardNum(true, 0);
+    }
+
+    @Override
+    public void refresh() {
+        mRefreshLayout.autoRefresh();
     }
 }
