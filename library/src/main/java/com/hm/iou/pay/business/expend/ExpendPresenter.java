@@ -4,8 +4,13 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import com.hm.iou.base.mvp.MvpActivityPresenter;
+import com.hm.iou.base.utils.CommSubscriber;
+import com.hm.iou.base.utils.RxUtil;
+import com.hm.iou.pay.api.PayApi;
+import com.hm.iou.pay.bean.SearchTimeCardListResBean;
 import com.hm.iou.pay.bean.TimeCardBean;
 import com.hm.iou.pay.comm.ITimeCardItem;
+import com.hm.iou.sharedata.model.BaseResponse;
 import com.trello.rxlifecycle2.android.ActivityEvent;
 
 import java.util.ArrayList;
@@ -44,31 +49,42 @@ public class ExpendPresenter extends MvpActivityPresenter<ExpendContract.View> i
             mListDisposable.dispose();
         }
         mView.showInitLoading();
-        mListDisposable = Flowable.just(0)
-                .delay(1000, TimeUnit.MILLISECONDS)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .compose(getProvider().<Integer>bindUntilEvent(ActivityEvent.DESTROY))
-                .subscribe(new Consumer<Integer>() {
+        mListDisposable = PayApi.searchTimeCardPackageList()
+                .compose(getProvider().<BaseResponse<SearchTimeCardListResBean>>bindUntilEvent(ActivityEvent.DESTROY))
+                .map(RxUtil.<SearchTimeCardListResBean>handleResponse())
+                .subscribeWith(new CommSubscriber<SearchTimeCardListResBean>(mView) {
                     @Override
-                    public void accept(Integer integer) throws Exception {
+                    public void handleResult(SearchTimeCardListResBean searchTimeCardListResBean) {
                         mView.hideInitLoading();
-                        List<ITimeCardItem> list = new ArrayList<>();
-//                        list.add(new TimeCardBean("5次卡", "优惠¥10"));
-//                        list.add(new TimeCardBean("2次卡", "优惠¥12"));
-//                        list.add(new TimeCardBean("1次卡", "¥10"));
-                        mView.showList(list);
-                        mView.showRemainNum("5");
+                        if (searchTimeCardListResBean == null) {
+                            mView.enableRefresh(false);
+                            mView.showInitFailed("数据异常");
+                            return;
+                        }
+                        //初次体验
+                        TimeCardBean firstBean = searchTimeCardListResBean.getFirstPackage();
+                        if (firstBean != null) {
+                            mView.showFirstTry(firstBean);
+                        }
+                        //套餐列表
+                        List<TimeCardBean> list = searchTimeCardListResBean.getPackageRespList();
+                        if (list != null) {
+                            mView.showList((ArrayList) list);
+                        }
+                        //剩余次数
+                        int countSign = searchTimeCardListResBean.getCountSign();
+                        mView.showRemainNum(String.valueOf(countSign));
                         mView.enableRefresh(true);
                     }
-                }, new Consumer<Throwable>() {
+
                     @Override
-                    public void accept(Throwable throwable) throws Exception {
+                    public void handleException(Throwable throwable, String code, String errorMsg) {
                         mView.hideInitLoading();
-                        mView.showInitFailed("数据异常");
+                        mView.showInitFailed(errorMsg);
                         mView.enableRefresh(false);
                     }
                 });
+
     }
 
     @Override
@@ -76,29 +92,39 @@ public class ExpendPresenter extends MvpActivityPresenter<ExpendContract.View> i
         if (mListDisposable != null && !mListDisposable.isDisposed()) {
             mListDisposable.dispose();
         }
-        mListDisposable = Flowable.just(0)
-                .delay(1000, TimeUnit.MILLISECONDS)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .compose(getProvider().<Integer>bindUntilEvent(ActivityEvent.DESTROY))
-                .subscribe(new Consumer<Integer>() {
+        mView.showInitLoading();
+        mListDisposable = PayApi.searchTimeCardPackageList()
+                .compose(getProvider().<BaseResponse<SearchTimeCardListResBean>>bindUntilEvent(ActivityEvent.DESTROY))
+                .map(RxUtil.<SearchTimeCardListResBean>handleResponse())
+                .subscribeWith(new CommSubscriber<SearchTimeCardListResBean>(mView) {
                     @Override
-                    public void accept(Integer integer) throws Exception {
+                    public void handleResult(SearchTimeCardListResBean searchTimeCardListResBean) {
                         mView.hidePullDownRefresh();
-                        List<ITimeCardItem> list = new ArrayList<>();
-//                        list.add(new TimeCardBean("5次卡", "优惠¥10"));
-//                        list.add(new TimeCardBean("2次卡", "优惠¥12"));
-//                        list.add(new TimeCardBean("1次卡", "¥10"));
-                        mView.showList(list);
-                        mView.showRemainNum("5");
-                        mView.showFirstTry("初次体验 ¥");
+                        if (searchTimeCardListResBean == null) {
+                            mView.showInitFailed("数据异常");
+                            mView.enableRefresh(false);
+                            return;
+                        }
+                        //初次体验
+                        TimeCardBean firstBean = searchTimeCardListResBean.getFirstPackage();
+                        if (firstBean != null) {
+                            mView.showFirstTry(firstBean);
+                        }
+                        //套餐列表
+                        List<TimeCardBean> list = searchTimeCardListResBean.getPackageRespList();
+                        if (list != null) {
+                            mView.showList((ArrayList) list);
+                        }
+                        //剩余次数
+                        int countSign = searchTimeCardListResBean.getCountSign();
+                        mView.showRemainNum(String.valueOf(countSign));
                         mView.enableRefresh(true);
                     }
-                }, new Consumer<Throwable>() {
+
                     @Override
-                    public void accept(Throwable throwable) throws Exception {
+                    public void handleException(Throwable throwable, String code, String errorMsg) {
                         mView.hidePullDownRefresh();
-                        mView.showInitFailed("数据异常");
+                        mView.showInitFailed(errorMsg);
                         mView.enableRefresh(false);
                     }
                 });

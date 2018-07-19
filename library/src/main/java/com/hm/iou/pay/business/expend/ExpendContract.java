@@ -53,9 +53,9 @@ public interface ExpendContract {
         /**
          * 显示首次体验的信息描述
          *
-         * @param desc
+         * @param firstBean
          */
-        void showFirstTry(String desc);
+        void showFirstTry(ITimeCardItem firstBean);
 
         /**
          * 增加签章次数

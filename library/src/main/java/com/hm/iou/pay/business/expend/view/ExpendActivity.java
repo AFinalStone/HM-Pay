@@ -139,12 +139,12 @@ public class ExpendActivity extends BaseActivity<ExpendPresenter> implements Exp
     }
 
     @Override
-    public void showFirstTry(String desc) {
+    public void showFirstTry(ITimeCardItem firstBean) {
         if (mExpendListFooterHelp == null) {
             mExpendListFooterHelp = new ExpendListFooterHelp(mRvTimeCardList);
             mAdapter.addFooterView(mExpendListFooterHelp.getFooterView());
         }
-        mExpendListFooterHelp.showFirstTry(desc, this);
+//        mExpendListFooterHelp.showFirstTry(desc, this);
     }
 
     @Override

@@ -17,7 +17,7 @@ public class SearchTimeCardListResBean {
      */
 
     private int countSign;
-    private FirstPackageBean firstPackage;
+    private TimeCardBean firstPackage;
     private int signUnitPrice;
     private List<TimeCardBean> packageRespList;
 
@@ -29,11 +29,11 @@ public class SearchTimeCardListResBean {
         this.countSign = countSign;
     }
 
-    public FirstPackageBean getFirstPackage() {
+    public TimeCardBean getFirstPackage() {
         return firstPackage;
     }
 
-    public void setFirstPackage(FirstPackageBean firstPackage) {
+    public void setFirstPackage(TimeCardBean firstPackage) {
         this.firstPackage = firstPackage;
     }
 
@@ -51,9 +51,6 @@ public class SearchTimeCardListResBean {
 
     public void setPackageRespList(List<TimeCardBean> packageRespList) {
         this.packageRespList = packageRespList;
-    }
-
-    public static class FirstPackageBean {
     }
 
 }
