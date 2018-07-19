@@ -42,12 +42,12 @@ public interface PayService {
     @GET("/pay/iou/v1/unifiedOrder")
     Flowable<BaseResponse<PayTestBean>> createPreparePayOrder(@Body CreatePreparePayReqBean reqBean);
 
-    @POST("/pay/walfare/v1/bindBankCardInfo")
+    @POST("/pay/welfare/v1/bindBankCardInfo")
     Flowable<BaseResponse<Object>> bindBankCard(@Body BindBankCardReqBean reqBean);
 
-    @GET("/pay/walfare/v1/selectWelfareAdvertise")
+    @GET("/pay/welfare/v1/selectWelfareAdvertise")
     Flowable<BaseResponse<WelfareAdvertiseBean>> getWelfareAdvertise();
 
-    @GET("/pay/walfare/v1/checkFourElementVerify")
+    @GET("/pay/welfare/v1/checkFourElementVerify")
     Flowable<BaseResponse<FourElementsVerifyStatus>> checkFourElementStatus();
 }
