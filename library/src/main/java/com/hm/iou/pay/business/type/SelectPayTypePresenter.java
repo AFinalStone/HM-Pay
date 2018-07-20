@@ -79,7 +79,7 @@ public class SelectPayTypePresenter extends MvpActivityPresenter<SelectPayTypeCo
 
     @Override
     public void checkPayResult() {
-        mView.showLoadingView();
+        mView.showLoadingView("校验支付结果...");
         PayApi.queryOrderPayState(mTimeCareOrderId)
                 .compose(getProvider().<BaseResponse<String>>bindUntilEvent(ActivityEvent.DESTROY))
                 .map(RxUtil.<String>handleResponse())
@@ -179,7 +179,7 @@ public class SelectPayTypePresenter extends MvpActivityPresenter<SelectPayTypeCo
      * 创建次卡充值订单
      */
     private void createTimeCardOrder(String packageId) {
-        mView.showLoadingView();
+        mView.showLoadingView("创建次卡充值订单...");
         PayApi.createOrder(packageId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -205,7 +205,7 @@ public class SelectPayTypePresenter extends MvpActivityPresenter<SelectPayTypeCo
      * 创建微信预支付订单
      */
     private void createPayByWxPrepareOrder() {
-        mView.showLoadingView();
+        mView.showLoadingView("创建微信付款订单...");
         mChannel = ChannelEnumBean.PayByWx;
         PayApi.createPreparePayOrder(mChannel, mTimeCareOrderId)
                 .compose(getProvider().<BaseResponse<WxPayBean>>bindUntilEvent(ActivityEvent.DESTROY))
