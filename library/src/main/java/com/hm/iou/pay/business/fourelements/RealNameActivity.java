@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.hm.iou.base.BaseActivity;
 import com.hm.iou.pay.R;
 import com.hm.iou.pay.R2;
-import com.hm.iou.pay.event.CancelFourElementsAuthEvent;
+import com.hm.iou.pay.event.CancelBindBankEvent;
 import com.hm.iou.router.Router;
 import com.hm.iou.tools.ImageLoader;
 import com.hm.iou.uikit.HMTopBarView;
@@ -186,7 +186,7 @@ public class RealNameActivity extends BaseActivity<RealNamePresenter> implements
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
                         closeCurrPage();
-                        EventBus.getDefault().post(new CancelFourElementsAuthEvent());
+                        EventBus.getDefault().post(new CancelBindBankEvent());
                     }
                 })
                 .setCancelable(false)
@@ -219,7 +219,7 @@ public class RealNameActivity extends BaseActivity<RealNamePresenter> implements
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.dismiss();
                         closeCurrPage();
-                        EventBus.getDefault().post(new CancelFourElementsAuthEvent());
+                        EventBus.getDefault().post(new CancelBindBankEvent());
                     }
                 }).show();
     }

@@ -17,8 +17,6 @@ import butterknife.OnClick;
 
 public class SelectPayTypeActivity extends BaseActivity<SelectPayTypePresenter> implements SelectPayTypeContract.View {
 
-
-    public static final String EXTRA_IS_FIRST_TRY = "is_first_try";
     public static final String EXTRA_PACKAGE_ID = "package_id";
     public static final String EXTRA_TIME_CARD_NUM = "time_card_num";
     public static final String EXTRA_TIME_CARD_MONEY = "time_card_pay_money";
@@ -40,7 +38,6 @@ public class SelectPayTypeActivity extends BaseActivity<SelectPayTypePresenter> 
     @BindView(R2.id.btn_checkPayResult)
     Button mBtnCheckPayResult;
 
-    private String mIsFirstTry = "false";//是否是首次体验
     private String mPackageId;//套餐Id
     private String mPayTimeCareNum;//次数
     private String mPayTimeCardMoney;//总金额
@@ -59,22 +56,18 @@ public class SelectPayTypeActivity extends BaseActivity<SelectPayTypePresenter> 
 
     @Override
     protected void initEventAndData(Bundle bundle) {
-        String isFirstTry = getIntent().getStringExtra(EXTRA_IS_FIRST_TRY);
-        if (!TextUtils.isEmpty(mIsFirstTry))
-            mIsFirstTry = isFirstTry;
         mPackageId = getIntent().getStringExtra(EXTRA_PACKAGE_ID);
         mPayTimeCareNum = getIntent().getStringExtra(EXTRA_TIME_CARD_NUM);
         mPayTimeCardMoney = getIntent().getStringExtra(EXTRA_TIME_CARD_MONEY);
         mPayTimeCardUnitPrice = getIntent().getStringExtra(EXTRA_TIME_CARD_UNIT_PRICE);
         if (bundle != null) {
-            mIsFirstTry = bundle.getString(EXTRA_IS_FIRST_TRY);
             mPackageId = bundle.getString(EXTRA_PACKAGE_ID);
             mPayTimeCareNum = bundle.getString(EXTRA_TIME_CARD_NUM);
             mPayTimeCardMoney = bundle.getString(EXTRA_TIME_CARD_MONEY);
             mPayTimeCardUnitPrice = bundle.getString(EXTRA_TIME_CARD_UNIT_PRICE);
         }
         if (!TextUtils.isEmpty(mPayTimeCareNum)) {
-            mTvPayTimeCardNum.setText("充值" + mPayTimeCareNum);
+            mTvPayTimeCardNum.setText(mPayTimeCareNum);
         }
         if (!TextUtils.isEmpty(mPayTimeCardMoney)) {
             mTvPayTimeCardMoney.setText(getString(R.string.uikit_money) + mPayTimeCardMoney);
@@ -87,7 +80,6 @@ public class SelectPayTypeActivity extends BaseActivity<SelectPayTypePresenter> 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putString(EXTRA_IS_FIRST_TRY, mIsFirstTry);
         outState.putString(EXTRA_PACKAGE_ID, mPackageId);
         outState.putString(EXTRA_TIME_CARD_NUM, mPayTimeCareNum);
         outState.putString(EXTRA_TIME_CARD_MONEY, mPayTimeCardMoney);

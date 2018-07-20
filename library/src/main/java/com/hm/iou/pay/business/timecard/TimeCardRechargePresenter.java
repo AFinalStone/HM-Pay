@@ -184,7 +184,6 @@ public class TimeCardRechargePresenter extends MvpActivityPresenter<TimeCardRech
             timeCardBean = mListData.get(position);
             strTimeCardNum = timeCardBean.getTimeCardNum();
         }
-        String strIsFirstTry = String.valueOf(isFirstTry);
         String strPackageId = timeCardBean.getPackageId();
         String strTimeCardPayMoney = null;
         try {
@@ -202,11 +201,10 @@ public class TimeCardRechargePresenter extends MvpActivityPresenter<TimeCardRech
         }
         Router.getInstance()
                 .buildWithUrl("hmiou://m.54jietiao.com/pay/select_pay_type")
-                .withString("is_first_try", strIsFirstTry)
-                .withString("package_id", strPackageId)
                 .withString("time_card_num", strTimeCardNum)
                 .withString("time_card_pay_money", strTimeCardPayMoney)
                 .withString("time_card_unit_price", strTimeCardUnitMoney)
+                .withString("package_id", strPackageId)
                 .navigation(mContext);
     }
 

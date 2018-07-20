@@ -27,6 +27,7 @@ public class TimeCardBean implements ITimeCardItem {
     private String goodsId;
     private long originalPrice;
     private String packageId;
+    private String rechargeSign;
 
     @Override
     public String getTimeCardNum() {

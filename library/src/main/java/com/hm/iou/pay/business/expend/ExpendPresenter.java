@@ -3,7 +3,6 @@ package com.hm.iou.pay.business.expend;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import com.hm.iou.base.event.OpenWxResultEvent;
 import com.hm.iou.base.mvp.MvpActivityPresenter;
 import com.hm.iou.base.utils.CommSubscriber;
 import com.hm.iou.base.utils.RxUtil;
@@ -11,9 +10,10 @@ import com.hm.iou.pay.api.PayApi;
 import com.hm.iou.pay.bean.FourElementsVerifyStatus;
 import com.hm.iou.pay.bean.SearchTimeCardListResBean;
 import com.hm.iou.pay.bean.TimeCardBean;
-import com.hm.iou.pay.comm.ITimeCardItem;
 import com.hm.iou.pay.comm.PaySPUtil;
 import com.hm.iou.pay.dict.FourElementStatusEnumBean;
+import com.hm.iou.pay.event.BindBankSuccessEvent;
+import com.hm.iou.pay.event.CancelBindBankEvent;
 import com.hm.iou.pay.event.PaySuccessEvent;
 import com.hm.iou.router.Router;
 import com.hm.iou.sharedata.model.BaseResponse;
@@ -26,13 +26,8 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
-import io.reactivex.Flowable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
 
 
 /**
@@ -197,7 +192,6 @@ public class ExpendPresenter extends MvpActivityPresenter<ExpendContract.View> i
             timeCardBean = mListData.get(position);
             strTimeCardNum = timeCardBean.getTimeCardNum();
         }
-        String strIsFirstTry = String.valueOf(isFirstTry);
         String strPackageId = timeCardBean.getPackageId();
         String strTimeCardPayMoney = null;
         try {
@@ -215,11 +209,10 @@ public class ExpendPresenter extends MvpActivityPresenter<ExpendContract.View> i
         }
         Router.getInstance()
                 .buildWithUrl("hmiou://m.54jietiao.com/pay/select_pay_type")
-                .withString("is_first_try", strIsFirstTry)
-                .withString("package_id", strPackageId)
                 .withString("time_card_num", strTimeCardNum)
                 .withString("time_card_pay_money", strTimeCardPayMoney)
                 .withString("time_card_unit_price", strTimeCardUnitMoney)
+                .withString("package_id", strPackageId)
                 .navigation(mContext);
     }
 
@@ -236,9 +229,13 @@ public class ExpendPresenter extends MvpActivityPresenter<ExpendContract.View> i
                     @Override
                     public void handleResult(FourElementsVerifyStatus status) {
                         if (FourElementStatusEnumBean.NoBindBank.getStatus() == status.getStatus()) {
-                            Router.getInstance()
-                                    .buildWithUrl("hmiou://m.54jietiao.com/pay/user_bind_bank")
-                                    .navigation(mContext);
+                            if (0 == status.getRetryTimes()) {
+                                toCheckSignPsd();
+                            } else {
+                                Router.getInstance()
+                                        .buildWithUrl("hmiou://m.54jietiao.com/pay/user_bind_bank")
+                                        .navigation(mContext);
+                            }
                         } else {
                             PaySPUtil.saveUserBindBankSuccess(mContext);
                         }
@@ -259,6 +256,27 @@ public class ExpendPresenter extends MvpActivityPresenter<ExpendContract.View> i
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvenBusPaySuccess(PaySuccessEvent paySuccessEvent) {
         mView.refresh();
+    }
+
+    /**
+     * 银行卡绑定成功，直接选择签章类型
+     *
+     * @param bindBankSuccessEvent
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvenBusBindBankSuccess(BindBankSuccessEvent bindBankSuccessEvent) {
+        Router.getInstance().buildWithUrl("hmiou://m.54jietiao.com/signature/signature_list_select")
+                .navigation(mContext);
+    }
+
+    /**
+     * 用户取消银行卡绑定操作,进行签约密码校验，签章类型选择
+     *
+     * @param cancelBindBankEvent
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvenBusUserCancelBindBank(CancelBindBankEvent cancelBindBankEvent) {
+        toCheckSignPsd();
     }
 
 }
