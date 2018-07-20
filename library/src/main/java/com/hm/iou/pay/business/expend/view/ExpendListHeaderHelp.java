@@ -3,8 +3,6 @@ package com.hm.iou.pay.business.expend.view;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hm.iou.base.BaseBizAppLike;
@@ -20,25 +18,11 @@ import com.hm.iou.router.Router;
 public class ExpendListHeaderHelp {
 
     private TextView mTvRemainderNum;
-    private ImageView mIvCheck;
-    private boolean isCheck = true;
     private View mHeaderView;
 
     public ExpendListHeaderHelp(ViewGroup parentView, ExpendContract.View expendView) {
         mHeaderView = LayoutInflater.from(parentView.getContext()).inflate(R.layout.pay_item_expend_header, parentView, false);
         mTvRemainderNum = mHeaderView.findViewById(R.id.tv_remainderNum);
-        mIvCheck = mHeaderView.findViewById(R.id.iv_check);
-        mIvCheck.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (isCheck) {
-                    mIvCheck.setImageResource(R.mipmap.uikit_icon_check_default);
-                } else {
-                    mIvCheck.setImageResource(R.mipmap.uikit_icon_check_green);
-                }
-                isCheck = !isCheck;
-            }
-        });
         mHeaderView.findViewById(R.id.btn_expend).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

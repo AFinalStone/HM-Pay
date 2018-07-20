@@ -184,13 +184,13 @@ public class ExpendPresenter extends MvpActivityPresenter<ExpendContract.View> i
                 return;
             }
             timeCardBean = mFirstTryTimeCard;
-            strTimeCardNum = "1次卡";
+            strTimeCardNum = "首次体验：充1次";
         } else {
             if (position >= mListData.size()) {
                 return;
             }
             timeCardBean = mListData.get(position);
-            strTimeCardNum = timeCardBean.getTimeCardNum();
+            strTimeCardNum = timeCardBean.getTimeCardContent() + "：充" + timeCardBean.getRechargeSign() + "次";
         }
         String strPackageId = timeCardBean.getPackageId();
         String strTimeCardPayMoney = null;

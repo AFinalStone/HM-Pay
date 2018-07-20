@@ -38,13 +38,17 @@ public class TimeCardListFooterHelp {
 
     public void showFirstTry(ITimeCardItem item, TimeCardRechargeContract.View timeCardRechargeView) {
         mTvFirstTry.setVisibility(View.VISIBLE);
-        mTvFirstTry.setText(item.getTimeCardNum());
+        mTvFirstTry.setText(item.getTimeCardContent());
         mTvFirstTry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 timeCardRechargeView.toFirstTry();
             }
         });
+    }
+
+    public void hideFirstTry() {
+        mTvFirstTry.setVisibility(View.GONE);
     }
 
     public void showAdvertisement(String adImageUrl, String adLinkUrl) {

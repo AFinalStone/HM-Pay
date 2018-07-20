@@ -19,7 +19,7 @@ import com.hm.iou.pay.comm.ITimeCardItem;
 public class ExpendListFooterHelp {
 
     private Context mContext;
-    TextView mTvFirstTry;
+    private TextView mTvFirstTry;
     private View mFooterView;
 
     public ExpendListFooterHelp(ViewGroup parentView) {
@@ -29,13 +29,17 @@ public class ExpendListFooterHelp {
     }
 
     public void showFirstTry(ITimeCardItem item, ExpendContract.View expendView) {
-        mTvFirstTry.setText(item.getTimeCardNum());
+        mTvFirstTry.setText(item.getTimeCardContent());
         mTvFirstTry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 expendView.toFirstTry();
             }
         });
+    }
+
+    public void hideFirstTry() {
+        mTvFirstTry.setVisibility(View.GONE);
     }
 
     public View getFooterView() {

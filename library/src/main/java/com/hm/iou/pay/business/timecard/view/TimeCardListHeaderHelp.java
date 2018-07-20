@@ -18,25 +18,11 @@ import com.hm.iou.router.Router;
 public class TimeCardListHeaderHelp {
 
     private TextView mTvRemainderNum;
-    private ImageView mIvCheck;
-    private boolean isCheck = true;
     private View mHeaderView;
 
     public TimeCardListHeaderHelp(ViewGroup parentView) {
         mHeaderView = LayoutInflater.from(parentView.getContext()).inflate(R.layout.pay_item_time_card_recharge_header, parentView, false);
         mTvRemainderNum = mHeaderView.findViewById(R.id.tv_remainderNum);
-        mIvCheck = mHeaderView.findViewById(R.id.iv_check);
-        mIvCheck.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (isCheck) {
-                    mIvCheck.setImageResource(R.mipmap.uikit_icon_check_default);
-                } else {
-                    mIvCheck.setImageResource(R.mipmap.uikit_icon_check_green);
-                }
-                isCheck = !isCheck;
-            }
-        });
         mHeaderView.findViewById(R.id.tv_rechargeAgreement).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

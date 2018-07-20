@@ -11,7 +11,7 @@ public interface ITimeCardItem {
      *
      * @return
      */
-    String getTimeCardNum();
+    String getTimeCardContent();
 
     /**
      * 获取优惠金额
@@ -19,20 +19,4 @@ public interface ITimeCardItem {
      * @return
      */
     String getTimeCardDiscounts();
-
-    /**
-     * 获取支付金额
-     *
-     * @return
-     */
-    long getTimeCardPayMoney();
-
-    /**
-     * 获取套餐id
-     *
-     * @return
-     */
-    String getTimeCardPackageId();
-
-
 }

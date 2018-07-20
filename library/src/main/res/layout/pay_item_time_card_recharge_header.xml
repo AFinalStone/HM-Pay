@@ -27,7 +27,7 @@
             style="@style/UikitTextView"
             android:minHeight="22dp"
             android:minWidth="96dp"
-            android:text="剩余签章次数"
+            android:text="@string/pay_remainder_sign_num"
             android:textSize="@dimen/textFontSize_16" />
     </LinearLayout>
 
@@ -43,7 +43,6 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:id="@+id/iv_check"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginLeft="10dp"
@@ -53,14 +52,14 @@
         <TextView
             style="@style/UikitTextView"
             android:minHeight="20dp"
-            android:text="我已阅读并同意"
+            android:text="@string/pay_user_read_and_agree"
             android:textSize="@dimen/textFontSize_14" />
 
         <TextView
             android:id="@+id/tv_rechargeAgreement"
             style="@style/UikitTextView"
             android:minHeight="20dp"
-            android:text="《用户充值协议》"
+            android:text="@string/pay_user_pay_agreement"
             android:textColor="@color/uikit_blue"
             android:textSize="@dimen/textFontSize_14" />
     </LinearLayout>

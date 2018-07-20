@@ -30,13 +30,8 @@ public class TimeCardBean implements ITimeCardItem {
     private String rechargeSign;
 
     @Override
-    public String getTimeCardNum() {
+    public String getTimeCardContent() {
         return content;
-    }
-
-    @Override
-    public String getTimeCardPackageId() {
-        return packageId;
     }
 
     @Override
@@ -44,9 +39,5 @@ public class TimeCardBean implements ITimeCardItem {
         return concessions;
     }
 
-    @Override
-    public long getTimeCardPayMoney() {
-        return actualPrice;
-    }
 
 }
