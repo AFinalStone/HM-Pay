@@ -25,8 +25,8 @@ import org.greenrobot.eventbus.EventBus;
 
 public class RealNamePresenter extends MvpActivityPresenter<RealNameContract.View> implements RealNameContract.Presenter {
 
-    private static final String ERR_CODE_CANNOT_AUTH = "300005";     //3次认证机会均失败，不能再认证了
-    private static final String ERR_CODE_AUTH_FAIL = "300006";      //认证失败，剩余还剩尝试机会
+    private static final String ERR_CODE_CANNOT_AUTH = "700005";     //3次认证机会均失败，不能再认证了
+    private static final String ERR_CODE_AUTH_FAIL = "700006";      //认证失败，剩余还剩尝试机会
 
     private boolean mInputMobileError;
     private boolean mInputCardNoError;
