@@ -217,12 +217,14 @@ public class ExpendPresenter extends MvpActivityPresenter<ExpendContract.View> i
             toCheckSignPsd();
             return;
         }
+        mView.showLoadingView();
         PayApi.checkFourElementsVerifyStatus()
                 .compose(getProvider().<BaseResponse<FourElementsVerifyStatus>>bindUntilEvent(ActivityEvent.DESTROY))
                 .map(RxUtil.<FourElementsVerifyStatus>handleResponse())
                 .subscribeWith(new CommSubscriber<FourElementsVerifyStatus>(mView) {
                     @Override
                     public void handleResult(FourElementsVerifyStatus status) {
+                        mView.dismissLoadingView();
                         if (FourElementStatusEnumBean.NoBindBank.getStatus() == status.getStatus()) {
                             if (0 == status.getRetryTimes()) {
                                 toCheckSignPsd();
@@ -238,6 +240,7 @@ public class ExpendPresenter extends MvpActivityPresenter<ExpendContract.View> i
 
                     @Override
                     public void handleException(Throwable throwable, String code, String errMsg) {
+                        mView.dismissLoadingView();
                         toCheckSignPsd();
                     }
                 });

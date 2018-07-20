@@ -25,6 +25,7 @@ import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Flowable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
@@ -44,6 +45,7 @@ public class SelectPayTypePresenter extends MvpActivityPresenter<SelectPayTypeCo
     private long mCountDownTime = 1800;
     private String mTimeCareOrderId;//次卡充值订单Id
     private ChannelEnumBean mChannel;//支付渠道
+    private Disposable mTimeCountDownDisposable;
 
     public SelectPayTypePresenter(@NonNull Context context, @NonNull SelectPayTypeContract.View view) {
         super(context, view);
@@ -60,9 +62,12 @@ public class SelectPayTypePresenter extends MvpActivityPresenter<SelectPayTypeCo
      * 开启倒计时
      */
     public void startCountDown() {
+        if (mTimeCountDownDisposable != null && !mTimeCountDownDisposable.isDisposed()) {
+            mTimeCountDownDisposable.dispose();
+        }
         mView.setPayByWxBtnVisible(false);
         mView.setCheckPayResultBtnVisible(true);
-        Flowable.interval(0, 1, TimeUnit.SECONDS)
+        mTimeCountDownDisposable = Flowable.interval(0, 1, TimeUnit.SECONDS)
                 .take(mCountDownTime)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -199,7 +204,13 @@ public class SelectPayTypePresenter extends MvpActivityPresenter<SelectPayTypeCo
                             EventBus.getDefault().post(new PaySuccessEvent());
                             mView.closeCurrPage();
                         } else if (OrderPayStatusEnumBean.PayFailed.getStatus().equals(code)) {
-                            mView.toastMessage("付款失败，请稍后重试...");
+                            if (mTimeCountDownDisposable != null && !mTimeCountDownDisposable.isDisposed()) {
+                                mTimeCountDownDisposable.dispose();
+                            }
+                            mView.setPayFailedBtnVisible(true);
+                        } else {
+                            mView.toastMessage("支付异常");
+                            mView.closeCurrPage();
                         }
                     }
 
