@@ -8,7 +8,6 @@ import com.hm.iou.base.mvp.MvpActivityPresenter;
 import com.hm.iou.base.utils.CommSubscriber;
 import com.hm.iou.base.utils.RxUtil;
 import com.hm.iou.logger.Logger;
-import com.hm.iou.pay.Constants;
 import com.hm.iou.pay.R;
 import com.hm.iou.pay.api.PayApi;
 import com.hm.iou.pay.bean.WelfareAdvertiseBean;
@@ -16,7 +15,6 @@ import com.hm.iou.pay.comm.PaySPUtil;
 import com.hm.iou.pay.event.FourElementsAuthSuccEvent;
 import com.hm.iou.sharedata.UserManager;
 import com.hm.iou.sharedata.model.BaseResponse;
-import com.hm.iou.tools.SPUtil;
 import com.trello.rxlifecycle2.android.ActivityEvent;
 
 import org.greenrobot.eventbus.EventBus;
@@ -27,8 +25,8 @@ import org.greenrobot.eventbus.EventBus;
 
 public class RealNamePresenter extends MvpActivityPresenter<RealNameContract.View> implements RealNameContract.Presenter {
 
-    private static final String ERR_CODE_CANNOT_AUTH = "300005";     //3次认证机会均失败，不能再认证了
-    private static final String ERR_CODE_AUTH_FAIL = "300006";      //认证失败，剩余还剩尝试机会
+    private static final String ERR_CODE_CANNOT_AUTH = "700005";     //3次认证机会均失败，不能再认证了
+    private static final String ERR_CODE_AUTH_FAIL = "700006";      //认证失败，剩余还剩尝试机会
 
     private boolean mInputMobileError;
     private boolean mInputCardNoError;
