@@ -9,7 +9,7 @@ public class Constants {
     /**
      * 用户充值协议
      */
-    public static final String H5_URL_RECHARGE_AGREEMENT = "/legal/index.html";
+    public static final String H5_URL_RECHARGE_AGREEMENT = "/rechargeAgreement/index.html";
 
     public static final String SP_NAME = "hm_pay";
     //存储用户是否四要素实名认证过
