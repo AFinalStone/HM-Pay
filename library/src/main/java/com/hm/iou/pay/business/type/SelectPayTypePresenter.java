@@ -8,7 +8,7 @@ import com.hm.iou.base.mvp.MvpActivityPresenter;
 import com.hm.iou.base.utils.CommSubscriber;
 import com.hm.iou.base.utils.RxUtil;
 import com.hm.iou.pay.api.PayApi;
-import com.hm.iou.pay.bean.PayTestBean;
+import com.hm.iou.pay.bean.WxPayBean;
 import com.hm.iou.pay.dict.ChannelEnumBean;
 import com.hm.iou.pay.dict.OrderPayStatusEnumBean;
 import com.hm.iou.pay.event.PaySuccessEvent;
@@ -44,8 +44,9 @@ public class SelectPayTypePresenter extends MvpActivityPresenter<SelectPayTypeCo
     private static final String KEY_WX_PAY_CODE = "selecttype.wxpay";
     private long mCountDownTime = 1800;
     private String mTimeCareOrderId;//次卡充值订单Id
-    private ChannelEnumBean mChannel;//支付渠道
     private Disposable mTimeCountDownDisposable;
+    private WxPayBean mWxPayBean;
+    private ChannelEnumBean mChannel;
 
     public SelectPayTypePresenter(@NonNull Context context, @NonNull SelectPayTypeContract.View view) {
         super(context, view);
@@ -56,6 +57,64 @@ public class SelectPayTypePresenter extends MvpActivityPresenter<SelectPayTypeCo
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    public void createPayOrderByWx(String packageId) {
+        boolean flag = SystemUtil.isAppInstalled(mContext, PACKAGE_NAME_OF_WX_CHAT);
+        if (flag) {
+            createTimeCardOrder(packageId);
+        } else {
+            mView.toastMessage("当前手机未安装微信");
+            mView.closeCurrPage();
+        }
+    }
+
+    @Override
+    public void payAgain() {
+        if (ChannelEnumBean.PayByWx.equals(mChannel)) {
+            payByWx();
+        }
+    }
+
+    @Override
+    public void checkPayResult() {
+        mView.showLoadingView();
+        PayApi.queryOrderPayState(mTimeCareOrderId)
+                .compose(getProvider().<BaseResponse<String>>bindUntilEvent(ActivityEvent.DESTROY))
+                .map(RxUtil.<String>handleResponse())
+                .subscribeWith(new CommSubscriber<String>(mView) {
+                    @Override
+                    public void handleResult(String code) {
+                        mView.dismissLoadingView();
+                        if (OrderPayStatusEnumBean.PaySuccess.getStatus().equals(code)) {
+                            EventBus.getDefault().post(new PaySuccessEvent());
+                            mView.closeCurrPage();
+                        } else if (OrderPayStatusEnumBean.PayFailed.getStatus().equals(code)) {
+                            if (mTimeCountDownDisposable != null && !mTimeCountDownDisposable.isDisposed()) {
+                                mTimeCountDownDisposable.dispose();
+                            }
+                            mView.setPayFailedBtnVisible(true);
+                        } else if (OrderPayStatusEnumBean.PayWait.getStatus().equals(code)
+                                || OrderPayStatusEnumBean.Paying.getStatus().equals(code)) {
+                            payAgain();
+                        } else if (OrderPayStatusEnumBean.PayFinish.getStatus().equals(code)) {
+                            mView.toastMessage("订单已经关闭...");
+                            mView.closeCurrPage();
+                        } else if (OrderPayStatusEnumBean.RefundMoney.getStatus().equals(code)) {
+                            mView.toastMessage("订单已经退款...");
+                            mView.closeCurrPage();
+                        } else {
+                            mView.toastMessage("发生未知异常...");
+                            mView.closeCurrPage();
+                        }
+                    }
+
+                    @Override
+                    public void handleException(Throwable throwable, String code, String errorMsg) {
+                        mView.dismissLoadingView();
+                    }
+                });
     }
 
     /**
@@ -114,7 +173,6 @@ public class SelectPayTypePresenter extends MvpActivityPresenter<SelectPayTypeCo
                         }
                     }
                 });
-
     }
 
     /**
@@ -142,6 +200,7 @@ public class SelectPayTypePresenter extends MvpActivityPresenter<SelectPayTypeCo
                 });
     }
 
+
     /**
      * 创建微信预支付订单
      */
@@ -149,20 +208,14 @@ public class SelectPayTypePresenter extends MvpActivityPresenter<SelectPayTypeCo
         mView.showLoadingView();
         mChannel = ChannelEnumBean.PayByWx;
         PayApi.createPreparePayOrder(mChannel, mTimeCareOrderId)
-                .compose(getProvider().<BaseResponse<PayTestBean>>bindUntilEvent(ActivityEvent.DESTROY))
-                .map(RxUtil.<PayTestBean>handleResponse())
-                .subscribeWith(new CommSubscriber<PayTestBean>(mView) {
+                .compose(getProvider().<BaseResponse<WxPayBean>>bindUntilEvent(ActivityEvent.DESTROY))
+                .map(RxUtil.<WxPayBean>handleResponse())
+                .subscribeWith(new CommSubscriber<WxPayBean>(mView) {
                     @Override
-                    public void handleResult(PayTestBean payTestBean) {
+                    public void handleResult(WxPayBean wxPayBean) {
                         mView.dismissLoadingView();
-                        String partnerId = payTestBean.getPartnerid();
-                        String prepayid = payTestBean.getPrepayid();
-                        String packageValue = payTestBean.getPackageValue();
-                        String nonceStr = payTestBean.getNoncestr();
-                        String timeStamp = payTestBean.getTimestamp();
-                        String sign = payTestBean.getSign();
-                        WXPayEntryActivity.wxPay(mContext, partnerId, prepayid, packageValue
-                                , nonceStr, timeStamp, sign, KEY_WX_PAY_CODE);
+                        mWxPayBean = wxPayBean;
+                        payByWx();
                         startCountDown();
                     }
 
@@ -173,52 +226,20 @@ public class SelectPayTypePresenter extends MvpActivityPresenter<SelectPayTypeCo
                 });
     }
 
-
-    @Override
-    public void payByWx(String packageId) {
-        boolean flag = SystemUtil.isAppInstalled(mContext, PACKAGE_NAME_OF_WX_CHAT);
-        if (flag) {
-            createTimeCardOrder(packageId);
-        } else {
-            mView.toastMessage("当前手机未安装微信");
-            mView.closeCurrPage();
+    /**
+     * 通过微信进行付款
+     */
+    private void payByWx() {
+        if (mWxPayBean != null) {
+            String partnerId = mWxPayBean.getPartnerid();
+            String prepayid = mWxPayBean.getPrepayid();
+            String packageValue = mWxPayBean.getPackageValue();
+            String nonceStr = mWxPayBean.getNoncestr();
+            String timeStamp = mWxPayBean.getTimestamp();
+            String sign = mWxPayBean.getSign();
+            WXPayEntryActivity.wxPay(mContext, partnerId, prepayid, packageValue
+                    , nonceStr, timeStamp, sign, KEY_WX_PAY_CODE);
         }
-    }
-
-    @Override
-    public void payAgain() {
-        createPayByWxPrepareOrder();
-    }
-
-    @Override
-    public void checkPayResult() {
-        mView.showLoadingView();
-        PayApi.queryOrderPayState(mTimeCareOrderId)
-                .compose(getProvider().<BaseResponse<String>>bindUntilEvent(ActivityEvent.DESTROY))
-                .map(RxUtil.<String>handleResponse())
-                .subscribeWith(new CommSubscriber<String>(mView) {
-                    @Override
-                    public void handleResult(String code) {
-                        mView.dismissLoadingView();
-                        if (OrderPayStatusEnumBean.PaySuccess.getStatus().equals(code)) {
-                            EventBus.getDefault().post(new PaySuccessEvent());
-                            mView.closeCurrPage();
-                        } else if (OrderPayStatusEnumBean.PayFailed.getStatus().equals(code)) {
-                            if (mTimeCountDownDisposable != null && !mTimeCountDownDisposable.isDisposed()) {
-                                mTimeCountDownDisposable.dispose();
-                            }
-                            mView.setPayFailedBtnVisible(true);
-                        } else {
-                            mView.toastMessage("支付异常");
-                            mView.closeCurrPage();
-                        }
-                    }
-
-                    @Override
-                    public void handleException(Throwable throwable, String code, String errorMsg) {
-                        mView.dismissLoadingView();
-                    }
-                });
     }
 
     /**

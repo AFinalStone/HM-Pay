@@ -49,7 +49,7 @@
             style="@style/UikitButton"
             android:layout_width="match_parent"
             android:layout_marginTop="10dp"
-            android:background="@drawable/pay_shape_btn_expend_exit"
+            android:background="@drawable/pay_selector_btn_expend_exit"
             android:minHeight="60dp"
             android:text="退出下次再签"
             android:textSize="@dimen/textFontSize_16" />

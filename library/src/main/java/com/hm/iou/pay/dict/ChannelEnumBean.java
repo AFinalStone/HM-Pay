@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public enum ChannelEnumBean implements Serializable {
 
-    PayByWx(1, "微信支付"), PayByApple(2, "苹果支付");
+    PayByWx(1, "微信支付");
 
     int channel;
     String name;

@@ -99,7 +99,7 @@ public class SelectPayTypeActivity extends BaseActivity<SelectPayTypePresenter> 
     public void onClick(View view) {
         int id = view.getId();
         if (R.id.rl_payByWX == id) {
-            mPresenter.payByWx(mPackageId);
+            mPresenter.createPayOrderByWx(mPackageId);
         } else if (R.id.iv_close == id) {
             onBackPressed();
         }

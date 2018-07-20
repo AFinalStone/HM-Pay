@@ -4,7 +4,7 @@ import com.hm.iou.network.HttpReqManager;
 import com.hm.iou.pay.bean.BindBankCardReqBean;
 import com.hm.iou.pay.bean.FourElementsVerifyStatus;
 import com.hm.iou.pay.bean.HistoryItemBean;
-import com.hm.iou.pay.bean.PayTestBean;
+import com.hm.iou.pay.bean.WxPayBean;
 import com.hm.iou.pay.bean.SearchTimeCardListResBean;
 import com.hm.iou.pay.bean.WelfareAdvertiseBean;
 import com.hm.iou.pay.dict.ChannelEnumBean;
@@ -31,7 +31,7 @@ public class PayApi {
      *
      * @return
      */
-    public static Flowable<PayTestBean> payTest() {
+    public static Flowable<WxPayBean> payTest() {
         return getService().payTest().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
 
@@ -118,7 +118,7 @@ public class PayApi {
      * @param orderId
      * @return
      */
-    public static Flowable<BaseResponse<PayTestBean>> createPreparePayOrder(ChannelEnumBean chanel, String orderId) {
+    public static Flowable<BaseResponse<WxPayBean>> createPreparePayOrder(ChannelEnumBean chanel, String orderId) {
         CreatePreparePayReqBean reqBean = new CreatePreparePayReqBean();
         reqBean.setChannel(chanel.getValue());
         reqBean.setOrderId(orderId);

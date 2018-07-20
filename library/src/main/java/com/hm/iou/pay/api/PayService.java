@@ -3,7 +3,7 @@ package com.hm.iou.pay.api;
 import com.hm.iou.pay.bean.BindBankCardReqBean;
 import com.hm.iou.pay.bean.FourElementsVerifyStatus;
 import com.hm.iou.pay.bean.HistoryItemBean;
-import com.hm.iou.pay.bean.PayTestBean;
+import com.hm.iou.pay.bean.WxPayBean;
 import com.hm.iou.pay.bean.SearchTimeCardListResBean;
 import com.hm.iou.pay.bean.WelfareAdvertiseBean;
 import com.hm.iou.pay.bean.req.CreatePreparePayReqBean;
@@ -25,7 +25,7 @@ import retrofit2.http.Query;
 public interface PayService {
 
     @GET("/pay/iou/v1/test")
-    Flowable<PayTestBean> payTest();
+    Flowable<WxPayBean> payTest();
 
     @GET("/pay/iou/v1/getHistory")
     Flowable<BaseResponse<List<HistoryItemBean>>> getHistory();
@@ -40,7 +40,7 @@ public interface PayService {
     Flowable<BaseResponse<String>> queryOrderPayState(@Query("orderId") String orderId);
 
     @POST("/pay/iou/v1/unifiedOrder")
-    Flowable<BaseResponse<PayTestBean>> createPreparePayOrder(@Body CreatePreparePayReqBean reqBean);
+    Flowable<BaseResponse<WxPayBean>> createPreparePayOrder(@Body CreatePreparePayReqBean reqBean);
 
     @POST("/pay/welfare/v1/bindBankCardInfo")
     Flowable<BaseResponse<Object>> bindBankCard(@Body BindBankCardReqBean reqBean);

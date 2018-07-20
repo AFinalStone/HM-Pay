@@ -11,6 +11,8 @@
         android:background="@drawable/pay_shape_bg_select_pay_type"
         android:orientation="vertical"
         android:paddingLeft="20dp"
+        android:clickable="true"
+        android:focusable="true"
         android:paddingRight="20dp">
 
         <LinearLayout
@@ -69,7 +71,7 @@
             android:layout_width="239dp"
             android:layout_height="51dp"
             android:layout_marginTop="18dp"
-            android:background="@drawable/pay_shape_btn_pay_by_wx"
+            android:background="@drawable/pay_selector_btn_pay_by_wx"
             android:visibility="visible">
 
             <ImageView
