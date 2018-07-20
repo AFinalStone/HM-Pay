@@ -25,6 +25,14 @@ public interface SelectPayTypeContract {
          */
         void setCheckPayResultBtnVisible(boolean visible);
 
+
+        /**
+         * 设置支付失败按钮是否可见
+         *
+         * @param visible
+         */
+        void setPayFailedBtnVisible(boolean visible);
+
         /**
          * 设置校验付款结果按钮的文字描述
          *
@@ -39,11 +47,6 @@ public interface SelectPayTypeContract {
          */
         void setCheckPayResultBtnEnable(boolean enable);
 
-        /**
-         * 设置结果确定
-         */
-        void setResultOK();
-
     }
 
     interface Presenter extends BaseContract.BasePresenter {
@@ -53,6 +56,11 @@ public interface SelectPayTypeContract {
          * @param packageId 套餐id
          */
         void payByWx(String packageId);
+
+        /**
+         * 再次进行支付
+         */
+        void payAgain();
 
         /**
          * 校验支付结果

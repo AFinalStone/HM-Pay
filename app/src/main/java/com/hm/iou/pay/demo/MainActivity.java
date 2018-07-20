@@ -1,13 +1,10 @@
 package com.hm.iou.pay.demo;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
 import com.hm.iou.network.HttpReqManager;
-import com.hm.iou.pay.business.fourelements.RealNameActivity;
-import com.hm.iou.pay.business.type.SelectPayTypeActivity;
 import com.hm.iou.router.Router;
 import com.hm.iou.sharedata.UserManager;
 import com.hm.iou.sharedata.model.BaseResponse;
@@ -30,16 +27,6 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
                 login();
-            }
-        });
-        findViewById(R.id.btn_wxPay).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Router.getInstance()
-                        .buildWithUrl("hmiou://m.54jietiao.com/pay/select_pay_type")
-                        .withString("time_card_num", "1次卡")
-                        .withString("time_card_money", "¥10")
-                        .navigation(MainActivity.this);
             }
         });
         findViewById(R.id.btn_timeCardRecharge).setOnClickListener(new View.OnClickListener() {

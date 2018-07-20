@@ -8,7 +8,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hm.iou.pay.R;
-import com.hm.iou.pay.business.expend.ExpendContract;
 import com.hm.iou.pay.business.timecard.TimeCardRechargeContract;
 import com.hm.iou.pay.comm.ITimeCardItem;
 import com.hm.iou.router.Router;
@@ -18,14 +17,14 @@ import com.hm.iou.tools.ImageLoader;
  * @author syl
  * @time 2018/7/16 上午11:40
  */
-public class TimeCardListFooterHelp {
+public class TimeCardListFooterHelper {
 
     private Context mContext;
-    TextView mTvFirstTry;
-    ImageView mIvAdvertisement;
+    private TextView mTvFirstTry;
+    private ImageView mIvAdvertisement;
     private View mFooterView;
 
-    public TimeCardListFooterHelp(ViewGroup parentView) {
+    public TimeCardListFooterHelper(ViewGroup parentView) {
         mContext = parentView.getContext();
         mFooterView = LayoutInflater.from(mContext).inflate(R.layout.pay_item_time_card_recharge_footer, parentView, false);
         mTvFirstTry = mFooterView.findViewById(R.id.tv_firstTry);
@@ -36,6 +35,12 @@ public class TimeCardListFooterHelp {
         return mFooterView;
     }
 
+    /**
+     * 显示首次体验
+     *
+     * @param item
+     * @param timeCardRechargeView
+     */
     public void showFirstTry(ITimeCardItem item, TimeCardRechargeContract.View timeCardRechargeView) {
         mTvFirstTry.setVisibility(View.VISIBLE);
         mTvFirstTry.setText(item.getTimeCardContent());
@@ -47,10 +52,19 @@ public class TimeCardListFooterHelp {
         });
     }
 
+    /**
+     * 隐藏首次体验
+     */
     public void hideFirstTry() {
         mTvFirstTry.setVisibility(View.GONE);
     }
 
+    /**
+     * 显示广告
+     *
+     * @param adImageUrl
+     * @param adLinkUrl
+     */
     public void showAdvertisement(String adImageUrl, String adLinkUrl) {
         mIvAdvertisement.setVisibility(View.VISIBLE);
         ImageLoader.getInstance(mContext)
@@ -67,4 +81,12 @@ public class TimeCardListFooterHelp {
             }
         });
     }
+
+    /**
+     * 隐藏广告
+     */
+    public void hideAdvertisement() {
+        mTvFirstTry.setVisibility(View.GONE);
+    }
+
 }

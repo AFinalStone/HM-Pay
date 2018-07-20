@@ -9,7 +9,6 @@ import com.hm.iou.base.utils.RxUtil;
 import com.hm.iou.pay.api.PayApi;
 import com.hm.iou.pay.bean.SearchTimeCardListResBean;
 import com.hm.iou.pay.bean.TimeCardBean;
-import com.hm.iou.pay.comm.ITimeCardItem;
 import com.hm.iou.pay.event.PaySuccessEvent;
 import com.hm.iou.router.Router;
 import com.hm.iou.sharedata.model.BaseResponse;
@@ -22,13 +21,8 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
-import io.reactivex.Flowable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
 
 
 /**
@@ -78,6 +72,8 @@ public class TimeCardRechargePresenter extends MvpActivityPresenter<TimeCardRech
                         mFirstTryTimeCard = searchTimeCardListResBean.getFirstPackage();
                         if (mFirstTryTimeCard != null) {
                             mView.showFirstTry(mFirstTryTimeCard);
+                        } else {
+                            mView.hideFirstTry();
                         }
                         //套餐列表
                         List<TimeCardBean> list = searchTimeCardListResBean.getPackageRespList();
@@ -133,6 +129,8 @@ public class TimeCardRechargePresenter extends MvpActivityPresenter<TimeCardRech
                         mFirstTryTimeCard = searchTimeCardListResBean.getFirstPackage();
                         if (mFirstTryTimeCard != null) {
                             mView.showFirstTry(mFirstTryTimeCard);
+                        } else {
+                            mView.hideFirstTry();
                         }
                         //套餐列表
                         List<TimeCardBean> list = searchTimeCardListResBean.getPackageRespList();

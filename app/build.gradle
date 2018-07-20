@@ -52,6 +52,8 @@ dependencies {
     testCompile 'org.robolectric:shadows-multidex:3.3.2'
 
     compile 'com.android.support:appcompat-v7:26.1.0'
-
     compile project(':library')
+
+    //签约密码，签章
+    compile 'com.heima.iou:hmsignaturelocal:1.0.0'
 }

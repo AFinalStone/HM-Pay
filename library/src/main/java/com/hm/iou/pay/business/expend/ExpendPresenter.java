@@ -54,15 +54,6 @@ public class ExpendPresenter extends MvpActivityPresenter<ExpendContract.View> i
         EventBus.getDefault().unregister(this);
     }
 
-    /**
-     * 校验签约密码，选择签章类型，然后创建电子PDF
-     */
-    private void toCheckSignPsd() {
-        Router.getInstance().buildWithUrl("hmiou://m.54jietiao.com/signature/check_sign_psd_from_bottom")
-                .withString("url", "hmiou://m.54jietiao.com/signature/signature_list_select")
-                .navigation(mContext);
-    }
-
     @Override
     public void init() {
         if (mListDisposable != null && !mListDisposable.isDisposed()) {
@@ -86,6 +77,8 @@ public class ExpendPresenter extends MvpActivityPresenter<ExpendContract.View> i
                         mFirstTryTimeCard = searchTimeCardListResBean.getFirstPackage();
                         if (mFirstTryTimeCard != null) {
                             mView.showFirstTry(mFirstTryTimeCard);
+                        } else {
+                            mView.hideFirstTry();
                         }
                         //套餐列表
                         List<TimeCardBean> list = searchTimeCardListResBean.getPackageRespList();
@@ -141,6 +134,8 @@ public class ExpendPresenter extends MvpActivityPresenter<ExpendContract.View> i
                         mFirstTryTimeCard = searchTimeCardListResBean.getFirstPackage();
                         if (mFirstTryTimeCard != null) {
                             mView.showFirstTry(mFirstTryTimeCard);
+                        } else {
+                            mView.hideFirstTry();
                         }
                         //套餐列表
                         List<TimeCardBean> list = searchTimeCardListResBean.getPackageRespList();
@@ -246,6 +241,16 @@ public class ExpendPresenter extends MvpActivityPresenter<ExpendContract.View> i
                         toCheckSignPsd();
                     }
                 });
+    }
+
+
+    /**
+     * 校验签约密码，选择签章类型，然后创建电子PDF
+     */
+    private void toCheckSignPsd() {
+        Router.getInstance().buildWithUrl("hmiou://m.54jietiao.com/signature/check_sign_psd_from_bottom")
+                .withString("url", "hmiou://m.54jietiao.com/signature/signature_list_select")
+                .navigation(mContext);
     }
 
     /**

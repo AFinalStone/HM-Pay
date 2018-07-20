@@ -52,8 +52,8 @@
             style="@style/UikitTextView"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="16dp"
-            android:textSize="@dimen/textFontSize_16"
-            android:text="包含以下服务：" />
+            android:text="包含以下服务："
+            android:textSize="@dimen/textFontSize_16" />
 
         <TextView
             style="@style/UikitTextView"
@@ -105,20 +105,33 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
+            android:minWidth="239dp"
             android:orientation="vertical"
             android:visibility="gone">
 
             <Button
                 android:id="@+id/btn_checkPayResult"
                 style="@style/UikitButton"
-                android:layout_width="239dp"
-                android:layout_height="43dp"
                 android:layout_marginTop="18dp"
                 android:background="@drawable/pay_selector_btn_check_pay_result"
+                android:minHeight="43dp"
+                android:minWidth="239dp"
                 android:text="手动校验  30:00"
                 android:textColor="@color/uikit_text_common_color"
                 android:textSize="@dimen/textFontSize_16"
-                android:visibility="visible" />
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/btn_payFailed"
+                style="@style/UikitButton"
+                android:layout_marginTop="18dp"
+                android:background="@drawable/pay_selector_btn_check_pay_result"
+                android:minHeight="43dp"
+                android:minWidth="239dp"
+                android:text="支付失败，重新支付"
+                android:textColor="@color/uikit_text_common_color"
+                android:textSize="@dimen/textFontSize_16"
+                android:visibility="gone" />
 
             <TextView
                 style="@style/UikitTextView"
@@ -127,7 +140,6 @@
                 android:text="30分钟内不支付，订单自动关闭。"
                 android:textSize="@dimen/textFontSize_12" />
         </LinearLayout>
-
 
         <ImageView
             android:id="@+id/iv_close"

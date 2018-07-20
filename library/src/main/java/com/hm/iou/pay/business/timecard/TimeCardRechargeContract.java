@@ -59,11 +59,21 @@ public interface TimeCardRechargeContract {
         void showAdvertisement(String adImageUrl, String adLinkUrl);
 
         /**
+         * 隐藏广告
+         */
+        void hideAdvertisement();
+
+        /**
          * 显示首次体验的信息描述
          *
          * @param firstTryBean
          */
         void showFirstTry(ITimeCardItem firstTryBean);
+
+        /**
+         * 隐藏首次体验
+         */
+        void hideFirstTry();
 
         /**
          * 增加签章次数

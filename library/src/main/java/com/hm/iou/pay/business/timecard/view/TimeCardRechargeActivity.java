@@ -11,7 +11,6 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.hm.iou.base.BaseActivity;
 import com.hm.iou.pay.R;
 import com.hm.iou.pay.R2;
-import com.hm.iou.pay.business.expend.view.ExpendListFooterHelp;
 import com.hm.iou.pay.business.timecard.TimeCardRechargeContract;
 import com.hm.iou.pay.business.timecard.TimeCardRechargePresenter;
 import com.hm.iou.pay.comm.ITimeCardItem;
@@ -40,9 +39,9 @@ public class TimeCardRechargeActivity extends BaseActivity<TimeCardRechargePrese
     @BindView(R2.id.loading_init)
     HMLoadingView mLoadingInitView;
 
-    TimeCardListAdapter mAdapter;
-    TimeCardListHeaderHelp mTimeCardListHeaderHelp;
-    TimeCardListFooterHelp mTimeCardListFooterHelp;
+    private TimeCardListAdapter mAdapter;
+    private TimeCardListHeaderHelper mTimeCardListHeaderHelper;
+    private TimeCardListFooterHelper mTimeCardListFooterHelper;
 
     @Override
     protected int getLayoutId() {
@@ -86,8 +85,8 @@ public class TimeCardRechargeActivity extends BaseActivity<TimeCardRechargePrese
         mAdapter = new TimeCardListAdapter();
         mRvTimeCardList.setLayoutManager(new GridLayoutManager(mContext, 3));
         //头部
-        mTimeCardListHeaderHelp = new TimeCardListHeaderHelp(mRvTimeCardList);
-        mAdapter.addHeaderView(mTimeCardListHeaderHelp.getHeaderView());
+        mTimeCardListHeaderHelper = new TimeCardListHeaderHelper(mRvTimeCardList);
+        mAdapter.addHeaderView(mTimeCardListHeaderHelper.getHeaderView());
 
         mRvTimeCardList.setAdapter(mAdapter);
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
@@ -107,7 +106,7 @@ public class TimeCardRechargeActivity extends BaseActivity<TimeCardRechargePrese
 
     @Override
     public void showRemainNum(String num) {
-        mTimeCardListHeaderHelp.setRemainderNum(num);
+        mTimeCardListHeaderHelper.setRemainderNum(num);
     }
 
     @Override
@@ -151,16 +150,28 @@ public class TimeCardRechargeActivity extends BaseActivity<TimeCardRechargePrese
 
     @Override
     public void showAdvertisement(String adImageUrl, String adLinkUrl) {
-        mTimeCardListFooterHelp.showAdvertisement(adImageUrl, adLinkUrl);
+        mTimeCardListFooterHelper.showAdvertisement(adImageUrl, adLinkUrl);
+    }
+
+    @Override
+    public void hideAdvertisement() {
+        mTimeCardListFooterHelper.hideAdvertisement();
     }
 
     @Override
     public void showFirstTry(ITimeCardItem firstTryBean) {
-        if (mTimeCardListFooterHelp == null) {
-            mTimeCardListFooterHelp = new TimeCardListFooterHelp(mRvTimeCardList);
-            mAdapter.addFooterView(mTimeCardListFooterHelp.getFooterView());
+        if (mTimeCardListFooterHelper == null) {
+            mTimeCardListFooterHelper = new TimeCardListFooterHelper(mRvTimeCardList);
+            mAdapter.addFooterView(mTimeCardListFooterHelper.getFooterView());
         }
-        mTimeCardListFooterHelp.showFirstTry(firstTryBean, this);
+        mTimeCardListFooterHelper.showFirstTry(firstTryBean, this);
+    }
+
+    @Override
+    public void hideFirstTry() {
+        if (mTimeCardListFooterHelper != null) {
+            mTimeCardListFooterHelper.hideFirstTry();
+        }
     }
 
     @Override

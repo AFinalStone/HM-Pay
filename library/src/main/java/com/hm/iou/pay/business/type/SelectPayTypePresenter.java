@@ -43,6 +43,7 @@ public class SelectPayTypePresenter extends MvpActivityPresenter<SelectPayTypeCo
     private static final String KEY_WX_PAY_CODE = "selecttype.wxpay";
     private long mCountDownTime = 1800;
     private String mTimeCareOrderId;//次卡充值订单Id
+    private ChannelEnumBean mChannel;//支付渠道
 
     public SelectPayTypePresenter(@NonNull Context context, @NonNull SelectPayTypeContract.View view) {
         super(context, view);
@@ -141,7 +142,8 @@ public class SelectPayTypePresenter extends MvpActivityPresenter<SelectPayTypeCo
      */
     private void createPayByWxPrepareOrder() {
         mView.showLoadingView();
-        PayApi.createPreparePayOrder(ChannelEnumBean.PayByWx, mTimeCareOrderId)
+        mChannel = ChannelEnumBean.PayByWx;
+        PayApi.createPreparePayOrder(mChannel, mTimeCareOrderId)
                 .compose(getProvider().<BaseResponse<PayTestBean>>bindUntilEvent(ActivityEvent.DESTROY))
                 .map(RxUtil.<PayTestBean>handleResponse())
                 .subscribeWith(new CommSubscriber<PayTestBean>(mView) {
@@ -176,6 +178,11 @@ public class SelectPayTypePresenter extends MvpActivityPresenter<SelectPayTypeCo
             mView.toastMessage("当前手机未安装微信");
             mView.closeCurrPage();
         }
+    }
+
+    @Override
+    public void payAgain() {
+        createPayByWxPrepareOrder();
     }
 
     @Override

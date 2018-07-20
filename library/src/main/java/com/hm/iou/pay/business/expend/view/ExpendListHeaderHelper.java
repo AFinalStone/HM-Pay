@@ -1,28 +1,40 @@
-package com.hm.iou.pay.business.timecard.view;
+package com.hm.iou.pay.business.expend.view;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hm.iou.base.BaseBizAppLike;
 import com.hm.iou.pay.Constants;
 import com.hm.iou.pay.R;
+import com.hm.iou.pay.business.expend.ExpendContract;
 import com.hm.iou.router.Router;
 
 /**
  * @author syl
  * @time 2018/7/16 上午11:40
  */
-public class TimeCardListHeaderHelp {
+public class ExpendListHeaderHelper {
 
     private TextView mTvRemainderNum;
     private View mHeaderView;
 
-    public TimeCardListHeaderHelp(ViewGroup parentView) {
-        mHeaderView = LayoutInflater.from(parentView.getContext()).inflate(R.layout.pay_item_time_card_recharge_header, parentView, false);
+    public ExpendListHeaderHelper(ViewGroup parentView, ExpendContract.View expendView) {
+        mHeaderView = LayoutInflater.from(parentView.getContext()).inflate(R.layout.pay_item_expend_header, parentView, false);
         mTvRemainderNum = mHeaderView.findViewById(R.id.tv_remainderNum);
+        mHeaderView.findViewById(R.id.btn_expend).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                expendView.toExpendOnceTime();
+            }
+        });
+        mHeaderView.findViewById(R.id.btn_exit).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                expendView.closeCurrPage();
+            }
+        });
         mHeaderView.findViewById(R.id.tv_rechargeAgreement).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -33,6 +45,7 @@ public class TimeCardListHeaderHelp {
             }
         });
     }
+
 
     public View getHeaderView() {
         return mHeaderView;

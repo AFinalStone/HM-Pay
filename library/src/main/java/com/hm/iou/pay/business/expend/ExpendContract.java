@@ -58,6 +58,11 @@ public interface ExpendContract {
         void showFirstTry(ITimeCardItem firstBean);
 
         /**
+         * 隐藏首次体验
+         */
+        void hideFirstTry();
+
+        /**
          * 增加签章次数
          */
         void toFirstTry();

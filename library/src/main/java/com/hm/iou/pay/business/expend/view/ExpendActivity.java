@@ -17,8 +17,6 @@ import com.hm.iou.pay.business.expend.ExpendPresenter;
 import com.hm.iou.pay.comm.ITimeCardItem;
 import com.hm.iou.pay.comm.TimeCardListAdapter;
 import com.hm.iou.router.Router;
-import com.hm.iou.tools.MoneyFormatUtil;
-import com.hm.iou.tools.StringUtil;
 import com.hm.iou.uikit.HMLoadingView;
 import com.hm.iou.uikit.HMTopBarView;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -43,8 +41,8 @@ public class ExpendActivity extends BaseActivity<ExpendPresenter> implements Exp
     HMLoadingView mLoadingInitView;
 
     private TimeCardListAdapter mAdapter;
-    private ExpendListHeaderHelp mExpendListHeaderHelp;
-    private ExpendListFooterHelp mExpendListFooterHelp;
+    private ExpendListHeaderHelper mExpendListHeaderHelper;
+    private ExpendListFooterHelper mExpendListFooterHelper;
     private String mRemainNum;
 
     @Override
@@ -89,8 +87,8 @@ public class ExpendActivity extends BaseActivity<ExpendPresenter> implements Exp
         mAdapter = new TimeCardListAdapter();
         mRvTimeCardList.setLayoutManager(new GridLayoutManager(mContext, 3));
         //头部
-        mExpendListHeaderHelp = new ExpendListHeaderHelp(mRvTimeCardList, this);
-        mAdapter.addHeaderView(mExpendListHeaderHelp.getHeaderView());
+        mExpendListHeaderHelper = new ExpendListHeaderHelper(mRvTimeCardList, this);
+        mAdapter.addHeaderView(mExpendListHeaderHelper.getHeaderView());
 
         mRvTimeCardList.setAdapter(mAdapter);
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
@@ -125,7 +123,7 @@ public class ExpendActivity extends BaseActivity<ExpendPresenter> implements Exp
     @Override
     public void showRemainNum(String num) {
         mRemainNum = num;
-        mExpendListHeaderHelp.setRemainderNum(num);
+        mExpendListHeaderHelper.setRemainderNum(num);
     }
 
     @Override
@@ -135,11 +133,18 @@ public class ExpendActivity extends BaseActivity<ExpendPresenter> implements Exp
 
     @Override
     public void showFirstTry(ITimeCardItem firstBean) {
-        if (mExpendListFooterHelp == null) {
-            mExpendListFooterHelp = new ExpendListFooterHelp(mRvTimeCardList);
-            mAdapter.addFooterView(mExpendListFooterHelp.getFooterView());
+        if (mExpendListFooterHelper == null) {
+            mExpendListFooterHelper = new ExpendListFooterHelper(mRvTimeCardList);
+            mAdapter.addFooterView(mExpendListFooterHelper.getFooterView());
         }
-        mExpendListFooterHelp.showFirstTry(firstBean, this);
+        mExpendListFooterHelper.showFirstTry(firstBean, this);
+    }
+
+    @Override
+    public void hideFirstTry() {
+        if (mExpendListFooterHelper != null) {
+            mExpendListFooterHelper.hideFirstTry();
+        }
     }
 
     @Override
