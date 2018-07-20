@@ -39,15 +39,15 @@ public class TimeCardListFooterHelper {
      * 显示首次体验
      *
      * @param item
-     * @param timeCardRechargeView
+     * @param timeCardRechargePresenter
      */
-    public void showFirstTry(ITimeCardItem item, TimeCardRechargeContract.View timeCardRechargeView) {
+    public void showFirstTry(ITimeCardItem item, TimeCardRechargeContract.Presenter timeCardRechargePresenter) {
         mTvFirstTry.setVisibility(View.VISIBLE);
         mTvFirstTry.setText(item.getTimeCardContent());
         mTvFirstTry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                timeCardRechargeView.toFirstTry();
+                timeCardRechargePresenter.toFirstTry();
             }
         });
     }

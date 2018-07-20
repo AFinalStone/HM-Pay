@@ -10,11 +10,10 @@
         android:layout_width="match_parent"
         android:layout_marginEnd="10dp"
         android:layout_marginStart="10dp"
-        android:background="@drawable/pay_selector_bg_item_time_card_recharge"
+        android:background="@drawable/pay_selector_bg_item_time_card_recharge_unselect"
         android:gravity="center"
         android:minHeight="60dp"
         android:text="首次体验 ¥5"
-        android:textColor="@color/pay_color_item_time_card_text_selector"
         android:textSize="@dimen/textFontSize_16"
         android:visibility="gone" />
 

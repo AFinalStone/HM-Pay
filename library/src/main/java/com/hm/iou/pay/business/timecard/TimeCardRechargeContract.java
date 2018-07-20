@@ -76,11 +76,6 @@ public interface TimeCardRechargeContract {
         void hideFirstTry();
 
         /**
-         * 增加签章次数
-         */
-        void toFirstTry();
-
-        /**
          * 刷新页面数据
          */
         void refresh();
@@ -101,9 +96,13 @@ public interface TimeCardRechargeContract {
         /**
          * 增加次卡数量
          *
-         * @param isFirstTry
          * @param position
          */
-        void toAddTimeCardNum(boolean isFirstTry, int position);
+        void toAddTimeCardNum(int position);
+
+        /**
+         * 首次体验
+         */
+        void toFirstTry();
     }
 }

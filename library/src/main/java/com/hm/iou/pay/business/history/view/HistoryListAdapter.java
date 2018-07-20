@@ -33,7 +33,7 @@ public class HistoryListAdapter extends BaseQuickAdapter<IHistoryItem, BaseViewH
         llChild.removeAllViews();
         List<IHistoryItemChild> list = item.getChild();
         for (IHistoryItemChild child : list) {
-            HistoryItemChildHelp help = new HistoryItemChildHelp(llChild, child);
+            HistoryItemChildHelper help = new HistoryItemChildHelper(llChild, child);
             llChild.addView(help.getChildView());
         }
     }

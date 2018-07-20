@@ -20,13 +20,13 @@ public class ExpendListHeaderHelper {
     private TextView mTvRemainderNum;
     private View mHeaderView;
 
-    public ExpendListHeaderHelper(ViewGroup parentView, ExpendContract.View expendView) {
+    public ExpendListHeaderHelper(ViewGroup parentView, ExpendContract.View expendView, ExpendContract.Presenter expendPresenter) {
         mHeaderView = LayoutInflater.from(parentView.getContext()).inflate(R.layout.pay_item_expend_header, parentView, false);
         mTvRemainderNum = mHeaderView.findViewById(R.id.tv_remainderNum);
         mHeaderView.findViewById(R.id.btn_expend).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                expendView.toExpendOnceTime();
+                expendPresenter.toExpendOnceTime();
             }
         });
         mHeaderView.findViewById(R.id.btn_exit).setOnClickListener(new View.OnClickListener() {

@@ -82,7 +82,7 @@ public class TimeCardRechargeActivity extends BaseActivity<TimeCardRechargePrese
 
             }
         });
-        mAdapter = new TimeCardListAdapter();
+        mAdapter = new TimeCardListAdapter(mContext);
         mRvTimeCardList.setLayoutManager(new GridLayoutManager(mContext, 3));
         //头部
         mTimeCardListHeaderHelper = new TimeCardListHeaderHelper(mRvTimeCardList);
@@ -92,7 +92,7 @@ public class TimeCardRechargeActivity extends BaseActivity<TimeCardRechargePrese
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                mPresenter.toAddTimeCardNum(false, position);
+                mPresenter.toAddTimeCardNum(position);
             }
         });
         //设置下拉刷新监听
@@ -164,7 +164,7 @@ public class TimeCardRechargeActivity extends BaseActivity<TimeCardRechargePrese
             mTimeCardListFooterHelper = new TimeCardListFooterHelper(mRvTimeCardList);
             mAdapter.addFooterView(mTimeCardListFooterHelper.getFooterView());
         }
-        mTimeCardListFooterHelper.showFirstTry(firstTryBean, this);
+        mTimeCardListFooterHelper.showFirstTry(firstTryBean, mPresenter);
     }
 
     @Override
@@ -172,11 +172,6 @@ public class TimeCardRechargeActivity extends BaseActivity<TimeCardRechargePrese
         if (mTimeCardListFooterHelper != null) {
             mTimeCardListFooterHelper.hideFirstTry();
         }
-    }
-
-    @Override
-    public void toFirstTry() {
-        mPresenter.toAddTimeCardNum(true, 0);
     }
 
     @Override

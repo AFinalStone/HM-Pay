@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -43,7 +42,6 @@ public class ExpendActivity extends BaseActivity<ExpendPresenter> implements Exp
     private TimeCardListAdapter mAdapter;
     private ExpendListHeaderHelper mExpendListHeaderHelper;
     private ExpendListFooterHelper mExpendListFooterHelper;
-    private String mRemainNum;
 
     @Override
     protected int getLayoutId() {
@@ -84,17 +82,17 @@ public class ExpendActivity extends BaseActivity<ExpendPresenter> implements Exp
 
             }
         });
-        mAdapter = new TimeCardListAdapter();
+        mAdapter = new TimeCardListAdapter(mContext);
         mRvTimeCardList.setLayoutManager(new GridLayoutManager(mContext, 3));
         //头部
-        mExpendListHeaderHelper = new ExpendListHeaderHelper(mRvTimeCardList, this);
+        mExpendListHeaderHelper = new ExpendListHeaderHelper(mRvTimeCardList, this, mPresenter);
         mAdapter.addHeaderView(mExpendListHeaderHelper.getHeaderView());
 
         mRvTimeCardList.setAdapter(mAdapter);
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                mPresenter.toAddTimeCardNum(false, position);
+                mPresenter.toAddTimeCardNum(position);
             }
         });
         //设置下拉刷新监听
@@ -107,22 +105,12 @@ public class ExpendActivity extends BaseActivity<ExpendPresenter> implements Exp
     }
 
     @Override
-    public void toExpendOnceTime() {
-        if (TextUtils.isEmpty(mRemainNum) || "0".equals(mRemainNum)) {
-            mPresenter.toAddTimeCardNum(false, 0);
-        } else {
-            mPresenter.checkFourElementsVerifyStatus();
-        }
-    }
-
-    @Override
     public void refresh() {
         mRefreshLayout.autoRefresh();
     }
 
     @Override
     public void showRemainNum(String num) {
-        mRemainNum = num;
         mExpendListHeaderHelper.setRemainderNum(num);
     }
 
@@ -132,24 +120,19 @@ public class ExpendActivity extends BaseActivity<ExpendPresenter> implements Exp
     }
 
     @Override
-    public void showFirstTry(ITimeCardItem firstBean) {
+    public void showFirstTryBtn(ITimeCardItem firstBean) {
         if (mExpendListFooterHelper == null) {
             mExpendListFooterHelper = new ExpendListFooterHelper(mRvTimeCardList);
             mAdapter.addFooterView(mExpendListFooterHelper.getFooterView());
         }
-        mExpendListFooterHelper.showFirstTry(firstBean, this);
+        mExpendListFooterHelper.showFirstTry(firstBean, mPresenter);
     }
 
     @Override
-    public void hideFirstTry() {
+    public void hideFirstTryBtn() {
         if (mExpendListFooterHelper != null) {
             mExpendListFooterHelper.hideFirstTry();
         }
-    }
-
-    @Override
-    public void toFirstTry() {
-        mPresenter.toAddTimeCardNum(true, 0);
     }
 
     @Override

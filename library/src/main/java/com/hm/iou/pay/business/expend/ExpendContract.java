@@ -51,26 +51,16 @@ public interface ExpendContract {
         void showList(List<ITimeCardItem> list);
 
         /**
-         * 显示首次体验的信息描述
+         * 显示首次体验的按钮
          *
          * @param firstBean
          */
-        void showFirstTry(ITimeCardItem firstBean);
+        void showFirstTryBtn(ITimeCardItem firstBean);
 
         /**
-         * 隐藏首次体验
+         * 隐藏首次体验按钮
          */
-        void hideFirstTry();
-
-        /**
-         * 增加签章次数
-         */
-        void toFirstTry();
-
-        /**
-         * 消耗一次次卡数量
-         */
-        void toExpendOnceTime();
+        void hideFirstTryBtn();
 
         /**
          * 刷新页面数据
@@ -93,14 +83,18 @@ public interface ExpendContract {
         /**
          * 增加次卡数量
          *
-         * @param isFirstTry
          * @param position
          */
-        void toAddTimeCardNum(boolean isFirstTry, int position);
+        void toAddTimeCardNum(int position);
 
         /**
-         * 查询用户银行卡四要素认证的状态
+         * 消耗一次次卡数量
          */
-        void checkFourElementsVerifyStatus();
+        void toExpendOnceTime();
+
+        /**
+         * 首次体验
+         */
+        void toFirstTry();
     }
 }

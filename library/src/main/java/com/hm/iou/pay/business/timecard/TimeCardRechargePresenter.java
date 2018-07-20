@@ -166,22 +166,14 @@ public class TimeCardRechargePresenter extends MvpActivityPresenter<TimeCardRech
     }
 
     @Override
-    public void toAddTimeCardNum(boolean isFirstTry, int position) {
+    public void toAddTimeCardNum(int position) {
         TimeCardBean timeCardBean;
         String strTimeCardNum;
-        if (isFirstTry) {
-            if (mFirstTryTimeCard == null) {
-                return;
-            }
-            timeCardBean = mFirstTryTimeCard;
-            strTimeCardNum = "首次体验：充1次";
-        } else {
-            if (position >= mListData.size()) {
-                return;
-            }
-            timeCardBean = mListData.get(position);
-            strTimeCardNum = timeCardBean.getTimeCardContent() + "：充" + timeCardBean.getRechargeSign() + "次";
+        if (position >= mListData.size()) {
+            return;
         }
+        timeCardBean = mListData.get(position);
+        strTimeCardNum = timeCardBean.getTimeCardContent() + "：充" + timeCardBean.getRechargeSign() + "次";
         String strPackageId = timeCardBean.getPackageId();
         String strTimeCardPayMoney = null;
         try {
@@ -197,12 +189,53 @@ public class TimeCardRechargePresenter extends MvpActivityPresenter<TimeCardRech
         } catch (Exception e) {
             e.printStackTrace();
         }
+        toSelectPayType(strTimeCardNum, strTimeCardPayMoney, strTimeCardUnitMoney, strPackageId);
+    }
+
+    @Override
+    public void toFirstTry() {
+        TimeCardBean timeCardBean;
+        String strTimeCardNum;
+        if (mFirstTryTimeCard == null) {
+            return;
+        }
+        timeCardBean = mFirstTryTimeCard;
+        strTimeCardNum = "首次体验：充1次";
+
+        String strPackageId = timeCardBean.getPackageId();
+        String strTimeCardPayMoney = null;
+        try {
+            strTimeCardPayMoney = MoneyFormatUtil.changeF2Y(timeCardBean.getActualPrice());
+        } catch (Exception e) {
+            e.printStackTrace();
+            mView.toastMessage("发生异常，请稍后再试");
+            return;
+        }
+        String strTimeCardUnitMoney = "0";
+        try {
+            strTimeCardUnitMoney = MoneyFormatUtil.changeF2Y(mSignUnitPrice);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        toSelectPayType(strTimeCardNum, strTimeCardPayMoney, strTimeCardUnitMoney, strPackageId);
+    }
+
+    /**
+     * 选择支付方式
+     *
+     * @param timeCardNum
+     * @param timeCardPayMoney
+     * @param timeCardUnitMoney
+     * @param packageId
+     */
+    private void toSelectPayType(String timeCardNum, String timeCardPayMoney
+            , String timeCardUnitMoney, String packageId) {
         Router.getInstance()
                 .buildWithUrl("hmiou://m.54jietiao.com/pay/select_pay_type")
-                .withString("time_card_num", strTimeCardNum)
-                .withString("time_card_pay_money", strTimeCardPayMoney)
-                .withString("time_card_unit_price", strTimeCardUnitMoney)
-                .withString("package_id", strPackageId)
+                .withString("time_card_num", timeCardNum)
+                .withString("time_card_pay_money", timeCardPayMoney)
+                .withString("time_card_unit_price", timeCardUnitMoney)
+                .withString("package_id", packageId)
                 .navigation(mContext);
     }
 
