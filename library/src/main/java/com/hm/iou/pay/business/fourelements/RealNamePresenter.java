@@ -8,8 +8,10 @@ import com.hm.iou.base.mvp.MvpActivityPresenter;
 import com.hm.iou.base.utils.CommSubscriber;
 import com.hm.iou.base.utils.RxUtil;
 import com.hm.iou.logger.Logger;
+import com.hm.iou.pay.Constants;
 import com.hm.iou.pay.R;
 import com.hm.iou.pay.api.PayApi;
+import com.hm.iou.pay.bean.AdBean;
 import com.hm.iou.pay.bean.WelfareAdvertiseBean;
 import com.hm.iou.pay.comm.PaySPUtil;
 import com.hm.iou.pay.event.BindBankSuccessEvent;
@@ -18,6 +20,8 @@ import com.hm.iou.sharedata.model.BaseResponse;
 import com.trello.rxlifecycle2.android.ActivityEvent;
 
 import org.greenrobot.eventbus.EventBus;
+
+import java.util.List;
 
 /**
  * Created by hjy on 2018/7/16.
@@ -45,14 +49,16 @@ public class RealNamePresenter extends MvpActivityPresenter<RealNameContract.Vie
 
     @Override
     public void getTopAd() {
-        PayApi.getWelfareAdvertise()
-                .compose(getProvider().<BaseResponse<WelfareAdvertiseBean>>bindUntilEvent(ActivityEvent.DESTROY))
-                .map(RxUtil.<WelfareAdvertiseBean>handleResponse())
-                .subscribeWith(new CommSubscriber<WelfareAdvertiseBean>(mView) {
+        PayApi.getAdvertiseList(Constants.AD_POSITION_FOUR_ELEMENTS)
+                .compose(getProvider().<BaseResponse<List<AdBean>>>bindUntilEvent(ActivityEvent.DESTROY))
+                .map(RxUtil.<List<AdBean>>handleResponse())
+                .subscribeWith(new CommSubscriber<List<AdBean>>(mView) {
                     @Override
-                    public void handleResult(WelfareAdvertiseBean data) {
-                        mWelfareAdData = data;
-                        mView.showTopAd(data.getWelfareUrl());
+                    public void handleResult(List<AdBean> list) {
+                        if (list != null && !list.isEmpty()) {
+                            AdBean bean = list.get(0);
+                            mView.showTopAd(bean.getUrl(), bean.getLinkUrl());
+                        }
                     }
 
                     @Override
@@ -60,12 +66,12 @@ public class RealNamePresenter extends MvpActivityPresenter<RealNameContract.Vie
                     }
 
                     @Override
-                    public boolean isShowBusinessError() {
+                    public boolean isShowCommError() {
                         return false;
                     }
 
                     @Override
-                    public boolean isShowCommError() {
+                    public boolean isShowBusinessError() {
                         return false;
                     }
                 });

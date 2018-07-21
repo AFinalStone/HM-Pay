@@ -18,6 +18,8 @@ public class HistoryItemChildBean implements IHistoryItemChild {
     private String showDateStr;
     private String showState;
 
+    private int textColor;
+
     public void setShowDate(String showDate) {
         this.showDate = showDate;
     }
@@ -30,6 +32,10 @@ public class HistoryItemChildBean implements IHistoryItemChild {
         this.showState = showState;
     }
 
+    public void setTextColor(int color) {
+        textColor = color;
+    }
+
     @Override
     public String getTime() {
         return showDateStr;
@@ -38,5 +44,10 @@ public class HistoryItemChildBean implements IHistoryItemChild {
     @Override
     public String getType() {
         return showState;
+    }
+
+    @Override
+    public int getTextColor() {
+        return textColor;
     }
 }

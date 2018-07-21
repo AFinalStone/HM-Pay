@@ -22,5 +22,6 @@ public interface IHistoryItem {
      */
     List<IHistoryItemChild> getChild();
 
+    int getTextColor();
 
 }

@@ -21,4 +21,6 @@ public interface IHistoryItemChild {
     String getType();
 
 
+    int getTextColor();
+
 }

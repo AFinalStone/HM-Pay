@@ -6,7 +6,9 @@ import android.support.annotation.NonNull;
 import com.hm.iou.base.mvp.MvpActivityPresenter;
 import com.hm.iou.base.utils.CommSubscriber;
 import com.hm.iou.base.utils.RxUtil;
+import com.hm.iou.pay.Constants;
 import com.hm.iou.pay.api.PayApi;
+import com.hm.iou.pay.bean.AdBean;
 import com.hm.iou.pay.bean.SearchTimeCardListResBean;
 import com.hm.iou.pay.bean.TimeCardBean;
 import com.hm.iou.pay.event.PaySuccessEvent;
@@ -218,6 +220,39 @@ public class TimeCardRechargePresenter extends MvpActivityPresenter<TimeCardRech
             e.printStackTrace();
         }
         toSelectPayType(strTimeCardNum, strTimeCardPayMoney, strTimeCardUnitMoney, strPackageId);
+    }
+
+    @Override
+    public void getBottomAd() {
+        PayApi.getAdvertiseList(Constants.AD_POSITION_CARD_CHARGE)
+                .compose(getProvider().<BaseResponse<List<AdBean>>>bindUntilEvent(ActivityEvent.DESTROY))
+                .map(RxUtil.<List<AdBean>>handleResponse())
+                .subscribeWith(new CommSubscriber<List<AdBean>>(mView) {
+                    @Override
+                    public void handleResult(List<AdBean> list) {
+                        if (list != null && !list.isEmpty()) {
+                            AdBean bean = list.get(0);
+                            mView.showAdvertisement(bean.getUrl(), bean.getLinkUrl());
+                        } else {
+                            mView.hideAdvertisement();
+                        }
+                    }
+
+                    @Override
+                    public void handleException(Throwable throwable, String s, String s1) {
+                        mView.hideAdvertisement();
+                    }
+
+                    @Override
+                    public boolean isShowCommError() {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean isShowBusinessError() {
+                        return false;
+                    }
+                });
     }
 
     /**

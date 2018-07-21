@@ -1,6 +1,7 @@
 package com.hm.iou.pay.api;
 
 import com.hm.iou.network.HttpReqManager;
+import com.hm.iou.pay.bean.AdBean;
 import com.hm.iou.pay.bean.BindBankCardReqBean;
 import com.hm.iou.pay.bean.FourElementsVerifyStatus;
 import com.hm.iou.pay.bean.HistoryItemBean;
@@ -125,4 +126,13 @@ public class PayApi {
         return getService().createPreparePayOrder(reqBean).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
 
+    /**
+     * 根据广告位获取广告
+     *
+     * @param adPosition
+     * @return
+     */
+    public static Flowable<BaseResponse<List<AdBean>>> getAdvertiseList(String adPosition) {
+        return getService().getAdvertise(adPosition).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+    }
 }

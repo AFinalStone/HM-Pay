@@ -1,6 +1,7 @@
 package com.hm.iou.pay.business.timecard.view;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,16 +71,17 @@ public class TimeCardListFooterHelper {
         ImageLoader.getInstance(mContext)
                 .displayImage(adImageUrl, mIvAdvertisement, R.drawable.uikit_bg_pic_loading_place
                         , R.drawable.uikit_bg_pic_loading_error);
-        mIvAdvertisement.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Router.getInstance()
-                        .buildWithUrl("hmiou://m.54jietiao.com/webview/index")
-                        .withString("url", adLinkUrl)
-                        .navigation(mContext);
-
-            }
-        });
+        if (!TextUtils.isEmpty(adLinkUrl)) {
+            mIvAdvertisement.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Router.getInstance()
+                            .buildWithUrl("hmiou://m.54jietiao.com/webview/index")
+                            .withString("url", adLinkUrl)
+                            .navigation(mContext);
+                }
+            });
+        }
     }
 
     /**

@@ -15,20 +15,15 @@ import java.util.List;
  */
 public class HistoryListAdapter extends BaseQuickAdapter<IHistoryItem, BaseViewHolder> {
 
-    private int mColorBlue;
-    private int mColorGreen;
-    private int mColorRed;
-
     public HistoryListAdapter(Context context) {
         super(R.layout.pay_item_history);
-        mColorBlue = context.getResources().getColor(R.color.uikit_blue);
-        mColorGreen = context.getResources().getColor(R.color.uikit_green);
-        mColorRed = context.getResources().getColor(R.color.uikit_red);
     }
 
     @Override
     protected void convert(BaseViewHolder helper, IHistoryItem item) {
         helper.setText(R.id.tv_title, item.getTitle());
+        helper.setTextColor(R.id.tv_title, item.getTextColor());
+
         LinearLayout llChild = helper.getView(R.id.ll_childList);
         llChild.removeAllViews();
         List<IHistoryItemChild> list = item.getChild();
@@ -37,6 +32,5 @@ public class HistoryListAdapter extends BaseQuickAdapter<IHistoryItem, BaseViewH
             llChild.addView(help.getChildView());
         }
     }
-
 
 }

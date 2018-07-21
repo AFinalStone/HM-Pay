@@ -194,11 +194,22 @@ public class RealNameActivity extends BaseActivity<RealNamePresenter> implements
     }
 
     @Override
-    public void showTopAd(String adUrl) {
+    public void showTopAd(String adUrl, final String linkUrl) {
         if (TextUtils.isEmpty(adUrl)) {
             return;
         }
         ImageLoader.getInstance(this).displayImage(adUrl, mIvAd);
+        if (!TextUtils.isEmpty(linkUrl)) {
+            mIvAd.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Router.getInstance()
+                            .buildWithUrl("hmiou://m.54jietiao.com/webview/index")
+                            .withString("url", linkUrl)
+                            .navigation(mContext);
+                }
+            });
+        }
     }
 
     /**

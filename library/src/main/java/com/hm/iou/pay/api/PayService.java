@@ -1,11 +1,12 @@
 package com.hm.iou.pay.api;
 
+import com.hm.iou.pay.bean.AdBean;
 import com.hm.iou.pay.bean.BindBankCardReqBean;
 import com.hm.iou.pay.bean.FourElementsVerifyStatus;
 import com.hm.iou.pay.bean.HistoryItemBean;
-import com.hm.iou.pay.bean.WxPayBean;
 import com.hm.iou.pay.bean.SearchTimeCardListResBean;
 import com.hm.iou.pay.bean.WelfareAdvertiseBean;
+import com.hm.iou.pay.bean.WxPayBean;
 import com.hm.iou.pay.bean.req.CreatePreparePayReqBean;
 import com.hm.iou.sharedata.model.BaseResponse;
 
@@ -50,4 +51,8 @@ public interface PayService {
 
     @GET("/pay/welfare/v1/checkFourElementVerify")
     Flowable<BaseResponse<FourElementsVerifyStatus>> checkFourElementStatus();
+
+    @GET("/pay/iou/v1/ad/getByPosition")
+    Flowable<BaseResponse<List<AdBean>>> getAdvertise(@Query("adPosition") String adPosition);
+
 }

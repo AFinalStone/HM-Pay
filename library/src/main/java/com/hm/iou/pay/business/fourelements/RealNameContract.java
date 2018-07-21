@@ -37,7 +37,13 @@ public interface RealNameContract {
          */
         void showAuthFailExceedCount(String msg);
 
-        void showTopAd(String adUrl);
+        /**
+         * 显示顶部广告
+         *
+         * @param adUrl
+         * @param linkUrl
+         */
+        void showTopAd(String adUrl, String linkUrl);
     }
 
     interface Presenter extends BaseContract.BasePresenter {

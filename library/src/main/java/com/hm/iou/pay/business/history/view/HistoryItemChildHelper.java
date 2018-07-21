@@ -14,8 +14,8 @@ import com.hm.iou.pay.R;
  */
 public class HistoryItemChildHelper {
 
-    TextView mTvTime;
-    TextView mTvType;
+    private TextView mTvTime;
+    private TextView mTvType;
     private View mChildView;
 
     public HistoryItemChildHelper(ViewGroup parentView, IHistoryItemChild itemChild) {
@@ -25,6 +25,9 @@ public class HistoryItemChildHelper {
         mTvType = mChildView.findViewById(R.id.tv_type);
         mTvTime.setText(itemChild.getTime());
         mTvType.setText(itemChild.getType());
+
+        mTvTime.setTextColor(itemChild.getTextColor());
+        mTvType.setTextColor(itemChild.getTextColor());
     }
 
     public View getChildView() {

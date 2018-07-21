@@ -104,5 +104,10 @@ public interface TimeCardRechargeContract {
          * 首次体验
          */
         void toFirstTry();
+
+        /**
+         * 获取底部广告
+         */
+        void getBottomAd();
     }
 }

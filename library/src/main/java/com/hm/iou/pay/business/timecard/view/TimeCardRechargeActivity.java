@@ -58,6 +58,7 @@ public class TimeCardRechargeActivity extends BaseActivity<TimeCardRechargePrese
     protected void initEventAndData(Bundle bundle) {
         initView();
         mPresenter.init();
+        mPresenter.getBottomAd();
     }
 
     @Override
@@ -150,12 +151,18 @@ public class TimeCardRechargeActivity extends BaseActivity<TimeCardRechargePrese
 
     @Override
     public void showAdvertisement(String adImageUrl, String adLinkUrl) {
+        if (mTimeCardListFooterHelper == null) {
+            mTimeCardListFooterHelper = new TimeCardListFooterHelper(mRvTimeCardList);
+            mAdapter.addFooterView(mTimeCardListFooterHelper.getFooterView());
+        }
         mTimeCardListFooterHelper.showAdvertisement(adImageUrl, adLinkUrl);
     }
 
     @Override
     public void hideAdvertisement() {
-        mTimeCardListFooterHelper.hideAdvertisement();
+        if (mTimeCardListFooterHelper != null) {
+            mTimeCardListFooterHelper.hideAdvertisement();
+        }
     }
 
     @Override
