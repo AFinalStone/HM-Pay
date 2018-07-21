@@ -148,6 +148,7 @@ public class ExpendPresenter extends MvpActivityPresenter<ExpendContract.View> i
                         }
                         //剩余次数
                         long countSign = searchTimeCardListResBean.getCountSign();
+                        mRemainNum = countSign;
                         mView.showRemainNum(String.valueOf(countSign));
                         mView.enableRefresh(true);
                     }

@@ -8,20 +8,14 @@ import com.hm.iou.base.utils.CommSubscriber;
 import com.hm.iou.base.utils.RxUtil;
 import com.hm.iou.pay.api.PayApi;
 import com.hm.iou.pay.bean.HistoryItemBean;
-import com.hm.iou.pay.bean.HistoryItemChildBean;
-import com.hm.iou.pay.business.history.view.IHistoryItem;
-import com.hm.iou.pay.business.history.view.IHistoryItemChild;
 import com.hm.iou.sharedata.model.BaseResponse;
 import com.trello.rxlifecycle2.android.ActivityEvent;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
-import io.reactivex.Flowable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 
@@ -58,13 +52,13 @@ public class HistoryPresenter extends MvpActivityPresenter<HistoryContract.View>
                 .subscribeWith(new CommSubscriber<List<HistoryItemBean>>(mView) {
 
                     @Override
-                    public void handleResult(List<HistoryItemBean> historyItemBeans) {
+                    public void handleResult(List<HistoryItemBean> list) {
                         mView.hideInitLoading();
                         mView.enableRefresh(true);
-                        if (historyItemBeans == null && historyItemBeans.isEmpty()) {
+                        if (list == null || list.isEmpty()) {
                             mView.showDataEmpty();
                         } else {
-                            mView.showList((ArrayList) historyItemBeans);
+                            mView.showList((ArrayList) list);
                         }
                     }
 
@@ -90,13 +84,13 @@ public class HistoryPresenter extends MvpActivityPresenter<HistoryContract.View>
                 .subscribeWith(new CommSubscriber<List<HistoryItemBean>>(mView) {
 
                     @Override
-                    public void handleResult(List<HistoryItemBean> historyItemBeans) {
+                    public void handleResult(List<HistoryItemBean> list) {
                         mView.hidePullDownRefresh();
                         mView.enableRefresh(true);
-                        if (historyItemBeans == null && historyItemBeans.isEmpty()) {
+                        if (list == null || list.isEmpty()) {
                             mView.showDataEmpty();
                         } else {
-                            mView.showList((ArrayList) historyItemBeans);
+                            mView.showList((ArrayList) list);
                         }
                     }
 
