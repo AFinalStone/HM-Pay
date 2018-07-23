@@ -130,7 +130,7 @@ public class SelectPayTypePresenter extends MvpActivityPresenter<SelectPayTypeCo
                 .take(mCountDownTime)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .compose(getProvider().bindUntilEvent(ActivityEvent.DESTROY))
+                .compose(getProvider().<Long>bindUntilEvent(ActivityEvent.DESTROY))
                 .map(new Function<Long, String>() {
                     @Override
                     public String apply(Long time) throws Exception {

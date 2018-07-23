@@ -42,7 +42,7 @@ public class TimeCardListFooterHelper {
      * @param item
      * @param timeCardRechargePresenter
      */
-    public void showFirstTry(ITimeCardItem item, TimeCardRechargeContract.Presenter timeCardRechargePresenter) {
+    public void showFirstTry(ITimeCardItem item, final TimeCardRechargeContract.Presenter timeCardRechargePresenter) {
         mTvFirstTry.setVisibility(View.VISIBLE);
         mTvFirstTry.setText(item.getTimeCardContent());
         mTvFirstTry.setOnClickListener(new View.OnClickListener() {
@@ -66,7 +66,7 @@ public class TimeCardListFooterHelper {
      * @param adImageUrl
      * @param adLinkUrl
      */
-    public void showAdvertisement(String adImageUrl, String adLinkUrl) {
+    public void showAdvertisement(String adImageUrl, final String adLinkUrl) {
         mIvAdvertisement.setVisibility(View.VISIBLE);
         ImageLoader.getInstance(mContext)
                 .displayImage(adImageUrl, mIvAdvertisement, R.drawable.uikit_bg_pic_loading_place

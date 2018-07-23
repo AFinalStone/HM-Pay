@@ -19,7 +19,7 @@ public class TimeCardListHeaderHelper {
     private TextView mTvRemainderNum;
     private View mHeaderView;
 
-    public TimeCardListHeaderHelper(ViewGroup parentView) {
+    public TimeCardListHeaderHelper(final ViewGroup parentView) {
         mHeaderView = LayoutInflater.from(parentView.getContext()).inflate(R.layout.pay_item_time_card_recharge_header, parentView, false);
         mTvRemainderNum = mHeaderView.findViewById(R.id.tv_remainderNum);
         mHeaderView.findViewById(R.id.tv_rechargeAgreement).setOnClickListener(new View.OnClickListener() {

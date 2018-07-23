@@ -26,7 +26,7 @@ public class ExpendListFooterHelper {
         mTvFirstTry = mFooterView.findViewById(R.id.tv_firstTry);
     }
 
-    public void showFirstTry(ITimeCardItem item, ExpendContract.Presenter expendPresenter) {
+    public void showFirstTry(ITimeCardItem item, final ExpendContract.Presenter expendPresenter) {
         mTvFirstTry.setText(item.getTimeCardContent());
         mTvFirstTry.setOnClickListener(new View.OnClickListener() {
             @Override
