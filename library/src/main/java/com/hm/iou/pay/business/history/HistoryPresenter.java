@@ -63,10 +63,20 @@ public class HistoryPresenter extends MvpActivityPresenter<HistoryContract.View>
                     }
 
                     @Override
-                    public void handleException(Throwable throwable, String s, String s1) {
+                    public void handleException(Throwable throwable, String code, String errorMsg) {
                         mView.hideInitLoading();
-                        mView.showInitFailed("数据异常");
+                        mView.showInitFailed(errorMsg);
                         mView.enableRefresh(false);
+                    }
+
+                    @Override
+                    public boolean isShowCommError() {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean isShowBusinessError() {
+                        return false;
                     }
                 });
     }
