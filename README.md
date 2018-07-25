@@ -46,7 +46,7 @@ allprojects {
 | 银行卡四要素绑定 | hmiou://m.54jietiao.com/login/guide |  |
 | 消费历史记录 | hmiou://m.54jietiao.com/pay/history |  |
 | 次卡充值 | hmiou://m.54jietiao.com/pay/time_card_recharge |  |
-| 选择支付方式 | hmiou://m.54jietiao.com/pay/select_pay_type?time_card_num=*&time_card_money=*&time_card_unit_price=*&package_id=* |  |
+| 选择支付方式 | hmiou://m.54jietiao.com/pay/select_pay_type?time_card_num=* &time_card_money=* &time_card_unit_price=* &package_id=* |  |
 
 路由文件
 
@@ -85,8 +85,9 @@ allprojects {
 #### 集成说明
 
 集成本模块之前，需要保证一下模块已经初始化：
-HM-Network（网络框架），HM-Router（路由模块），Logger（日志记录）
+
+HM-BaseBiz初始化(基础业务模块)，HM-Network（网络框架），HM-Router（路由模块），Logger（日志记录）
 
 #### Author
 
-石磊
+syl
