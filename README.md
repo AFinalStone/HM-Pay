@@ -1,4 +1,4 @@
-#### LoginModule
+#### HM-Pay
 
 集成了支付，银行卡四要素绑定，消费历史记录，次卡充值，选择支付方式
 
@@ -33,7 +33,6 @@ allprojects {
 
 ```gradle
     compile 'com.heima.iou:hmbasebizlocal:1.0.0'
-    compile 'com.heima.iou:hmcityselectlocal:1.0.0'
 ```
 
 #### 使用说明
