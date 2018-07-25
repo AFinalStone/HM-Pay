@@ -14,6 +14,7 @@ import com.hm.iou.pay.dict.OrderPayStatusEnumBean;
 import com.hm.iou.pay.event.PaySuccessEvent;
 import com.hm.iou.sharedata.model.BaseResponse;
 import com.hm.iou.tools.SystemUtil;
+import com.hm.iou.wxapi.WXEntryActivity;
 import com.hm.iou.wxapi.WXPayEntryActivity;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.trello.rxlifecycle2.android.ActivityEvent;
@@ -63,6 +64,7 @@ public class SelectPayTypePresenter extends MvpActivityPresenter<SelectPayTypeCo
         if (mWXApi != null) {
             mWXApi.detach();
             mWXApi = null;
+            WXEntryActivity.cleanWXLeak();
         }
     }
 
