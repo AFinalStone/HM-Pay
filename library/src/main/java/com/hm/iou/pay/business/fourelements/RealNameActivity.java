@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hm.iou.base.BaseActivity;
@@ -80,6 +81,12 @@ public class RealNameActivity extends BaseActivity<RealNamePresenter> implements
             }
         });
 
+        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) mIvAd.getLayoutParams();
+        int w = getResources().getDisplayMetrics().widthPixels;
+        params.width = w;
+        params.height = (int) (w * 76f / 375);
+        mIvAd.setLayoutParams(params);
+
         RxTextView.textChanges(mEtMobile).subscribe(new Consumer<CharSequence>() {
             @Override
             public void accept(CharSequence charSequence) throws Exception {
@@ -87,7 +94,7 @@ public class RealNameActivity extends BaseActivity<RealNamePresenter> implements
             }
         }, new Consumer<Throwable>() {
             @Override
-            public void accept(Throwable throwable) throws Exception {
+            public void accept(Throwable throwable) {
 
             }
         });

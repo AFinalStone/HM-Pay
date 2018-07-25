@@ -15,6 +15,7 @@ import com.hm.iou.pay.event.PaySuccessEvent;
 import com.hm.iou.sharedata.model.BaseResponse;
 import com.hm.iou.tools.SystemUtil;
 import com.hm.iou.wxapi.WXPayEntryActivity;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.trello.rxlifecycle2.android.ActivityEvent;
 
 import org.greenrobot.eventbus.EventBus;
@@ -48,6 +49,8 @@ public class SelectPayTypePresenter extends MvpActivityPresenter<SelectPayTypeCo
     private WxPayBean mWxPayBean;
     private ChannelEnumBean mChannel;
 
+    private IWXAPI mWXApi;
+
     public SelectPayTypePresenter(@NonNull Context context, @NonNull SelectPayTypeContract.View view) {
         super(context, view);
         EventBus.getDefault().register(this);
@@ -57,6 +60,10 @@ public class SelectPayTypePresenter extends MvpActivityPresenter<SelectPayTypeCo
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+        if (mWXApi != null) {
+            mWXApi.detach();
+            mWXApi = null;
+        }
     }
 
     @Override
@@ -237,7 +244,11 @@ public class SelectPayTypePresenter extends MvpActivityPresenter<SelectPayTypeCo
             String nonceStr = mWxPayBean.getNoncestr();
             String timeStamp = mWxPayBean.getTimestamp();
             String sign = mWxPayBean.getSign();
-            WXPayEntryActivity.wxPay(mContext, partnerId, prepayid, packageValue
+
+            if (mWXApi == null) {
+                mWXApi = WXPayEntryActivity.createWXApi(mContext);
+            }
+            WXPayEntryActivity.wxPay(mWXApi, partnerId, prepayid, packageValue
                     , nonceStr, timeStamp, sign, KEY_WX_PAY_CODE);
         }
     }

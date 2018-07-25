@@ -13,7 +13,7 @@
         android:layout_height="@dimen/uikit_topbar_height"
         app:backIcon="@mipmap/uikit_ic_menu_close_black"
         app:rightText="客服"
-        app:titleText="福利认证" />
+        app:titleText="银行卡认证" />
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"

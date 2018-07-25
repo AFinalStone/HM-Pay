@@ -87,10 +87,15 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
         finish();
     }
 
+    public static IWXAPI createWXApi(Context context) {
+        IWXAPI iwxapi = WXAPIFactory.createWXAPI(context, null);
+        iwxapi.registerApp(APP_ID);
+        return iwxapi;
+    }
+
     /**
      * 微信支付
      *
-     * @param context
      * @param partnerId    商户号
      * @param packageValue
      * @param nonceStr
@@ -98,12 +103,8 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
      * @param sign
      * @param key
      */
-    public static void wxPay(Context context, String partnerId, String prepayid
+    public static boolean wxPay(IWXAPI wxApi, String partnerId, String prepayid
             , String packageValue, String nonceStr, String timeStamp, String sign, String key) {
-        //微信原生SDK登录
-        IWXAPI iwxapi = WXAPIFactory.createWXAPI(context, null);
-        iwxapi.registerApp(APP_ID);
-
         PayReq request = new PayReq();
         request.appId = APP_ID;
         request.partnerId = partnerId;
@@ -113,7 +114,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
         request.timeStamp = timeStamp;
         request.sign = sign;
         request.extData = key;
-        iwxapi.sendReq(request);
+        return wxApi.sendReq(request);
     }
 
 }
