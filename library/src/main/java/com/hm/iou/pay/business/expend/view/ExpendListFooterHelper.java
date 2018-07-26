@@ -27,6 +27,7 @@ public class ExpendListFooterHelper {
     }
 
     public void showFirstTry(ITimeCardItem item, final ExpendContract.Presenter expendPresenter) {
+        mTvFirstTry.setVisibility(View.VISIBLE);
         mTvFirstTry.setText(item.getTimeCardContent());
         mTvFirstTry.setOnClickListener(new View.OnClickListener() {
             @Override
