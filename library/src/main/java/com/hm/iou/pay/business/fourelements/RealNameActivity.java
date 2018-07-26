@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.hm.iou.base.BaseActivity;
 import com.hm.iou.pay.R;
 import com.hm.iou.pay.R2;
+import com.hm.iou.pay.event.BindBankSuccessEvent;
 import com.hm.iou.pay.event.CancelBindBankEvent;
 import com.hm.iou.router.Router;
 import com.hm.iou.tools.ImageLoader;
@@ -217,6 +218,19 @@ public class RealNameActivity extends BaseActivity<RealNamePresenter> implements
                 }
             });
         }
+    }
+
+    @Override
+    public void showAuthSuccDialog() {
+        VerifySuccDialog dialog = new VerifySuccDialog(this);
+        dialog.setConfirmListener(new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+                EventBus.getDefault().post(new BindBankSuccessEvent());
+            }
+        });
+        dialog.show();
     }
 
     /**

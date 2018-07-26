@@ -14,12 +14,9 @@ import com.hm.iou.pay.api.PayApi;
 import com.hm.iou.pay.bean.AdBean;
 import com.hm.iou.pay.bean.WelfareAdvertiseBean;
 import com.hm.iou.pay.comm.PaySPUtil;
-import com.hm.iou.pay.event.BindBankSuccessEvent;
 import com.hm.iou.sharedata.UserManager;
 import com.hm.iou.sharedata.model.BaseResponse;
 import com.trello.rxlifecycle2.android.ActivityEvent;
-
-import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
@@ -130,11 +127,9 @@ public class RealNamePresenter extends MvpActivityPresenter<RealNameContract.Vie
                     @Override
                     public void handleResult(Object o) {
                         mView.dismissLoadingView();
-                        mView.toastMessage("认证成功");
                         //四要素认证已经成功，用SharedPreferences保存下来，
                         PaySPUtil.saveUserBindBankSuccess(mContext);
-                        mView.closeCurrPage();
-                        EventBus.getDefault().post(new BindBankSuccessEvent());
+                        mView.showAuthSuccDialog();
                     }
 
                     @Override

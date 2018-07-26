@@ -44,6 +44,11 @@ public interface RealNameContract {
          * @param linkUrl
          */
         void showTopAd(String adUrl, String linkUrl);
+
+        /**
+         * 显示认证成功对话框
+         */
+        void showAuthSuccDialog();
     }
 
     interface Presenter extends BaseContract.BasePresenter {
