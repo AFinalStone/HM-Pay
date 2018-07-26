@@ -49,6 +49,12 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mIWXAPI.detach();
+    }
+
+    @Override
     public void onReq(BaseReq baseReq) {
         Logger.d("微信请求openId" + baseReq.openId);
         Logger.d("微信请求transaction" + baseReq.transaction);
