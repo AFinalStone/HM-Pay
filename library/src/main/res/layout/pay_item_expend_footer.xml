@@ -14,7 +14,8 @@
         android:gravity="center"
         android:minHeight="60dp"
         android:text="首次体验 ¥5"
-        android:textSize="@dimen/textFontSize_16" />
+        android:textSize="@dimen/textFontSize_16"
+        android:visibility="gone" />
 
 </LinearLayout>
 
