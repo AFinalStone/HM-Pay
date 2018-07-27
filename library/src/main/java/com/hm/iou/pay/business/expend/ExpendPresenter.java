@@ -283,6 +283,7 @@ public class ExpendPresenter extends MvpActivityPresenter<ExpendContract.View> i
                             }
                         } else {
                             PaySPUtil.saveUserBindBankSuccess(mContext);
+                            toCheckSignPsd();
                         }
                     }
 
