@@ -18,9 +18,9 @@ import butterknife.OnClick;
 public class SelectPayTypeActivity extends BaseActivity<SelectPayTypePresenter> implements SelectPayTypeContract.View {
 
     public static final String EXTRA_PACKAGE_ID = "package_id";
-    public static final String EXTRA_TIME_CARD_NUM = "time_card_num";
+    public static final String EXTRA_TIME_CARD_NAME = "time_card_name";
     public static final String EXTRA_TIME_CARD_MONEY = "time_card_pay_money";
-    public static final String EXTRA_TIME_CARD_UNIT_PRICE = "time_card_unit_price";
+    public static final String EXTRA_TIME_CARD_ADD_NUM = "time_card_add_num";
 
     @BindView(R2.id.tv_payTimeCardNum)
     TextView mTvPayTimeCardNum;
@@ -40,10 +40,10 @@ public class SelectPayTypeActivity extends BaseActivity<SelectPayTypePresenter> 
     @BindView(R2.id.btn_payFailed)
     Button mBtnPayFailed;
 
-    private String mPackageId;//套餐Id
-    private String mPayTimeCareNum;//次数
-    private String mPayTimeCardMoney;//总金额
-    private String mPayTimeCardUnitPrice; //单价
+    private String mPackageId;          //套餐Id
+    private String mPayTimeCareName;    //套餐名称
+    private String mPayTimeCardMoney;   //总金额
+    private String mPayTimeCardAddNum;  //增加的数量
 
     @Override
     protected int getLayoutId() {
@@ -59,23 +59,27 @@ public class SelectPayTypeActivity extends BaseActivity<SelectPayTypePresenter> 
     @Override
     protected void initEventAndData(Bundle bundle) {
         mPackageId = getIntent().getStringExtra(EXTRA_PACKAGE_ID);
-        mPayTimeCareNum = getIntent().getStringExtra(EXTRA_TIME_CARD_NUM);
+        mPayTimeCareName = getIntent().getStringExtra(EXTRA_TIME_CARD_NAME);
         mPayTimeCardMoney = getIntent().getStringExtra(EXTRA_TIME_CARD_MONEY);
-        mPayTimeCardUnitPrice = getIntent().getStringExtra(EXTRA_TIME_CARD_UNIT_PRICE);
+        mPayTimeCardAddNum = getIntent().getStringExtra(EXTRA_TIME_CARD_ADD_NUM);
         if (bundle != null) {
             mPackageId = bundle.getString(EXTRA_PACKAGE_ID);
-            mPayTimeCareNum = bundle.getString(EXTRA_TIME_CARD_NUM);
+            mPayTimeCareName = bundle.getString(EXTRA_TIME_CARD_NAME);
             mPayTimeCardMoney = bundle.getString(EXTRA_TIME_CARD_MONEY);
-            mPayTimeCardUnitPrice = bundle.getString(EXTRA_TIME_CARD_UNIT_PRICE);
+            mPayTimeCardAddNum = bundle.getString(EXTRA_TIME_CARD_ADD_NUM);
         }
-        if (!TextUtils.isEmpty(mPayTimeCareNum)) {
-            mTvPayTimeCardNum.setText(mPayTimeCareNum);
+        if (!TextUtils.isEmpty(mPayTimeCareName)) {
+            mTvPayTimeCardNum.setText(mPayTimeCareName);
         }
         if (!TextUtils.isEmpty(mPayTimeCardMoney)) {
             mTvPayTimeCardMoney.setText(getString(R.string.uikit_money) + mPayTimeCardMoney);
         }
-        if (!TextUtils.isEmpty(mPayTimeCardUnitPrice)) {
-            mTvPayTimeCardDesc.setText(getString(R.string.uikit_money) + mPayTimeCardUnitPrice + "签约/次，包含以下服务：");
+        if (!TextUtils.isEmpty(mPayTimeCardAddNum)) {
+            StringBuffer stringBuffer = new StringBuffer();
+            stringBuffer.append("含");
+            stringBuffer.append(mPayTimeCardAddNum);
+            stringBuffer.append("次签章，每次签章包含：");
+            mTvPayTimeCardDesc.setText(stringBuffer.toString());
         }
     }
 
@@ -83,9 +87,9 @@ public class SelectPayTypeActivity extends BaseActivity<SelectPayTypePresenter> 
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putString(EXTRA_PACKAGE_ID, mPackageId);
-        outState.putString(EXTRA_TIME_CARD_NUM, mPayTimeCareNum);
+        outState.putString(EXTRA_TIME_CARD_NAME, mPayTimeCareName);
         outState.putString(EXTRA_TIME_CARD_MONEY, mPayTimeCardMoney);
-        outState.putString(EXTRA_TIME_CARD_UNIT_PRICE, mPayTimeCardUnitPrice);
+        outState.putString(EXTRA_TIME_CARD_ADD_NUM, mPayTimeCardAddNum);
     }
 
     //关闭Activity的切换动画

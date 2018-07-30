@@ -41,7 +41,7 @@
             android:layout_marginTop="24dp"
             android:background="@drawable/uikit_shape_common_btn_selector"
             android:minHeight="60dp"
-            android:text="消耗1次签章"
+            android:text="支付1次签章"
             android:textSize="@dimen/textFontSize_16" />
 
         <Button
@@ -51,7 +51,7 @@
             android:layout_marginTop="10dp"
             android:background="@drawable/pay_selector_btn_expend_exit"
             android:minHeight="60dp"
-            android:text="退出下次再签"
+            android:text="存为草稿退出"
             android:textSize="@dimen/textFontSize_16" />
     </LinearLayout>
 
