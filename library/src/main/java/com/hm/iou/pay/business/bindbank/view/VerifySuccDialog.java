@@ -1,4 +1,4 @@
-package com.hm.iou.pay.business.fourelements;
+package com.hm.iou.pay.business.bindbank.view;
 
 import android.app.Dialog;
 import android.content.Context;

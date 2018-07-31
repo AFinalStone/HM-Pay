@@ -1,4 +1,4 @@
-package com.hm.iou.pay.business.fourelements;
+package com.hm.iou.pay.business.bindbank;
 
 /**
  * Created by hjy on 2018/7/16.
@@ -11,7 +11,7 @@ import android.widget.EditText;
 
 public class BankCardTextWatcher implements TextWatcher {
 
-    interface OnTextChangedListener {
+    public interface OnTextChangedListener {
 
         void onTextChanged();
 

@@ -12,7 +12,7 @@ import com.hm.iou.pay.bean.SearchTimeCardListResBean;
 import com.hm.iou.pay.bean.TimeCardBean;
 import com.hm.iou.pay.comm.PaySPUtil;
 import com.hm.iou.pay.dict.FourElementStatusEnumBean;
-import com.hm.iou.pay.event.BindBankSuccessEvent;
+import com.hm.iou.sharedata.event.BindBankSuccessEvent;
 import com.hm.iou.pay.event.CancelBindBankEvent;
 import com.hm.iou.pay.event.PaySuccessEvent;
 import com.hm.iou.router.Router;

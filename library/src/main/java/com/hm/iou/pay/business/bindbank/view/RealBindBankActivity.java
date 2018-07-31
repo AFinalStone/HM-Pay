@@ -1,4 +1,4 @@
-package com.hm.iou.pay.business.fourelements;
+package com.hm.iou.pay.business.bindbank.view;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -13,7 +13,10 @@ import android.widget.TextView;
 import com.hm.iou.base.BaseActivity;
 import com.hm.iou.pay.R;
 import com.hm.iou.pay.R2;
-import com.hm.iou.pay.event.BindBankSuccessEvent;
+import com.hm.iou.pay.business.bindbank.BankCardTextWatcher;
+import com.hm.iou.pay.business.bindbank.presenter.RealBindBankPresenter;
+import com.hm.iou.pay.business.bindbank.RealBindBinkContract;
+import com.hm.iou.sharedata.event.BindBankSuccessEvent;
 import com.hm.iou.pay.event.CancelBindBankEvent;
 import com.hm.iou.router.Router;
 import com.hm.iou.tools.ImageLoader;
@@ -31,7 +34,7 @@ import io.reactivex.functions.Consumer;
  * Created by hjy on 2018/7/16.
  */
 
-public class RealNameActivity extends BaseActivity<RealNamePresenter> implements RealNameContract.View {
+public class RealBindBankActivity extends BaseActivity<RealBindBankPresenter> implements RealBindBinkContract.View {
 
     @BindView(R2.id.topBar)
     HMTopBarView mTopBarView;
@@ -56,8 +59,8 @@ public class RealNameActivity extends BaseActivity<RealNamePresenter> implements
     }
 
     @Override
-    protected RealNamePresenter initPresenter() {
-        return new RealNamePresenter(this, this);
+    protected RealBindBankPresenter initPresenter() {
+        return new RealBindBankPresenter(this, this);
     }
 
     @Override

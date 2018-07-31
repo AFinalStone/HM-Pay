@@ -1,4 +1,4 @@
-package com.hm.iou.pay.business.fourelements;
+package com.hm.iou.pay.business.bindbank.presenter;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -13,6 +13,7 @@ import com.hm.iou.pay.R;
 import com.hm.iou.pay.api.PayApi;
 import com.hm.iou.pay.bean.AdBean;
 import com.hm.iou.pay.bean.WelfareAdvertiseBean;
+import com.hm.iou.pay.business.bindbank.RealBindBinkContract;
 import com.hm.iou.pay.comm.PaySPUtil;
 import com.hm.iou.sharedata.UserManager;
 import com.hm.iou.sharedata.model.BaseResponse;
@@ -24,7 +25,7 @@ import java.util.List;
  * Created by hjy on 2018/7/16.
  */
 
-public class RealNamePresenter extends MvpActivityPresenter<RealNameContract.View> implements RealNameContract.Presenter {
+public class RealBindBankPresenter extends MvpActivityPresenter<RealBindBinkContract.View> implements RealBindBinkContract.Presenter {
 
     private static final String ERR_CODE_CANNOT_AUTH = "700005";     //3次认证机会均失败，不能再认证了
     private static final String ERR_CODE_AUTH_FAIL = "700006";      //认证失败，剩余还剩尝试机会
@@ -34,7 +35,7 @@ public class RealNamePresenter extends MvpActivityPresenter<RealNameContract.Vie
 
     private WelfareAdvertiseBean mWelfareAdData;
 
-    public RealNamePresenter(@NonNull Context context, @NonNull RealNameContract.View view) {
+    public RealBindBankPresenter(@NonNull Context context, @NonNull RealBindBinkContract.View view) {
         super(context, view);
     }
 

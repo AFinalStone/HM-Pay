@@ -1,4 +1,4 @@
-package com.hm.iou.pay.business.fourelements;
+package com.hm.iou.pay.business.bindbank;
 
 
 import com.hm.iou.base.mvp.BaseContract;
@@ -6,7 +6,7 @@ import com.hm.iou.base.mvp.BaseContract;
 /**
  * 四要素实名认证
  */
-public interface RealNameContract {
+public interface RealBindBinkContract {
 
     interface View extends BaseContract.BaseView {
 
