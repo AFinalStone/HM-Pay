@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.hm.iou.base.utils.TraceUtil;
 import com.hm.iou.pay.R;
 import com.hm.iou.pay.business.timecard.TimeCardRechargeContract;
 import com.hm.iou.pay.comm.ITimeCardItem;
@@ -48,6 +49,7 @@ public class TimeCardListFooterHelper {
         mTvFirstTry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                TraceUtil.onEvent(mContext, "my_experience_click");
                 timeCardRechargePresenter.toFirstTry();
             }
         });

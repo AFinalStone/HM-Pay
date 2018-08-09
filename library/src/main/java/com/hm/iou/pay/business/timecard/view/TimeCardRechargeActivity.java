@@ -9,6 +9,7 @@ import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.hm.iou.base.BaseActivity;
+import com.hm.iou.base.utils.TraceUtil;
 import com.hm.iou.pay.R;
 import com.hm.iou.pay.R2;
 import com.hm.iou.pay.business.timecard.TimeCardRechargeContract;
@@ -73,6 +74,7 @@ public class TimeCardRechargeActivity extends BaseActivity<TimeCardRechargePrese
         mTopBar.setOnMenuClickListener(new HMTopBarView.OnTopBarMenuClickListener() {
             @Override
             public void onClickTextMenu() {
+                TraceUtil.onEvent(mContext, "my_charge_history_click");
                 Router.getInstance()
                         .buildWithUrl("hmiou://m.54jietiao.com/pay/history")
                         .navigation(mContext);
@@ -93,6 +95,13 @@ public class TimeCardRechargeActivity extends BaseActivity<TimeCardRechargePrese
         mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                if (position == 0) {
+                    TraceUtil.onEvent(mContext, "my_gold_click");
+                } else if (position == 1) {
+                    TraceUtil.onEvent(mContext, "my_silver_click");
+                } else if (position == 2) {
+                    TraceUtil.onEvent(mContext, "my_silver_click");
+                }
                 mPresenter.toAddTimeCardNum(position);
             }
         });
