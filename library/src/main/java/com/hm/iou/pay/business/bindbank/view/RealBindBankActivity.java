@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hm.iou.base.BaseActivity;
+import com.hm.iou.base.utils.TraceUtil;
 import com.hm.iou.pay.R;
 import com.hm.iou.pay.R2;
 import com.hm.iou.pay.business.bindbank.BankCardTextWatcher;
@@ -65,6 +66,7 @@ public class RealBindBankActivity extends BaseActivity<RealBindBankPresenter> im
 
     @Override
     protected void initEventAndData(Bundle bundle) {
+        TraceUtil.onEvent(this, "bank_page_show");
         mTopBarView.setOnMenuClickListener(new HMTopBarView.OnTopBarMenuClickListener() {
             @Override
             public void onClickTextMenu() {
@@ -148,6 +150,7 @@ public class RealBindBankActivity extends BaseActivity<RealBindBankPresenter> im
                         }
                     }).show();
         } else if (v.getId() == R.id.btn_four_element_submit) {
+            TraceUtil.onEvent(this, "bank_submit_count");
             mPresenter.doFourElementsRealName(mEtCardNo.getText().toString(), mEtMobile.getText().toString());
         }
     }
@@ -230,6 +233,7 @@ public class RealBindBankActivity extends BaseActivity<RealBindBankPresenter> im
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 finish();
+                TraceUtil.onEvent(mContext, "back_receive_awardreceive_award");
                 EventBus.getDefault().post(new BindBankSuccessEvent());
             }
         });

@@ -9,6 +9,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hm.iou.base.BaseActivity;
+import com.hm.iou.base.utils.TraceUtil;
 import com.hm.iou.pay.R;
 import com.hm.iou.pay.R2;
 
@@ -103,6 +104,7 @@ public class SelectPayTypeActivity extends BaseActivity<SelectPayTypePresenter> 
     public void onClick(View view) {
         int id = view.getId();
         if (R.id.rl_payByWX == id) {
+            TraceUtil.onEvent(this, "pay_wx_submit_click");
             mPresenter.createPayOrderByWx(mPackageId);
         } else if (R.id.iv_close == id) {
             onBackPressed();

@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import com.hm.iou.base.mvp.MvpActivityPresenter;
 import com.hm.iou.base.utils.CommSubscriber;
 import com.hm.iou.base.utils.RxUtil;
+import com.hm.iou.base.utils.TraceUtil;
 import com.hm.iou.pay.api.PayApi;
 import com.hm.iou.pay.bean.FourElementsVerifyStatus;
 import com.hm.iou.pay.business.bindbank.BindBinkContract;
@@ -43,6 +44,7 @@ public class BindBankPresenter extends MvpActivityPresenter<BindBinkContract.Vie
                     @Override
                     public void handleResult(FourElementsVerifyStatus status) {
                         mView.dismissLoadingView();
+                        TraceUtil.onEvent(mContext, "back_succ_count");
                         if (FourElementStatusEnumBean.NoBindBank.getStatus() == status.getStatus()) {
                             if (0 == status.getRetryTimes()) {
                                 mView.warnNoTimeToBindToday();
@@ -58,6 +60,7 @@ public class BindBankPresenter extends MvpActivityPresenter<BindBinkContract.Vie
 
                     @Override
                     public void handleException(Throwable throwable, String code, String errMsg) {
+                        TraceUtil.onEvent(mContext, "bank_fail_count");
                         mView.dismissLoadingView();
                         mView.closeCurrPage();
                     }
