@@ -66,6 +66,16 @@ public interface ExpendContract {
          * 刷新页面数据
          */
         void refresh();
+
+        /**
+         * 埋点操作,消耗一次签章按钮
+         */
+        void traceByClickExpendBtn();
+
+        /**
+         * 埋点操作,退出
+         */
+        void traceByClickExitBtn();
     }
 
     interface Presenter extends BaseContract.BasePresenter {

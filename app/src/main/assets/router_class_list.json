@@ -518,7 +518,7 @@
       "aclass": "com.hm.iou.pay.business.history.view.HistoryActivity"
     },
     {
-      "url": "hmiou://m.54jietiao.com/pay/expend_time_card_num",
+      "url": "hmiou://m.54jietiao.com/pay/expend_time_card_num?trace_type=",
       "iclass": "",
       "aclass": "com.hm.iou.pay.business.expend.view.ExpendActivity"
     },

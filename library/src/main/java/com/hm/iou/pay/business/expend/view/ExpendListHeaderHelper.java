@@ -26,12 +26,14 @@ public class ExpendListHeaderHelper {
         mHeaderView.findViewById(R.id.btn_expend).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                expendView.traceByClickExpendBtn();
                 expendPresenter.toExpendOnceTime();
             }
         });
         mHeaderView.findViewById(R.id.btn_exit).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                expendView.traceByClickExitBtn();
                 expendView.closeCurrPage();
             }
         });
