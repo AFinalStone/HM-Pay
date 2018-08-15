@@ -25,7 +25,6 @@
         android:layout_marginEnd="10dp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="25dp"
-        android:background="@drawable/uikit_bg_pic_loading_place"
         android:minHeight="153dp"
         android:scaleType="centerCrop"
         android:visibility="gone" />

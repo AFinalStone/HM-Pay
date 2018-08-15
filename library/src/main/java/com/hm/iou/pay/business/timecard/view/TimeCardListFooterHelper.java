@@ -71,8 +71,7 @@ public class TimeCardListFooterHelper {
     public void showAdvertisement(String adImageUrl, final String adLinkUrl) {
         mIvAdvertisement.setVisibility(View.VISIBLE);
         ImageLoader.getInstance(mContext)
-                .displayImage(adImageUrl, mIvAdvertisement, R.drawable.uikit_bg_pic_loading_place
-                        , R.drawable.uikit_bg_pic_loading_error);
+                .displayImage(adImageUrl, mIvAdvertisement);
         if (!TextUtils.isEmpty(adLinkUrl)) {
             mIvAdvertisement.setOnClickListener(new View.OnClickListener() {
                 @Override
