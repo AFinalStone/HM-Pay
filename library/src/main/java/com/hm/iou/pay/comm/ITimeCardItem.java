@@ -19,4 +19,6 @@ public interface ITimeCardItem {
      * @return
      */
     String getTimeCardDiscounts();
+
+    String getPackageId();
 }

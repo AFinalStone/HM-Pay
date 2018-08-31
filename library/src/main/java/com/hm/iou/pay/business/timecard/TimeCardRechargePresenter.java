@@ -245,6 +245,39 @@ public class TimeCardRechargePresenter extends MvpActivityPresenter<TimeCardRech
                 });
     }
 
+    @Override
+    public void getInwardPackage(String packageId) {
+        mView.showLoadingView();
+        PayApi.getInwardPackage(packageId)
+                .compose(getProvider().<BaseResponse<TimeCardBean>>bindUntilEvent(ActivityEvent.DESTROY))
+                .map(RxUtil.<TimeCardBean>handleResponse())
+                .subscribeWith(new CommSubscriber<TimeCardBean>(mView) {
+                    @Override
+                    public void handleResult(TimeCardBean data) {
+                        mView.dismissLoadingView();
+                        if (data != null) {
+                            String cardName = data.getTimeCardContent();
+                            String packageId = data.getPackageId();
+                            String addNum = data.getRechargeSign();
+
+                            String payMoney = "";
+                            try {
+                                payMoney = MoneyFormatUtil.changeF2Y(data.getActualPrice());
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+
+                            toSelectPayType(cardName, payMoney, addNum, packageId);
+                        }
+                    }
+
+                    @Override
+                    public void handleException(Throwable throwable, String s, String s1) {
+                        mView.dismissLoadingView();
+                    }
+                });
+    }
+
     /**
      * 选择支付方式
      *

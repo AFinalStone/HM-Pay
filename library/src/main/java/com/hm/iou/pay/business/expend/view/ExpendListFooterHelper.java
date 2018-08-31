@@ -26,13 +26,20 @@ public class ExpendListFooterHelper {
         mTvFirstTry = mFooterView.findViewById(R.id.tv_firstTry);
     }
 
-    public void showFirstTry(ITimeCardItem item, final ExpendContract.Presenter expendPresenter) {
+    public void showFirstTry(final ITimeCardItem item, final ExpendContract.Presenter expendPresenter) {
         mTvFirstTry.setVisibility(View.VISIBLE);
         mTvFirstTry.setText(item.getTimeCardContent());
         mTvFirstTry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 expendPresenter.toFirstTry();
+            }
+        });
+        mTvFirstTry.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                expendPresenter.getInwardPackage(item.getPackageId());
+                return true;
             }
         });
     }

@@ -106,5 +106,10 @@ public interface ExpendContract {
          * 首次体验
          */
         void toFirstTry();
+
+        /**
+         * 获取内部用户充值信息
+         */
+        void getInwardPackage(String packageId);
     }
 }

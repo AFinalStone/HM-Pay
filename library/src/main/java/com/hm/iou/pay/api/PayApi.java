@@ -5,11 +5,12 @@ import com.hm.iou.pay.bean.AdBean;
 import com.hm.iou.pay.bean.BindBankCardReqBean;
 import com.hm.iou.pay.bean.FourElementsVerifyStatus;
 import com.hm.iou.pay.bean.HistoryItemBean;
-import com.hm.iou.pay.bean.WxPayBean;
 import com.hm.iou.pay.bean.SearchTimeCardListResBean;
+import com.hm.iou.pay.bean.TimeCardBean;
 import com.hm.iou.pay.bean.WelfareAdvertiseBean;
-import com.hm.iou.pay.dict.ChannelEnumBean;
+import com.hm.iou.pay.bean.WxPayBean;
 import com.hm.iou.pay.bean.req.CreatePreparePayReqBean;
+import com.hm.iou.pay.dict.ChannelEnumBean;
 import com.hm.iou.sharedata.model.BaseResponse;
 
 import java.util.List;
@@ -135,4 +136,15 @@ public class PayApi {
     public static Flowable<BaseResponse<List<AdBean>>> getAdvertiseList(String adPosition) {
         return getService().getAdvertise(adPosition).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
+
+    /**
+     * 内部名单获取充值信息
+     *
+     * @param packageId 原充值套餐id
+     * @return
+     */
+    public static Flowable<BaseResponse<TimeCardBean>> getInwardPackage(String packageId) {
+        return getService().getInwardPackage(packageId).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+    }
+
 }

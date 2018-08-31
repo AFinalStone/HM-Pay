@@ -136,6 +136,17 @@ public class ExpendActivity extends BaseActivity<ExpendPresenter> implements Exp
                 mPresenter.toAddTimeCardNum(position);
             }
         });
+        mAdapter.setOnItemLongClickListener(new BaseQuickAdapter.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(BaseQuickAdapter adapter, View view, int position) {
+                ITimeCardItem data = (ITimeCardItem) adapter.getItem(position);
+                if (data == null)
+                    return false;
+                mPresenter.getInwardPackage(data.getPackageId());
+                return true;
+            }
+        });
+
         //设置下拉刷新监听
         mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override

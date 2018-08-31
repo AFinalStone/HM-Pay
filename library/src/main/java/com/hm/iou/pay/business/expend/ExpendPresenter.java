@@ -12,10 +12,10 @@ import com.hm.iou.pay.bean.SearchTimeCardListResBean;
 import com.hm.iou.pay.bean.TimeCardBean;
 import com.hm.iou.pay.comm.PaySPUtil;
 import com.hm.iou.pay.dict.FourElementStatusEnumBean;
-import com.hm.iou.sharedata.event.BindBankSuccessEvent;
 import com.hm.iou.pay.event.CancelBindBankEvent;
 import com.hm.iou.pay.event.PaySuccessEvent;
 import com.hm.iou.router.Router;
+import com.hm.iou.sharedata.event.BindBankSuccessEvent;
 import com.hm.iou.sharedata.model.BaseResponse;
 import com.hm.iou.tools.MoneyFormatUtil;
 import com.trello.rxlifecycle2.android.ActivityEvent;
@@ -226,6 +226,39 @@ public class ExpendPresenter extends MvpActivityPresenter<ExpendContract.View> i
         }
         String strTimeCardAddNum = timeCardBean.getRechargeSign();
         toSelectPayType(strTimeCardName, strTimeCardPayMoney, strTimeCardAddNum, strPackageId);
+    }
+
+    @Override
+    public void getInwardPackage(String packageId) {
+        mView.showLoadingView();
+        PayApi.getInwardPackage(packageId)
+                .compose(getProvider().<BaseResponse<TimeCardBean>>bindUntilEvent(ActivityEvent.DESTROY))
+                .map(RxUtil.<TimeCardBean>handleResponse())
+                .subscribeWith(new CommSubscriber<TimeCardBean>(mView) {
+                    @Override
+                    public void handleResult(TimeCardBean data) {
+                        mView.dismissLoadingView();
+                        if (data != null) {
+                            String cardName = data.getTimeCardContent();
+                            String packageId = data.getPackageId();
+                            String addNum = data.getRechargeSign();
+
+                            String payMoney = "";
+                            try {
+                                payMoney = MoneyFormatUtil.changeF2Y(data.getActualPrice());
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+
+                            toSelectPayType(cardName, payMoney, addNum, packageId);
+                        }
+                    }
+
+                    @Override
+                    public void handleException(Throwable throwable, String s, String s1) {
+                        mView.dismissLoadingView();
+                    }
+                });
     }
 
     /**

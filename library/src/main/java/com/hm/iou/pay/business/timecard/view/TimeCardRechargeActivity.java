@@ -105,6 +105,16 @@ public class TimeCardRechargeActivity extends BaseActivity<TimeCardRechargePrese
                 mPresenter.toAddTimeCardNum(position);
             }
         });
+        mAdapter.setOnItemLongClickListener(new BaseQuickAdapter.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(BaseQuickAdapter adapter, View view, int position) {
+                ITimeCardItem item = (ITimeCardItem) adapter.getItem(position);
+                if (item == null)
+                    return false;
+                mPresenter.getInwardPackage(item.getPackageId());
+                return true;
+            }
+        });
         //设置下拉刷新监听
         mRefreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override

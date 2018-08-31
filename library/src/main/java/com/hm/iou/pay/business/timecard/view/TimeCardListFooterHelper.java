@@ -43,7 +43,7 @@ public class TimeCardListFooterHelper {
      * @param item
      * @param timeCardRechargePresenter
      */
-    public void showFirstTry(ITimeCardItem item, final TimeCardRechargeContract.Presenter timeCardRechargePresenter) {
+    public void showFirstTry(final ITimeCardItem item, final TimeCardRechargeContract.Presenter timeCardRechargePresenter) {
         mTvFirstTry.setVisibility(View.VISIBLE);
         mTvFirstTry.setText(item.getTimeCardContent());
         mTvFirstTry.setOnClickListener(new View.OnClickListener() {
@@ -51,6 +51,13 @@ public class TimeCardListFooterHelper {
             public void onClick(View view) {
                 TraceUtil.onEvent(mContext, "my_experience_click");
                 timeCardRechargePresenter.toFirstTry();
+            }
+        });
+        mTvFirstTry.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                timeCardRechargePresenter.getInwardPackage(item.getPackageId());
+                return true;
             }
         });
     }
