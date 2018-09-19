@@ -142,7 +142,7 @@
                 style="@style/UikitButton.Bottom"
                 android:layout_marginTop="32dp"
                 android:enabled="false"
-                android:text="确认以上为本人信息" />
+                android:text="本人同意授权“条管家”查询" />
 
         </LinearLayout>
 
