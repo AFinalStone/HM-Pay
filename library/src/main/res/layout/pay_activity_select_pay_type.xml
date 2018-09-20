@@ -9,10 +9,10 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:background="@drawable/pay_shape_bg_select_pay_type"
-        android:orientation="vertical"
-        android:paddingLeft="20dp"
         android:clickable="true"
         android:focusable="true"
+        android:orientation="vertical"
+        android:paddingLeft="20dp"
         android:paddingRight="20dp">
 
         <LinearLayout
@@ -84,22 +84,13 @@
             <TextView
                 style="@style/UikitTextView"
                 android:layout_marginLeft="101dp"
-                android:layout_marginTop="11dp"
+                android:layout_centerVertical="true"
                 android:minHeight="17dp"
                 android:minWidth="58dp"
                 android:text="微信支付"
                 android:textColor="@color/white"
                 android:textSize="@dimen/textFontSize_14" />
 
-            <TextView
-                style="@style/UikitTextView"
-                android:layout_marginLeft="101dp"
-                android:layout_marginTop="31dp"
-                android:minHeight="9dp"
-                android:minWidth="76dp"
-                android:text="实时到账，支持代付"
-                android:textColor="@color/white"
-                android:textSize="@dimen/textFontSize_8" />
         </RelativeLayout>
 
         <LinearLayout
