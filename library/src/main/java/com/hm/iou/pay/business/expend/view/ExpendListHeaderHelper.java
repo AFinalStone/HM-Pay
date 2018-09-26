@@ -34,6 +34,9 @@ public class ExpendListHeaderHelper {
             @Override
             public void onClick(View view) {
                 expendView.traceByClickExitBtn();
+                Router.getInstance()
+                        .buildWithUrl("hmiou://m.54jietiao.com/main/index")
+                        .navigation(parentView.getContext());
                 expendView.closeCurrPage();
             }
         });
