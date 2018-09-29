@@ -83,10 +83,16 @@ public class TimeCardListFooterHelper {
             mIvAdvertisement.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Router.getInstance()
-                            .buildWithUrl("hmiou://m.54jietiao.com/webview/index")
-                            .withString("url", adLinkUrl)
-                            .navigation(mContext);
+                    if (adLinkUrl.startsWith("http")) {
+                        Router.getInstance()
+                                .buildWithUrl("hmiou://m.54jietiao.com/webview/index")
+                                .withString("url", adLinkUrl)
+                                .navigation(mContext);
+                    } else {
+                        Router.getInstance()
+                                .buildWithUrl(adLinkUrl)
+                                .navigation(mContext);
+                    }
                 }
             });
         }

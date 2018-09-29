@@ -217,10 +217,16 @@ public class RealBindBankActivity extends BaseActivity<RealBindBankPresenter> im
             mIvAd.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Router.getInstance()
-                            .buildWithUrl("hmiou://m.54jietiao.com/webview/index")
-                            .withString("url", linkUrl)
-                            .navigation(mContext);
+                    if (linkUrl.startsWith("http")) {
+                        Router.getInstance()
+                                .buildWithUrl("hmiou://m.54jietiao.com/webview/index")
+                                .withString("url", linkUrl)
+                                .navigation(mContext);
+                    } else {
+                        Router.getInstance()
+                                .buildWithUrl(linkUrl)
+                                .navigation(mContext);
+                    }
                 }
             });
         }
