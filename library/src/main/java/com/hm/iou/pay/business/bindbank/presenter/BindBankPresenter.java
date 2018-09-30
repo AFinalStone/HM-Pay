@@ -46,7 +46,7 @@ public class BindBankPresenter extends MvpActivityPresenter<BindBinkContract.Vie
         UserThirdPlatformInfo userThirdPlatformInfo = UserManager.getInstance(mContext).getUserExtendInfo().getThirdPlatformInfo();
         if (userThirdPlatformInfo != null) {
             UserThirdPlatformInfo.BankInfoRespBean bankInfoRespBean = userThirdPlatformInfo.getBankInfoResp();
-            if (bankInfoRespBean != null || 0 != bankInfoRespBean.getIsBinded()) {
+            if (bankInfoRespBean != null && 0 != bankInfoRespBean.getIsBinded()) {
                 //已绑定过银行卡
                 mView.showBinkBankInfo(bankInfoRespBean.getBankName(), bankInfoRespBean.getBankCard(), bankInfoRespBean.getBankCardType(), bankInfoRespBean.getBankPhone());
                 return;
