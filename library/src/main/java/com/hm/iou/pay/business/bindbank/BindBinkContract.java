@@ -14,6 +14,21 @@ public interface BindBinkContract {
          */
         void warnNoTimeToBindToday();
 
+        /**
+         * 显示实名认证对话框
+         */
+        void showAuthDialog();
+
+        /**
+         * 显示用户已绑定的银行卡信息
+         *
+         * @param bankCardName 银行名称
+         * @param bankCardCode 卡号
+         * @param bankCardType 类型
+         * @param phoneCode 手机号
+         */
+        void showBinkBankInfo(String bankCardName, String bankCardCode, String bankCardType, String phoneCode);
+
     }
 
     interface Presenter extends BaseContract.BasePresenter {
