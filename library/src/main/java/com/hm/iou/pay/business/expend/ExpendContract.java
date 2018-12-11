@@ -76,6 +76,11 @@ public interface ExpendContract {
          * 埋点操作,退出
          */
         void traceByClickExitBtn();
+
+        /**
+         * 提醒用户剩余签章数量已超过10个
+         */
+        void showSignCountMoreThanTen();
     }
 
     interface Presenter extends BaseContract.BasePresenter {

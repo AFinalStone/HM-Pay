@@ -9,7 +9,7 @@ public class Constants {
     /**
      * 用户充值协议
      */
-    public static final String H5_URL_RECHARGE_AGREEMENT = "/rechargeAgreement/index.html";
+    public static final String H5_URL_RECHARGE_AGREEMENT = "https://app.54jietiao.com/xieyi/3.html";
 
     public static final String SP_NAME = "hm_pay";
     //存储用户是否成功绑定过银行卡

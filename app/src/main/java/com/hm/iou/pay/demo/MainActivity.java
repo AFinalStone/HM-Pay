@@ -65,10 +65,10 @@ public class MainActivity extends Activity {
     }
 
     private void login() {
-        String pwd = MD5.hexdigest("123456".getBytes());
+        String pwd = MD5.hexdigest("111111".getBytes());
         MobileLoginReqBean reqBean = new MobileLoginReqBean();
-        reqBean.setMobile("17681832816");
-//        reqBean.setMobile("15967132742");
+//        reqBean.setMobile("13186975702");
+        reqBean.setMobile("15967132742");
         reqBean.setQueryPswd(pwd);
         HttpReqManager.getInstance().getService(LoginService.class)
                 .mobileLogin(reqBean)
@@ -77,6 +77,10 @@ public class MainActivity extends Activity {
                 .subscribe(new Consumer<BaseResponse<UserInfo>>() {
                     @Override
                     public void accept(BaseResponse<UserInfo> userInfoBaseResponse) throws Exception {
+                        if (userInfoBaseResponse.getErrorCode() != 0) {
+                            ToastUtil.showMessage(MainActivity.this, userInfoBaseResponse.getMessage());
+                            return;
+                        }
                         ToastUtil.showMessage(MainActivity.this, "登录成功");
                         UserInfo userInfo = userInfoBaseResponse.getData();
                         UserManager.getInstance(MainActivity.this).updateOrSaveUserInfo(userInfo);

@@ -39,6 +39,7 @@ public class TimeCardRechargePresenter extends MvpActivityPresenter<TimeCardRech
     private long mSignUnitPrice; //单价
     private TimeCardBean mFirstTryTimeCard; //首次体验
     private List<TimeCardBean> mListData = new ArrayList<>();
+    private SearchTimeCardListResBean mTimeCardInfo;
 
     public TimeCardRechargePresenter(@NonNull Context context, @NonNull TimeCardRechargeContract.View view) {
         super(context, view);
@@ -64,6 +65,7 @@ public class TimeCardRechargePresenter extends MvpActivityPresenter<TimeCardRech
                     @Override
                     public void handleResult(SearchTimeCardListResBean searchTimeCardListResBean) {
                         mView.hideInitLoading();
+                        mTimeCardInfo = searchTimeCardListResBean;
                         if (searchTimeCardListResBean == null) {
                             mView.enableRefresh(false);
                             mView.showInitFailed("数据异常");
@@ -121,6 +123,7 @@ public class TimeCardRechargePresenter extends MvpActivityPresenter<TimeCardRech
                 .subscribeWith(new CommSubscriber<SearchTimeCardListResBean>(mView) {
                     @Override
                     public void handleResult(SearchTimeCardListResBean searchTimeCardListResBean) {
+                        mTimeCardInfo = searchTimeCardListResBean;
                         mView.hidePullDownRefresh();
                         if (searchTimeCardListResBean == null) {
                             mView.showInitFailed("数据异常");
@@ -169,6 +172,11 @@ public class TimeCardRechargePresenter extends MvpActivityPresenter<TimeCardRech
 
     @Override
     public void toAddTimeCardNum(int position) {
+        if (mTimeCardInfo != null && mTimeCardInfo.getCountSign() > 10) {
+            mView.showSignCountMoreThanTen();
+            return;
+        }
+
         TimeCardBean timeCardBean;
         String strTimeCardName;
         if (position >= mListData.size()) {
@@ -191,6 +199,11 @@ public class TimeCardRechargePresenter extends MvpActivityPresenter<TimeCardRech
 
     @Override
     public void toFirstTry() {
+        if (mTimeCardInfo != null && mTimeCardInfo.getCountSign() > 10) {
+            mView.showSignCountMoreThanTen();
+            return;
+        }
+
         TimeCardBean timeCardBean;
         String strTimeCardName;
         if (mFirstTryTimeCard == null) {
@@ -247,6 +260,11 @@ public class TimeCardRechargePresenter extends MvpActivityPresenter<TimeCardRech
 
     @Override
     public void getInwardPackage(String packageId) {
+        if (mTimeCardInfo != null && mTimeCardInfo.getCountSign() > 10) {
+            mView.showSignCountMoreThanTen();
+            return;
+        }
+
         mView.showLoadingView();
         PayApi.getInwardPackage(packageId)
                 .compose(getProvider().<BaseResponse<TimeCardBean>>bindUntilEvent(ActivityEvent.DESTROY))

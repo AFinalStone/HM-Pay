@@ -3,6 +3,6 @@
     <string name="pay_give_up_real_name">通过高级认证会免费获得1次价值¥10的体验福利，如果不想放弃，请选择继续认证。</string>
     <string name="pay_remainder_sign_num">剩余签章次数</string>
     <string name="pay_user_read_and_agree">我已阅读并同意</string>
-    <string name="pay_user_pay_agreement">《安卓用户充值协议》</string>
+    <string name="pay_user_pay_agreement">《用户支付协议》</string>
 
 </resources>

@@ -1,5 +1,6 @@
 package com.hm.iou.pay.business.timecard.view;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -19,6 +20,7 @@ import com.hm.iou.pay.comm.TimeCardListAdapter;
 import com.hm.iou.router.Router;
 import com.hm.iou.uikit.HMLoadingView;
 import com.hm.iou.uikit.HMTopBarView;
+import com.hm.iou.uikit.dialog.IOSAlertDialog;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
@@ -203,5 +205,26 @@ public class TimeCardRechargeActivity extends BaseActivity<TimeCardRechargePrese
     @Override
     public void refresh() {
         mRefreshLayout.autoRefresh();
+    }
+
+    @Override
+    public void showSignCountMoreThanTen() {
+        new IOSAlertDialog.Builder(this)
+                .setMessage("剩余签章数量已经超过10个，请用完再购买。")
+                .setPositiveButton("购买联系", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        Router.getInstance().buildWithUrl("hmiou://m.54jietiao.com/person/helper_center")
+                                .navigation(TimeCardRechargeActivity.this);
+                    }
+                })
+                .setNegativeButton("感谢提醒", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .show();
     }
 }

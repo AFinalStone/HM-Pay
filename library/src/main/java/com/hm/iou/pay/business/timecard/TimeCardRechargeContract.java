@@ -79,6 +79,11 @@ public interface TimeCardRechargeContract {
          * 刷新页面数据
          */
         void refresh();
+
+        /**
+         * 提醒用户剩余签章数量已超过10个
+         */
+        void showSignCountMoreThanTen();
     }
 
     interface Presenter extends BaseContract.BasePresenter {

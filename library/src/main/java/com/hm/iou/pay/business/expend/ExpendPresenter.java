@@ -44,6 +44,8 @@ public class ExpendPresenter extends MvpActivityPresenter<ExpendContract.View> i
     private List<TimeCardBean> mListData = new ArrayList<>();
     private long mRemainNum;//剩余次数
 
+    private SearchTimeCardListResBean mTimeCardInfo;
+
     public ExpendPresenter(@NonNull Context context, @NonNull ExpendContract.View view) {
         super(context, view);
         EventBus.getDefault().register(this);
@@ -67,6 +69,8 @@ public class ExpendPresenter extends MvpActivityPresenter<ExpendContract.View> i
                 .subscribeWith(new CommSubscriber<SearchTimeCardListResBean>(mView) {
                     @Override
                     public void handleResult(SearchTimeCardListResBean searchTimeCardListResBean) {
+                        mTimeCardInfo = searchTimeCardListResBean;
+
                         mView.hideInitLoading();
                         if (searchTimeCardListResBean == null) {
                             mView.enableRefresh(false);
@@ -126,6 +130,8 @@ public class ExpendPresenter extends MvpActivityPresenter<ExpendContract.View> i
                 .subscribeWith(new CommSubscriber<SearchTimeCardListResBean>(mView) {
                     @Override
                     public void handleResult(SearchTimeCardListResBean searchTimeCardListResBean) {
+                        mTimeCardInfo = searchTimeCardListResBean;
+
                         mView.hidePullDownRefresh();
                         if (searchTimeCardListResBean == null) {
                             mView.showInitFailed("数据异常");
@@ -175,6 +181,11 @@ public class ExpendPresenter extends MvpActivityPresenter<ExpendContract.View> i
 
     @Override
     public void toAddTimeCardNum(int position) {
+        if (mTimeCardInfo != null && mTimeCardInfo.getCountSign() > 10) {
+            mView.showSignCountMoreThanTen();
+            return;
+        }
+
         TimeCardBean timeCardBean;
         String strTimeCardName;
         if (position >= mListData.size()) {
@@ -207,6 +218,11 @@ public class ExpendPresenter extends MvpActivityPresenter<ExpendContract.View> i
 
     @Override
     public void toFirstTry() {
+        if (mTimeCardInfo != null && mTimeCardInfo.getCountSign() > 10) {
+            mView.showSignCountMoreThanTen();
+            return;
+        }
+
         TimeCardBean timeCardBean;
         String strTimeCardName;
         if (mFirstTryTimeCard == null) {
@@ -230,6 +246,11 @@ public class ExpendPresenter extends MvpActivityPresenter<ExpendContract.View> i
 
     @Override
     public void getInwardPackage(String packageId) {
+        if (mTimeCardInfo != null && mTimeCardInfo.getCountSign() > 10) {
+            mView.showSignCountMoreThanTen();
+            return;
+        }
+
         mView.showLoadingView();
         PayApi.getInwardPackage(packageId)
                 .compose(getProvider().<BaseResponse<TimeCardBean>>bindUntilEvent(ActivityEvent.DESTROY))
