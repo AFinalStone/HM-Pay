@@ -33,6 +33,9 @@ import butterknife.BindView;
 public class ExpendActivity extends BaseActivity<ExpendPresenter> implements ExpendContract.View {
 
     public static final String EXTRA_KEY_TRACE_TYPE = "trace_type";
+    //控制消费之后，验证签约密码时，不进行其他跳转，如签章选择等待，直接返回密码校验成功。只有当值为1时才生效，其他都是默认效果
+    public static final String EXTRA_KEY_VERIFY_SIGNATURE_ONLY = "verify_sign_only";
+
     private static final int REQ_OPEN_SELECT_PAY_TYPE = 100;
 
     @BindView(R2.id.topBar)
@@ -49,6 +52,7 @@ public class ExpendActivity extends BaseActivity<ExpendPresenter> implements Exp
     private ExpendListFooterHelper mExpendListFooterHelper;
 
     private String mTraceType;  //埋点类型
+    private String mVerifyPwdType;      //只有当值为"1"时，才生效
 
     @Override
     protected int getLayoutId() {
@@ -64,17 +68,20 @@ public class ExpendActivity extends BaseActivity<ExpendPresenter> implements Exp
     @Override
     protected void initEventAndData(Bundle bundle) {
         mTraceType = getIntent().getStringExtra(EXTRA_KEY_TRACE_TYPE);
+        mVerifyPwdType = getIntent().getStringExtra(EXTRA_KEY_VERIFY_SIGNATURE_ONLY);
         if (bundle != null) {
             mTraceType = bundle.getString(EXTRA_KEY_TRACE_TYPE);
+            mVerifyPwdType = bundle.getString(EXTRA_KEY_VERIFY_SIGNATURE_ONLY);
         }
         initView();
-        mPresenter.init();
+        mPresenter.init(mVerifyPwdType);
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putString(EXTRA_KEY_TRACE_TYPE, mTraceType);
+        outState.putString(EXTRA_KEY_VERIFY_SIGNATURE_ONLY, mVerifyPwdType);
     }
 
     @Override
@@ -239,7 +246,7 @@ public class ExpendActivity extends BaseActivity<ExpendPresenter> implements Exp
         mLoadingInitView.showDataFail(errorMsg, new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mPresenter.init();
+                mPresenter.init(mVerifyPwdType);
             }
         });
     }

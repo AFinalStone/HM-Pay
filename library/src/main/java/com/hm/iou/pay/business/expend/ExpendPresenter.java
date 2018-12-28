@@ -16,6 +16,7 @@ import com.hm.iou.pay.event.CancelBindBankEvent;
 import com.hm.iou.pay.event.PaySuccessEvent;
 import com.hm.iou.router.Router;
 import com.hm.iou.sharedata.event.BindBankSuccessEvent;
+import com.hm.iou.sharedata.event.CommBizEvent;
 import com.hm.iou.sharedata.model.BaseResponse;
 import com.hm.iou.tools.MoneyFormatUtil;
 import com.trello.rxlifecycle2.android.ActivityEvent;
@@ -38,8 +39,10 @@ import io.reactivex.disposables.Disposable;
  */
 public class ExpendPresenter extends MvpActivityPresenter<ExpendContract.View> implements ExpendContract.Presenter {
 
+    //只有当该值为"1"时，消费时才只会校验签约密码，不会让选择签章
+    private String mVerifyPwdType;
+
     private Disposable mListDisposable;
-    private long mSignUnitPrice; //单价
     private TimeCardBean mFirstTryTimeCard; //首次体验
     private List<TimeCardBean> mListData = new ArrayList<>();
     private long mRemainNum;//剩余次数
@@ -58,7 +61,9 @@ public class ExpendPresenter extends MvpActivityPresenter<ExpendContract.View> i
     }
 
     @Override
-    public void init() {
+    public void init(String verifyPwdType) {
+        mVerifyPwdType = verifyPwdType;
+
         if (mListDisposable != null && !mListDisposable.isDisposed()) {
             mListDisposable.dispose();
         }
@@ -77,7 +82,6 @@ public class ExpendPresenter extends MvpActivityPresenter<ExpendContract.View> i
                             mView.showInitFailed("数据异常");
                             return;
                         }
-                        mSignUnitPrice = searchTimeCardListResBean.getSignUnitPrice();
                         //初次体验
                         mFirstTryTimeCard = searchTimeCardListResBean.getFirstPackage();
                         if (mFirstTryTimeCard != null) {
@@ -344,8 +348,13 @@ public class ExpendPresenter extends MvpActivityPresenter<ExpendContract.View> i
      * 校验签约密码，选择签章类型，然后创建电子PDF
      */
     private void toCheckSignPsd() {
+        //默认会去选择签章
+        String redirectUrl = "hmiou://m.54jietiao.com/signature/signature_list_select";
+        if ("1".equals(mVerifyPwdType)) {
+            redirectUrl = "";
+        }
         Router.getInstance().buildWithUrl("hmiou://m.54jietiao.com/signature/check_sign_psd_from_bottom")
-                .withString("url", "hmiou://m.54jietiao.com/signature/signature_list_select")
+                .withString("url", redirectUrl)
                 .navigation(mContext);
     }
 
@@ -366,8 +375,13 @@ public class ExpendPresenter extends MvpActivityPresenter<ExpendContract.View> i
      */
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvenBusBindBankSuccess(BindBankSuccessEvent bindBankSuccessEvent) {
-        Router.getInstance().buildWithUrl("hmiou://m.54jietiao.com/signature/signature_list_select")
+        if ("1".equals(mVerifyPwdType)) {
+            Router.getInstance().buildWithUrl("hmiou://m.54jietiao.com/signature/check_sign_psd_from_bottom")
+                    .navigation(mContext);
+        } else {
+            Router.getInstance().buildWithUrl("hmiou://m.54jietiao.com/signature/signature_list_select")
                 .navigation(mContext);
+        }
     }
 
     /**
@@ -378,6 +392,16 @@ public class ExpendPresenter extends MvpActivityPresenter<ExpendContract.View> i
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvenBusUserCancelBindBank(CancelBindBankEvent cancelBindBankEvent) {
         toCheckSignPsd();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvenBusSignatureSelectResult(CommBizEvent commBizEvent) {
+        if ("Signature_signatureSelectResult".equals(commBizEvent.key)) {
+            String signatureId = commBizEvent.content;
+            if ("1".equals(mVerifyPwdType)) {
+                mView.closeCurrPage();
+            }
+        }
     }
 
 }

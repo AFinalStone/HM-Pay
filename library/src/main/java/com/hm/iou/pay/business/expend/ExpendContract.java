@@ -88,7 +88,7 @@ public interface ExpendContract {
         /**
          * 初始化
          */
-        void init();
+        void init(String verifyPwdType);
 
         /**
          * 刷新数据
