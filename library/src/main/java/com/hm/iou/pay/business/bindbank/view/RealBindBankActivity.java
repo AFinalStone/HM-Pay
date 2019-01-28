@@ -22,6 +22,7 @@ import com.hm.iou.pay.event.CancelBindBankEvent;
 import com.hm.iou.router.Router;
 import com.hm.iou.tools.ImageLoader;
 import com.hm.iou.uikit.HMTopBarView;
+import com.hm.iou.uikit.dialog.HMAlertDialog;
 import com.hm.iou.uikit.dialog.IOSAlertDialog;
 import com.jakewharton.rxbinding2.widget.RxTextView;
 
@@ -177,33 +178,37 @@ public class RealBindBankActivity extends BaseActivity<RealBindBankPresenter> im
 
     @Override
     public void showAuthFailRetryDialog(String msg) {
-        new IOSAlertDialog.Builder(this)
+        new HMAlertDialog.Builder(this)
                 .setTitle("管家提醒")
                 .setMessage(msg)
-                .setPositiveButton("再给一次机会", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                })
+                .setPositiveButton("再给一次机会")
                 .setCancelable(false)
+                .setCanceledOnTouchOutside(false)
+                .create()
                 .show();
     }
 
     @Override
     public void showAuthFailExceedCount(String msg) {
-        new IOSAlertDialog.Builder(this)
+        new HMAlertDialog.Builder(this)
                 .setTitle("管家提醒")
                 .setMessage(msg)
-                .setPositiveButton("下一步", new DialogInterface.OnClickListener() {
+                .setPositiveButton("下一步")
+                .setOnClickListener(new HMAlertDialog.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
+                    public void onPosClick() {
                         closeCurrPage();
                         EventBus.getDefault().post(new CancelBindBankEvent());
                     }
+
+                    @Override
+                    public void onNegClick() {
+
+                    }
                 })
                 .setCancelable(false)
+                .setCanceledOnTouchOutside(false)
+                .create()
                 .show();
     }
 
@@ -250,23 +255,25 @@ public class RealBindBankActivity extends BaseActivity<RealBindBankPresenter> im
      * 点击左上角叉叉放弃实名认证
      */
     private void doGiveUpRealName() {
-        new IOSAlertDialog.Builder(this)
+        new HMAlertDialog.Builder(this)
                 .setTitle("放弃福利")
                 .setMessage(getString(R.string.pay_give_up_real_name))
-                .setPositiveButton("继续认证", new DialogInterface.OnClickListener() {
+                .setPositiveButton("继续认证")
+                .setNegativeButton("以后再说")
+                .setOnClickListener(new HMAlertDialog.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
+                    public void onPosClick() {
+
                     }
-                })
-                .setNegativeButton("以后再说", new DialogInterface.OnClickListener() {
+
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
+                    public void onNegClick() {
                         closeCurrPage();
                         EventBus.getDefault().post(new CancelBindBankEvent());
                     }
-                }).show();
+                })
+                .create()
+                .show();
     }
 
 }

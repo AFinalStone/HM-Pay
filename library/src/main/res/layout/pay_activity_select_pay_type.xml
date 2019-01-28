@@ -140,7 +140,7 @@
             android:layout_height="60dp"
             android:layout_gravity="center"
             android:padding="23dp"
-            android:src="@mipmap/pay_icon_close" />
+            android:src="@mipmap/uikit_icon_close_black" />
     </LinearLayout>
 
 
