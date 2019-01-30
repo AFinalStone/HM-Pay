@@ -3,6 +3,7 @@ package com.hm.iou.pay.business.bindbank.view;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -15,15 +16,14 @@ import com.hm.iou.base.utils.TraceUtil;
 import com.hm.iou.pay.R;
 import com.hm.iou.pay.R2;
 import com.hm.iou.pay.business.bindbank.BankCardTextWatcher;
-import com.hm.iou.pay.business.bindbank.presenter.RealBindBankPresenter;
 import com.hm.iou.pay.business.bindbank.RealBindBinkContract;
-import com.hm.iou.sharedata.event.BindBankSuccessEvent;
+import com.hm.iou.pay.business.bindbank.presenter.RealBindBankPresenter;
 import com.hm.iou.pay.event.CancelBindBankEvent;
 import com.hm.iou.router.Router;
+import com.hm.iou.sharedata.event.BindBankSuccessEvent;
 import com.hm.iou.tools.ImageLoader;
 import com.hm.iou.uikit.HMTopBarView;
 import com.hm.iou.uikit.dialog.HMAlertDialog;
-import com.hm.iou.uikit.dialog.IOSAlertDialog;
 import com.jakewharton.rxbinding2.widget.RxTextView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -124,32 +124,21 @@ public class RealBindBankActivity extends BaseActivity<RealBindBankPresenter> im
     @OnClick(value = {R2.id.iv_fourelement_name_i, R2.id.iv_fourelement_cardno_i, R2.id.iv_fourelement_mobile_i, R2.id.btn_four_element_submit})
     void onClick(View v) {
         if (v.getId() == R.id.iv_fourelement_name_i) {
-            new IOSAlertDialog.Builder(this)
+            new HMAlertDialog.Builder(this)
                     .setMessage("信息必须是本人资料")
-                    .setPositiveButton("知道了", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    }).show();
+                    .setMessageGravity(Gravity.CENTER)
+                    .setPositiveButton("知道了")
+                    .create().show();
         } else if (v.getId() == R.id.iv_fourelement_cardno_i) {
-            new IOSAlertDialog.Builder(this)
+            new HMAlertDialog.Builder(this)
                     .setMessage(mPresenter.isCardNoInputError() ? "银行卡必须“62”或“60”开头" : "银行卡必须“62”或“60”开头16-19位纯数字")
-                    .setPositiveButton("知道了", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    }).show();
+                    .setMessageGravity(Gravity.CENTER)
+                    .setPositiveButton("知道了").create().show();
         } else if (v.getId() == R.id.iv_fourelement_mobile_i) {
-            new IOSAlertDialog.Builder(this)
+            new HMAlertDialog.Builder(this)
                     .setMessage(mPresenter.isMobileInputError() ? "请使用正常号段的手机号码" : "必须为本人的11位纯数字手机号")
-                    .setPositiveButton("知道了", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    }).show();
+                    .setMessageGravity(Gravity.CENTER)
+                    .setPositiveButton("知道了").create().show();
         } else if (v.getId() == R.id.btn_four_element_submit) {
             TraceUtil.onEvent(this, "bank_submit_count");
             mPresenter.doFourElementsRealName(mEtCardNo.getText().toString(), mEtMobile.getText().toString());
