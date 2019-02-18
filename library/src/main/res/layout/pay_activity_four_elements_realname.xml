@@ -56,7 +56,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginRight="5dp"
-                    android:src="@mipmap/pay_auth_v_flag" />
+                    android:src="@mipmap/uikit_auth_v_flag" />
 
                 <View
                     android:layout_width="0dp"
