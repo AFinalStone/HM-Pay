@@ -98,7 +98,7 @@ public class SelectPayTypePresenter extends MvpActivityPresenter<SelectPayTypeCo
                         mView.dismissLoadingView();
                         if (OrderPayStatusEnumBean.PaySuccess.getStatus().equals(code)) {
                             EventBus.getDefault().post(new PaySuccessEvent());
-                            mView.closeCurrPage();
+                            mView.closePageByPaySuccess();
                         } else if (OrderPayStatusEnumBean.PayFailed.getStatus().equals(code)) {
                             if (mTimeCountDownDisposable != null && !mTimeCountDownDisposable.isDisposed()) {
                                 mTimeCountDownDisposable.dispose();
