@@ -4,11 +4,6 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="15dp"
-        android:background="@color/uikit_background" />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="150dp"
@@ -20,20 +15,22 @@
             style="@style/UikitTextView"
             android:minHeight="70dp"
             android:minWidth="30dp"
-            android:text="3"
+            android:textColor="@color/uikit_text_sub_content"
+            android:text="0"
             android:textSize="50dp" />
 
         <TextView
             style="@style/UikitTextView"
+            android:textColor="@color/uikit_text_sub_content"
             android:minHeight="22dp"
             android:minWidth="96dp"
             android:text="@string/pay_remainder_sign_num"
-            android:textSize="@dimen/textFontSize_16" />
+            android:textSize="@dimen/textFontSize_18" />
     </LinearLayout>
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="15dp"
+        android:layout_height="6dp"
         android:background="@color/uikit_background" />
 
     <LinearLayout
@@ -43,25 +40,25 @@
         android:orientation="horizontal">
 
         <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="14dip"
+            android:layout_height="14dip"
             android:layout_marginLeft="10dp"
-            android:padding="10dp"
-            android:src="@mipmap/uikit_icon_check_green" />
+            android:scaleType="fitXY"
+            android:src="@mipmap/uikit_icon_check_black" />
 
         <TextView
-            style="@style/UikitTextView"
-            android:minHeight="20dp"
+            style="@style/UikitTextView.Auxiliary.Small"
+            android:textColor="@color/uikit_text_sub_content"
             android:text="@string/pay_user_read_and_agree"
-            android:textSize="@dimen/textFontSize_14" />
+            android:layout_marginLeft="10dip"
+            />
 
         <TextView
             android:id="@+id/tv_rechargeAgreement"
-            style="@style/UikitTextView"
-            android:minHeight="20dp"
+            style="@style/UikitTextView.Auxiliary.Small"
+            android:textColor="@color/uikit_text_sub_content"
             android:text="@string/pay_user_pay_agreement"
-            android:textColor="@color/uikit_blue"
-            android:textSize="@dimen/textFontSize_14" />
+            />
     </LinearLayout>
 
 </LinearLayout>

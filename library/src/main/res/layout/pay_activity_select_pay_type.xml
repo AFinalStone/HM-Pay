@@ -19,14 +19,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
+            android:paddingLeft="15dip"
+            android:paddingRight="15dip"
             android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/tv_payTimeCardNum"
                 style="@style/UikitTextView"
-                android:minHeight="28dp"
-                android:minWidth="69dp"
-                android:textSize="@dimen/textFontSize_20"
+                android:textSize="@dimen/textFontSize_18"
                 tools:text="充值1次" />
 
             <View
@@ -37,39 +37,33 @@
             <TextView
                 android:id="@+id/tv_payTimeCardMoney"
                 style="@style/UikitTextView"
-                android:minHeight="42dp"
-                android:minWidth="49dp"
                 android:textSize="@dimen/textFontSize_30"
                 tools:text="¥10" />
         </LinearLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:layout_marginTop="10dp"
-            android:background="#979797" />
-
         <TextView
             android:id="@+id/tv_payTimeCardDesc"
             style="@style/UikitTextView"
-            android:layout_marginLeft="20dp"
             android:layout_marginTop="16dp"
             android:text="包含以下服务："
-            android:textSize="@dimen/textFontSize_16" />
+            android:textSize="@dimen/textFontSize_14"
+            android:paddingLeft="15dip"
+            android:paddingRight="15dip"
+            />
 
         <TextView
-            style="@style/UikitTextView"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="18dp"
+            style="@style/UikitTextView.Auxiliary.Small"
+            android:layout_marginTop="10dp"
             android:lineSpacingMultiplier="1.3"
+            android:paddingLeft="15dip"
+            android:paddingRight="15dip"
             android:text="CA签章（付费）\n可信时间戳（付费）\nPDF文件加密（付费）\n泰康保险（付费）\n国立公证处（付费）\n实名认证（付费）\n电子合同多地同步备份（付费）"
-            android:textColor="#737373"
-            android:textSize="@dimen/textFontSize_12" />
+            />
 
         <RelativeLayout
             android:id="@+id/rl_payByWX"
             android:layout_width="239dp"
-            android:layout_height="51dp"
+            android:layout_height="48dip"
             android:layout_marginTop="18dp"
             android:background="@drawable/pay_selector_btn_pay_by_wx"
             android:visibility="visible">
@@ -104,30 +98,22 @@
 
             <Button
                 android:id="@+id/btn_checkPayResult"
-                style="@style/UikitButton"
+                style="@style/UikitHMButton.Large.Main"
                 android:layout_marginTop="18dp"
-                android:background="@drawable/pay_selector_btn_check_pay_result"
-                android:minHeight="43dp"
                 android:minWidth="239dp"
                 android:text="手动校验  30:00"
-                android:textColor="@color/uikit_text_common_color"
-                android:textSize="@dimen/textFontSize_16"
                 android:visibility="gone" />
 
             <Button
                 android:id="@+id/btn_payFailed"
-                style="@style/UikitButton"
+                style="@style/UikitHMButton.Large.Main"
                 android:layout_marginTop="18dp"
-                android:background="@drawable/pay_selector_btn_check_pay_result"
-                android:minHeight="43dp"
                 android:minWidth="239dp"
                 android:text="支付失败，重新支付"
-                android:textColor="@color/uikit_text_common_color"
-                android:textSize="@dimen/textFontSize_16"
                 android:visibility="gone" />
 
             <TextView
-                style="@style/UikitTextView"
+                style="@style/UikitTextView.Auxiliary.Small"
                 android:layout_marginTop="22dp"
                 android:minHeight="17dp"
                 android:text="30分钟内不支付，订单自动关闭。"

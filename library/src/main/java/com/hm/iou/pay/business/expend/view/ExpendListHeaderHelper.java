@@ -1,5 +1,6 @@
 package com.hm.iou.pay.business.expend.view;
 
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,7 +40,12 @@ public class ExpendListHeaderHelper {
                 expendView.closeCurrPage();
             }
         });
-        mHeaderView.findViewById(R.id.tv_rechargeAgreement).setOnClickListener(new View.OnClickListener() {
+
+
+        TextView tvAgreement = mHeaderView.findViewById(R.id.tv_rechargeAgreement);
+        tvAgreement.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
+        tvAgreement.getPaint().setAntiAlias(true);
+        tvAgreement.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Router.getInstance()

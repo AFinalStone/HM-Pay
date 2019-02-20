@@ -19,9 +19,9 @@ public class TimeCardListAdapter extends BaseQuickAdapter<ITimeCardItem, BaseVie
 
     public TimeCardListAdapter(Context context) {
         super(R.layout.pay_item_time_card_recharge);
-        mContentColorUnSelect = context.getResources().getColor(R.color.uikit_text_common_color);
-        mMoneyColorUnSelect = context.getResources().getColor(R.color.uikit_text_hint_common_color);
-        mColorSelect = context.getResources().getColor(R.color.uikit_red);
+        mContentColorUnSelect = context.getResources().getColor(R.color.uikit_text_auxiliary);
+        mMoneyColorUnSelect = context.getResources().getColor(R.color.uikit_text_hint);
+        mColorSelect = 0xfff8f8f9;
     }
 
     @Override

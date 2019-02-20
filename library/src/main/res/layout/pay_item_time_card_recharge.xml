@@ -14,15 +14,15 @@
 
     <TextView
         android:id="@+id/tv_timeCardNum"
-        style="@style/UikitTextView"
-        android:textSize="@dimen/textFontSize_16"
+        style="@style/UikitTextView.Auxiliary.Normal"
+        android:textSize="@dimen/textFontSize_14"
         tools:text="5次卡" />
 
     <TextView
         android:id="@+id/tv_discountsMoney"
         style="@style/UikitTextView"
         android:layout_marginTop="2dp"
-        android:textColor="@color/uikit_text_hint_common_color"
+        android:textColor="@color/uikit_text_hint"
         android:textSize="@dimen/textFontSize_12"
         tools:text="优惠¥10" />
 

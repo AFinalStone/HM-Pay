@@ -1,5 +1,6 @@
 package com.hm.iou.pay.business.timecard.view;
 
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +22,10 @@ public class TimeCardListHeaderHelper {
     public TimeCardListHeaderHelper(final ViewGroup parentView) {
         mHeaderView = LayoutInflater.from(parentView.getContext()).inflate(R.layout.pay_item_time_card_recharge_header, parentView, false);
         mTvRemainderNum = mHeaderView.findViewById(R.id.tv_remainderNum);
-        mHeaderView.findViewById(R.id.tv_rechargeAgreement).setOnClickListener(new View.OnClickListener() {
+        TextView tvAgreement = mHeaderView.findViewById(R.id.tv_rechargeAgreement);
+        tvAgreement.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
+        tvAgreement.getPaint().setAntiAlias(true);
+        tvAgreement.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Router.getInstance()
