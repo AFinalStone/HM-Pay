@@ -47,6 +47,11 @@ public interface SelectPayTypeContract {
          */
         void setCheckPayResultBtnEnable(boolean enable);
 
+        /**
+         * 支付成功关闭页面
+         */
+        void closePageByPaySuccess();
+
     }
 
     interface Presenter extends BaseContract.BasePresenter {
