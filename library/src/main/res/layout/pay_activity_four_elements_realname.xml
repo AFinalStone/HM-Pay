@@ -57,6 +57,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginRight="5dp"
+                    android:visibility="gone"
                     android:src="@mipmap/uikit_auth_v_flag" />
 
                 <View
