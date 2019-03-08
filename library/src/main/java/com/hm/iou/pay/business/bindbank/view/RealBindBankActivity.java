@@ -2,13 +2,11 @@ package com.hm.iou.pay.business.bindbank.view;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hm.iou.base.BaseActivity;
@@ -21,7 +19,6 @@ import com.hm.iou.pay.business.bindbank.presenter.RealBindBankPresenter;
 import com.hm.iou.pay.event.CancelBindBankEvent;
 import com.hm.iou.router.Router;
 import com.hm.iou.sharedata.event.BindBankSuccessEvent;
-import com.hm.iou.tools.ImageLoader;
 import com.hm.iou.uikit.HMTopBarView;
 import com.hm.iou.uikit.dialog.HMAlertDialog;
 import com.jakewharton.rxbinding2.widget.RxTextView;
@@ -40,8 +37,6 @@ public class RealBindBankActivity extends BaseActivity<RealBindBankPresenter> im
 
     @BindView(R2.id.topBar)
     HMTopBarView mTopBarView;
-    @BindView(R2.id.iv_foureelement_ad)
-    ImageView mIvAd;
     @BindView(R2.id.tv_fourelement_name)
     TextView mTvName;
     @BindView(R2.id.et_fourelement_cardno)
@@ -88,12 +83,6 @@ public class RealBindBankActivity extends BaseActivity<RealBindBankPresenter> im
             }
         });
 
-        LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) mIvAd.getLayoutParams();
-        int w = getResources().getDisplayMetrics().widthPixels;
-        params.width = w;
-        params.height = (int) (w * 76f / 375);
-        mIvAd.setLayoutParams(params);
-
         RxTextView.textChanges(mEtMobile).subscribe(new Consumer<CharSequence>() {
             @Override
             public void accept(CharSequence charSequence) throws Exception {
@@ -113,7 +102,6 @@ public class RealBindBankActivity extends BaseActivity<RealBindBankPresenter> im
         });
 
         mPresenter.getUserRealName();
-        mPresenter.getTopAd();
     }
 
     @Override
@@ -198,31 +186,6 @@ public class RealBindBankActivity extends BaseActivity<RealBindBankPresenter> im
                 .setCanceledOnTouchOutside(false)
                 .create()
                 .show();
-    }
-
-    @Override
-    public void showTopAd(String adUrl, final String linkUrl) {
-        if (TextUtils.isEmpty(adUrl)) {
-            return;
-        }
-        ImageLoader.getInstance(this).displayImage(adUrl, mIvAd);
-        if (!TextUtils.isEmpty(linkUrl)) {
-            mIvAd.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (linkUrl.startsWith("http")) {
-                        Router.getInstance()
-                                .buildWithUrl("hmiou://m.54jietiao.com/webview/index")
-                                .withString("url", linkUrl)
-                                .navigation(mContext);
-                    } else {
-                        Router.getInstance()
-                                .buildWithUrl(linkUrl)
-                                .navigation(mContext);
-                    }
-                }
-            });
-        }
     }
 
     @Override

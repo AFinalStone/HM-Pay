@@ -8,18 +8,14 @@ import com.hm.iou.base.mvp.MvpActivityPresenter;
 import com.hm.iou.base.utils.CommSubscriber;
 import com.hm.iou.base.utils.RxUtil;
 import com.hm.iou.logger.Logger;
-import com.hm.iou.pay.Constants;
 import com.hm.iou.pay.R;
 import com.hm.iou.pay.api.PayApi;
-import com.hm.iou.pay.bean.AdBean;
 import com.hm.iou.pay.bean.WelfareAdvertiseBean;
 import com.hm.iou.pay.business.bindbank.RealBindBinkContract;
 import com.hm.iou.pay.comm.PaySPUtil;
 import com.hm.iou.sharedata.UserManager;
 import com.hm.iou.sharedata.model.BaseResponse;
 import com.trello.rxlifecycle2.android.ActivityEvent;
-
-import java.util.List;
 
 /**
  * Created by hjy on 2018/7/16.
@@ -43,36 +39,6 @@ public class RealBindBankPresenter extends MvpActivityPresenter<RealBindBinkCont
     public void getUserRealName() {
         String userName = UserManager.getInstance(mContext).getUserInfo().getName();
         mView.showUserName(userName);
-    }
-
-    @Override
-    public void getTopAd() {
-        PayApi.getAdvertiseList(Constants.AD_POSITION_FOUR_ELEMENTS)
-                .compose(getProvider().<BaseResponse<List<AdBean>>>bindUntilEvent(ActivityEvent.DESTROY))
-                .map(RxUtil.<List<AdBean>>handleResponse())
-                .subscribeWith(new CommSubscriber<List<AdBean>>(mView) {
-                    @Override
-                    public void handleResult(List<AdBean> list) {
-                        if (list != null && !list.isEmpty()) {
-                            AdBean bean = list.get(0);
-                            mView.showTopAd(bean.getUrl(), bean.getLinkUrl());
-                        }
-                    }
-
-                    @Override
-                    public void handleException(Throwable throwable, String s, String s1) {
-                    }
-
-                    @Override
-                    public boolean isShowCommError() {
-                        return false;
-                    }
-
-                    @Override
-                    public boolean isShowBusinessError() {
-                        return false;
-                    }
-                });
     }
 
     @Override

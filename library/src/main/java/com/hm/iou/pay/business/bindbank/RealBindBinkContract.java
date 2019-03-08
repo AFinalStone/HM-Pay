@@ -38,14 +38,6 @@ public interface RealBindBinkContract {
         void showAuthFailExceedCount(String msg);
 
         /**
-         * 显示顶部广告
-         *
-         * @param adUrl
-         * @param linkUrl
-         */
-        void showTopAd(String adUrl, String linkUrl);
-
-        /**
          * 显示认证成功对话框
          */
         void showAuthSuccDialog();
@@ -54,11 +46,6 @@ public interface RealBindBinkContract {
     interface Presenter extends BaseContract.BasePresenter {
 
         void getUserRealName();
-
-        /**
-         * 获取顶部的广告
-         */
-        void getTopAd();
 
         /**
          * 验证输入是否合法
