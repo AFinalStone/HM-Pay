@@ -1,7 +1,6 @@
 package com.hm.iou.pay.business.bindbank.view;
 
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.Gravity;
 
 import com.hm.iou.base.BaseActivity;
@@ -90,48 +89,9 @@ public class BindBankActivity extends BaseActivity<BindBankPresenter> implements
 
     @Override
     public void showBinkBankInfo(String bankCardName, String bankCardCode, String bankCardType, String phoneCode) {
-        StringBuffer sbMsg = new StringBuffer();
-        sbMsg.append("当前绑定的银行卡为（");
-        if (!TextUtils.isEmpty(bankCardName)) {
-            sbMsg.append(bankCardName);
-        }
-        if (!TextUtils.isEmpty(bankCardCode)) {
-            if (!TextUtils.isEmpty(bankCardName)) {
-                sbMsg.append("/");
-            }
-            sbMsg.append(bankCardCode);
-        }
-        if (!TextUtils.isEmpty(bankCardType)) {
-            if (!TextUtils.isEmpty(bankCardName) || !TextUtils.isEmpty(bankCardCode)) {
-                sbMsg.append("/");
-            }
-            sbMsg.append(bankCardType);
-        }
-        if (TextUtils.isEmpty(phoneCode)) {
-            sbMsg.append("），如需更换信息，请联系客服，服务费¥2。");
-        } else {
-            sbMsg.append("），手机号尾号" + phoneCode + "，如需更换信息，请联系客服，服务费¥2。");
-        }
-        new HMAlertDialog
-                .Builder(mContext)
-                .setTitle("银行卡认证")
-                .setMessage(sbMsg.toString())
-                .setMessageGravity(Gravity.LEFT)
-                .setNegativeButton("知道了")
-                .setCancelable(false)
-                .setCanceledOnTouchOutside(false)
-                .setOnClickListener(new HMAlertDialog.OnClickListener() {
-                    @Override
-                    public void onPosClick() {
-                        finish();
-                    }
-
-                    @Override
-                    public void onNegClick() {
-                        finish();
-                    }
-                })
-                .create()
-                .show();
+        Router.getInstance()
+                .buildWithUrl("hmiou://m.54jietiao.com/person/user_bind_bank_info")
+                .navigation(mContext);
+        finish();
     }
 }
