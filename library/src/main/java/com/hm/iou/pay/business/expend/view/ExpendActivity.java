@@ -1,6 +1,5 @@
 package com.hm.iou.pay.business.expend.view;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -21,7 +20,7 @@ import com.hm.iou.pay.comm.TimeCardListAdapter;
 import com.hm.iou.router.Router;
 import com.hm.iou.uikit.HMLoadingView;
 import com.hm.iou.uikit.HMTopBarView;
-import com.hm.iou.uikit.dialog.IOSAlertDialog;
+import com.hm.iou.uikit.dialog.HMAlertDialog;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
@@ -253,22 +252,22 @@ public class ExpendActivity extends BaseActivity<ExpendPresenter> implements Exp
 
     @Override
     public void showSignCountMoreThanTen() {
-        new IOSAlertDialog.Builder(this)
+        new HMAlertDialog.Builder(this)
                 .setMessage("剩余签章数量已经超过10个，请用完再购买。")
-                .setPositiveButton("购买联系", new DialogInterface.OnClickListener() {
+                .setPositiveButton("购买联系")
+                .setNegativeButton("感谢提醒")
+                .setOnClickListener(new HMAlertDialog.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
+                    public void onPosClick() {
                         Router.getInstance().buildWithUrl("hmiou://m.54jietiao.com/person/helper_center")
                                 .navigation(ExpendActivity.this);
                     }
-                })
-                .setNegativeButton("感谢提醒", new DialogInterface.OnClickListener() {
+
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
+                    public void onNegClick() {
+
                     }
                 })
-                .show();
+                .create().show();
     }
 }
