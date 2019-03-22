@@ -9,11 +9,14 @@ import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.hm.iou.base.BaseActivity;
+import com.hm.iou.database.IouDbHelper;
+import com.hm.iou.database.table.IouData;
 import com.hm.iou.pay.R;
 import com.hm.iou.pay.R2;
 import com.hm.iou.pay.business.locksign.LockSignListContract;
 import com.hm.iou.pay.business.locksign.LockSignListPresenter;
 import com.hm.iou.router.Router;
+import com.hm.iou.sharedata.model.IOUKindEnum;
 import com.hm.iou.uikit.HMLoadMoreView;
 import com.hm.iou.uikit.HMLoadingView;
 import com.hm.iou.uikit.HMTopBarView;
@@ -80,10 +83,7 @@ public class LockSignListActivity extends BaseActivity<LockSignListPresenter> im
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 ILockSignItem item = (ILockSignItem) adapter.getItem(position);
                 if (item != null && !TextUtils.isEmpty(item.getIContractId())) {
-                    Router.getInstance()
-                            .buildWithUrl("hmiou://m.54jietiao.com/iou/elec_borrow_detail")
-                            .withString("iou_id", item.getIContractId())
-                            .navigation(mContext);
+                    toIOUDetailByJusticeId(item.getIContractId());
                 }
             }
         });
@@ -141,5 +141,24 @@ public class LockSignListActivity extends BaseActivity<LockSignListPresenter> im
     @Override
     public void showList(List<ILockSignItem> list) {
         mAdapter.setNewData(list);
+    }
+
+    public void toIOUDetailByJusticeId(String justiceId) {
+        IouData iouData = IouDbHelper.queryIOUByJusticeId(justiceId);
+        if (iouData != null) {
+            String iouId = iouData.getIouId();
+            if (IOUKindEnum.ElecBorrowReceipt.getValue() == iouData.getIouKind()) {
+                Router.getInstance()
+                        .buildWithUrl("hmiou://m.54jietiao.com/iou/elec_borrow_detail")
+                        .withString("iou_id", iouId)
+                        .navigation(mContext);
+                return;
+            }
+            Router.getInstance()
+                    .buildWithUrl("hmiou://m.54jietiao.com/iou/elec_borrow_detail_v2")
+                    .withString("iou_id", iouId)
+                    .navigation(mContext);
+        }
+
     }
 }
