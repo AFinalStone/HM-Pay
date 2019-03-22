@@ -33,9 +33,9 @@ public class HistoryItemChildBean implements IHistoryItemChild {
 
     @Override
     public String getType() {
-        if (2 == recordStatus && leftLockedTime != 0) {
+        if (2 == recordStatus && leftLockedTime > 0) {
             int afterTimeLockTime = leftLockedTime - mTimerCount;
-            if (afterTimeLockTime != 0) {
+            if (afterTimeLockTime > 0) {
                 StringBuffer sb = new StringBuffer();
                 int hour = afterTimeLockTime / 3600;
                 sb.append(String.format("%02d", hour));
@@ -47,6 +47,8 @@ public class HistoryItemChildBean implements IHistoryItemChild {
                 int second = temp % 60;
                 sb.append(String.format("%02d", second));
                 return sb.toString();
+            } else if (afterTimeLockTime == 0) {
+                showState = "退还中";
             }
         }
         return showState;
