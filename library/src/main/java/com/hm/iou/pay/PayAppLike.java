@@ -13,15 +13,10 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import io.reactivex.disposables.Disposable;
-
 public class PayAppLike {
 
-    public static final String EXTRA_KEY_GET_DEBT_TOTAL_NUM = "Debt_getDebtTotalNum";//获取记债本数量
-    public static final String EXTRA_KEY_DEBT_NUM = "Debt_debtTotalNum";//记债本总的数量
 
     private Context mContext;
-    private Disposable mDisposable;
 
     public void onCreate(Context context) {
         this.mContext = context;

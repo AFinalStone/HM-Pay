@@ -76,7 +76,7 @@ public class TimeCardRechargeActivity extends BaseActivity<TimeCardRechargePrese
             public void onClickTextMenu() {
                 TraceUtil.onEvent(mContext, "my_charge_history_click");
                 Router.getInstance()
-                        .buildWithUrl("hmiou://m.54jietiao.com/message/helpcenter")
+                        .buildWithUrl("hmiou://m.54jietiao.com/login/customer_service")
                         .navigation(mContext);
             }
 
