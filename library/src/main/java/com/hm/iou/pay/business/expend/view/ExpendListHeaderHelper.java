@@ -62,7 +62,7 @@ public class ExpendListHeaderHelper {
     }
 
 
-    public void setRemainderNum(String remainderNum) {
+    public void setCanUseSignNum(String remainderNum) {
         mTvRemainderNum.setText(remainderNum);
     }
 }

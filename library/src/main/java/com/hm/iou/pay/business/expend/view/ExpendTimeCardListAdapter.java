@@ -1,4 +1,4 @@
-package com.hm.iou.pay.comm;
+package com.hm.iou.pay.business.expend.view;
 
 import android.content.Context;
 
@@ -6,19 +6,20 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.hm.iou.logger.Logger;
 import com.hm.iou.pay.R;
+import com.hm.iou.pay.comm.ITimeCardItem;
 
 /**
  * @author syl
  * @time 2018/7/16 上午11:40
  */
-public class TimeCardListAdapter extends BaseQuickAdapter<ITimeCardItem, BaseViewHolder> {
+public class ExpendTimeCardListAdapter extends BaseQuickAdapter<ITimeCardItem, BaseViewHolder> {
 
     private int mContentColorUnSelect;
     private int mMoneyColorUnSelect;
     private int mColorSelect;
 
-    public TimeCardListAdapter(Context context) {
-        super(R.layout.pay_item_time_card_recharge);
+    public ExpendTimeCardListAdapter(Context context) {
+        super(R.layout.pay_item_expend_recharge);
         mContentColorUnSelect = context.getResources().getColor(R.color.uikit_text_auxiliary);
         mMoneyColorUnSelect = context.getResources().getColor(R.color.uikit_text_hint);
         mColorSelect = 0xfff8f8f9;

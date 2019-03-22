@@ -1,16 +1,18 @@
-package com.hm.iou.pay.business.history.view;
+package com.hm.iou.pay.business.locksign.view;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.hm.iou.base.BaseActivity;
 import com.hm.iou.pay.R;
 import com.hm.iou.pay.R2;
-import com.hm.iou.pay.business.history.HistoryContract;
-import com.hm.iou.pay.business.history.HistoryPresenter;
+import com.hm.iou.pay.business.locksign.LockSignListContract;
+import com.hm.iou.pay.business.locksign.LockSignListPresenter;
 import com.hm.iou.router.Router;
 import com.hm.iou.uikit.HMLoadMoreView;
 import com.hm.iou.uikit.HMLoadingView;
@@ -24,12 +26,12 @@ import java.util.List;
 import butterknife.BindView;
 
 /**
- * 充值历史
+ * 占用签章列表
  *
  * @author syl
  * @time 2018/7/16 下午5:30
  */
-public class HistoryActivity extends BaseActivity<HistoryPresenter> implements HistoryContract.View {
+public class LockSignListActivity extends BaseActivity<LockSignListPresenter> implements LockSignListContract.View {
 
     @BindView(R2.id.topBar)
     HMTopBarView mTopBar;
@@ -40,16 +42,16 @@ public class HistoryActivity extends BaseActivity<HistoryPresenter> implements H
     @BindView(R2.id.loading_init)
     HMLoadingView mLoadingInitView;
     HMLoadMoreView mLoadMoreView;
-    HistoryListAdapter mAdapter;
+    LockSignListAdapter mAdapter;
 
     @Override
     protected int getLayoutId() {
-        return R.layout.pay_activity_history;
+        return R.layout.pay_activity_lock_sign_list;
     }
 
     @Override
-    protected HistoryPresenter initPresenter() {
-        return new HistoryPresenter(this, this);
+    protected LockSignListPresenter initPresenter() {
+        return new LockSignListPresenter(this, this);
     }
 
     @Override
@@ -72,7 +74,19 @@ public class HistoryActivity extends BaseActivity<HistoryPresenter> implements H
 
             }
         });
-        mAdapter = new HistoryListAdapter(mContext);
+        mAdapter = new LockSignListAdapter(mContext);
+        mAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                ILockSignItem item = (ILockSignItem) adapter.getItem(position);
+                if (item != null && !TextUtils.isEmpty(item.getIContractId())) {
+                    Router.getInstance()
+                            .buildWithUrl("hmiou://m.54jietiao.com/iou/elec_borrow_detail")
+                            .withString("iou_id", item.getIContractId())
+                            .navigation(mContext);
+                }
+            }
+        });
         mLoadMoreView = new HMLoadMoreView();
         mAdapter.setLoadMoreView(mLoadMoreView);
         mRvTimeCardList.setLayoutManager(new LinearLayoutManager(mContext));
@@ -125,12 +139,7 @@ public class HistoryActivity extends BaseActivity<HistoryPresenter> implements H
     }
 
     @Override
-    public void showList(List<IHistoryItem> list) {
+    public void showList(List<ILockSignItem> list) {
         mAdapter.setNewData(list);
-    }
-
-    @Override
-    public void updateItem(int position) {
-        mAdapter.notifyItemChanged(position);
     }
 }

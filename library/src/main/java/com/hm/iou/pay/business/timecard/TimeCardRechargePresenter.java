@@ -20,11 +20,13 @@ import com.trello.rxlifecycle2.android.ActivityEvent;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.reactivestreams.Publisher;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Function;
 
 
 /**
@@ -37,7 +39,6 @@ public class TimeCardRechargePresenter extends MvpActivityPresenter<TimeCardRech
 
     private Disposable mListDisposable;
     private long mSignUnitPrice; //单价
-    private TimeCardBean mFirstTryTimeCard; //首次体验
     private List<TimeCardBean> mListData = new ArrayList<>();
     private SearchTimeCardListResBean mTimeCardInfo;
 
@@ -50,15 +51,24 @@ public class TimeCardRechargePresenter extends MvpActivityPresenter<TimeCardRech
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+        if (mListDisposable != null && !mListDisposable.isDisposed()) {
+            mListDisposable.dispose();
+        }
     }
 
     @Override
     public void init() {
-        if (mListDisposable != null && !mListDisposable.isDisposed()) {
-            mListDisposable.dispose();
-        }
         mView.showInitLoading();
-        mListDisposable = PayApi.searchTimeCardPackageList()
+        PayApi.getLockedSignNum()
+                .compose(getProvider().<BaseResponse<Integer>>bindUntilEvent(ActivityEvent.DESTROY))
+                .map(RxUtil.<Integer>handleResponse())
+                .flatMap(new Function<Integer, Publisher<BaseResponse<SearchTimeCardListResBean>>>() {
+                    @Override
+                    public Publisher<BaseResponse<SearchTimeCardListResBean>> apply(Integer num) throws Exception {
+                        mView.showLockSignNum(String.valueOf(num));
+                        return PayApi.searchTimeCardPackageList();
+                    }
+                })
                 .compose(getProvider().<BaseResponse<SearchTimeCardListResBean>>bindUntilEvent(ActivityEvent.DESTROY))
                 .map(RxUtil.<SearchTimeCardListResBean>handleResponse())
                 .subscribeWith(new CommSubscriber<SearchTimeCardListResBean>(mView) {
@@ -73,12 +83,12 @@ public class TimeCardRechargePresenter extends MvpActivityPresenter<TimeCardRech
                         }
                         mSignUnitPrice = searchTimeCardListResBean.getSignUnitPrice();
                         //初次体验
-                        mFirstTryTimeCard = searchTimeCardListResBean.getFirstPackage();
-                        if (mFirstTryTimeCard != null) {
-                            mView.showFirstTry(mFirstTryTimeCard);
-                        } else {
-                            mView.hideFirstTry();
-                        }
+//                        mFirstTryTimeCard = searchTimeCardListResBean.getFirstPackage();
+//                        if (mFirstTryTimeCard != null) {
+//                            mView.showFirstTry(mFirstTryTimeCard);
+//                        } else {
+//                            mView.hideFirstTry();
+//                        }
                         //套餐列表
                         List<TimeCardBean> list = searchTimeCardListResBean.getPackageRespList();
                         mListData.clear();
@@ -117,7 +127,16 @@ public class TimeCardRechargePresenter extends MvpActivityPresenter<TimeCardRech
         if (mListDisposable != null && !mListDisposable.isDisposed()) {
             mListDisposable.dispose();
         }
-        mListDisposable = PayApi.searchTimeCardPackageList()
+        mListDisposable = PayApi.getLockedSignNum()
+                .compose(getProvider().<BaseResponse<Integer>>bindUntilEvent(ActivityEvent.DESTROY))
+                .map(RxUtil.<Integer>handleResponse())
+                .flatMap(new Function<Integer, Publisher<BaseResponse<SearchTimeCardListResBean>>>() {
+                    @Override
+                    public Publisher<BaseResponse<SearchTimeCardListResBean>> apply(Integer num) throws Exception {
+                        mView.showLockSignNum(String.valueOf(num));
+                        return PayApi.searchTimeCardPackageList();
+                    }
+                })
                 .compose(getProvider().<BaseResponse<SearchTimeCardListResBean>>bindUntilEvent(ActivityEvent.DESTROY))
                 .map(RxUtil.<SearchTimeCardListResBean>handleResponse())
                 .subscribeWith(new CommSubscriber<SearchTimeCardListResBean>(mView) {
@@ -131,12 +150,12 @@ public class TimeCardRechargePresenter extends MvpActivityPresenter<TimeCardRech
                             return;
                         }
                         //初次体验
-                        mFirstTryTimeCard = searchTimeCardListResBean.getFirstPackage();
-                        if (mFirstTryTimeCard != null) {
-                            mView.showFirstTry(mFirstTryTimeCard);
-                        } else {
-                            mView.hideFirstTry();
-                        }
+//                        mFirstTryTimeCard = searchTimeCardListResBean.getFirstPackage();
+//                        if (mFirstTryTimeCard != null) {
+//                            mView.showFirstTry(mFirstTryTimeCard);
+//                        } else {
+//                            mView.hideFirstTry();
+//                        }
                         //套餐列表
                         List<TimeCardBean> list = searchTimeCardListResBean.getPackageRespList();
                         mListData.clear();
@@ -171,7 +190,7 @@ public class TimeCardRechargePresenter extends MvpActivityPresenter<TimeCardRech
     }
 
     @Override
-    public void toAddTimeCardNum(int position) {
+    public void toAddTimeCardByPosition(int position) {
         if (mTimeCardInfo != null && mTimeCardInfo.getCountSign() > 10) {
             mView.showSignCountMoreThanTen();
             return;
@@ -199,30 +218,30 @@ public class TimeCardRechargePresenter extends MvpActivityPresenter<TimeCardRech
 
     @Override
     public void toFirstTry() {
-        if (mTimeCardInfo != null && mTimeCardInfo.getCountSign() > 10) {
-            mView.showSignCountMoreThanTen();
-            return;
-        }
-
-        TimeCardBean timeCardBean;
-        String strTimeCardName;
-        if (mFirstTryTimeCard == null) {
-            return;
-        }
-        timeCardBean = mFirstTryTimeCard;
-        strTimeCardName = "体验卡（限购）";
-
-        String strPackageId = timeCardBean.getPackageId();
-        String strTimeCardPayMoney = null;
-        try {
-            strTimeCardPayMoney = MoneyFormatUtil.changeF2Y(timeCardBean.getActualPrice());
-        } catch (Exception e) {
-            e.printStackTrace();
-            mView.toastMessage("发生异常，请稍后再试");
-            return;
-        }
-        String strTimeCardAddNum = timeCardBean.getRechargeSign();
-        toSelectPayType(strTimeCardName, strTimeCardPayMoney, strTimeCardAddNum, strPackageId);
+//        if (mTimeCardInfo != null && mTimeCardInfo.getCountSign() > 10) {
+//            mView.showSignCountMoreThanTen();
+//            return;
+//        }
+//
+//        TimeCardBean timeCardBean;
+//        String strTimeCardName;
+//        if (mFirstTryTimeCard == null) {
+//            return;
+//        }
+//        timeCardBean = mFirstTryTimeCard;
+//        strTimeCardName = "体验卡（限购）";
+//
+//        String strPackageId = timeCardBean.getPackageId();
+//        String strTimeCardPayMoney = null;
+//        try {
+//            strTimeCardPayMoney = MoneyFormatUtil.changeF2Y(timeCardBean.getActualPrice());
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            mView.toastMessage("发生异常，请稍后再试");
+//            return;
+//        }
+//        String strTimeCardAddNum = timeCardBean.getRechargeSign();
+//        toSelectPayType(strTimeCardName, strTimeCardPayMoney, strTimeCardAddNum, strPackageId);
     }
 
     @Override
@@ -269,6 +288,7 @@ public class TimeCardRechargePresenter extends MvpActivityPresenter<TimeCardRech
         PayApi.getInwardPackage(packageId)
                 .compose(getProvider().<BaseResponse<TimeCardBean>>bindUntilEvent(ActivityEvent.DESTROY))
                 .map(RxUtil.<TimeCardBean>handleResponse())
+
                 .subscribeWith(new CommSubscriber<TimeCardBean>(mView) {
                     @Override
                     public void handleResult(TimeCardBean data) {

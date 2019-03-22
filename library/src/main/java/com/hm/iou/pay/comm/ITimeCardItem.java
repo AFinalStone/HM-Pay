@@ -20,5 +20,10 @@ public interface ITimeCardItem {
      */
     String getTimeCardDiscounts();
 
+    /**
+     * 获取套餐id
+     *
+     * @return
+     */
     String getPackageId();
 }

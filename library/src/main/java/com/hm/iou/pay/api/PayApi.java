@@ -4,12 +4,14 @@ import com.hm.iou.network.HttpReqManager;
 import com.hm.iou.pay.bean.AdBean;
 import com.hm.iou.pay.bean.BindBankCardReqBean;
 import com.hm.iou.pay.bean.FourElementsVerifyStatus;
+import com.hm.iou.pay.bean.GetLockedSignListResBean;
 import com.hm.iou.pay.bean.HistoryItemBean;
 import com.hm.iou.pay.bean.SearchTimeCardListResBean;
 import com.hm.iou.pay.bean.TimeCardBean;
 import com.hm.iou.pay.bean.WelfareAdvertiseBean;
 import com.hm.iou.pay.bean.WxPayBean;
 import com.hm.iou.pay.bean.req.CreatePreparePayReqBean;
+import com.hm.iou.pay.bean.req.GetLockSignListReqBean;
 import com.hm.iou.pay.dict.ChannelEnumBean;
 import com.hm.iou.sharedata.model.BaseResponse;
 
@@ -145,6 +147,24 @@ public class PayApi {
      */
     public static Flowable<BaseResponse<TimeCardBean>> getInwardPackage(String packageId) {
         return getService().getInwardPackage(packageId).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+    }
+
+    /**
+     * 获取被占用签章的数量
+     *
+     * @return
+     */
+    public static Flowable<BaseResponse<Integer>> getLockedSignNum() {
+        return getService().getLockedSignNum().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+    }
+
+    /**
+     * 获取被占用签章的列表
+     *
+     * @return
+     */
+    public static Flowable<BaseResponse<GetLockedSignListResBean>> getLockedSignList(GetLockSignListReqBean reqBean) {
+        return getService().getLockedSignList(reqBean).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
 
 }

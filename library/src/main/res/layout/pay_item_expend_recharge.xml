@@ -2,39 +2,29 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/ll_background"
     android:layout_width="match_parent"
-    android:layout_height="100dp"
+    android:layout_height="wrap_content"
     android:layout_marginBottom="10dp"
     android:layout_marginEnd="10dp"
     android:layout_marginStart="10dp"
     android:layout_marginTop="10dp"
     android:background="@drawable/pay_selector_bg_item_time_card_recharge_unselect"
     android:gravity="center"
+    android:minHeight="60dp"
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/tv_package_name"
-        style="@style/UikitTextView"
-        android:textColor="@color/uikit_text_sub_content"
+        android:id="@+id/tv_timeCardNum"
+        style="@style/UikitTextView.Auxiliary.Normal"
         android:textSize="@dimen/textFontSize_14"
         tools:text="5次卡" />
 
     <TextView
-        android:id="@+id/tv_package_desc"
+        android:id="@+id/tv_discountsMoney"
         style="@style/UikitTextView"
         android:layout_marginTop="2dp"
-        android:textColor="@color/uikit_text_sub_content"
+        android:textColor="@color/uikit_text_hint"
         android:textSize="@dimen/textFontSize_12"
         tools:text="优惠¥10" />
 
-    <TextView
-        style="@style/UikitTextView"
-        android:layout_width="42dp"
-        android:layout_height="24dp"
-        android:layout_marginTop="12dp"
-        android:background="@drawable/uikit_selector_btn_main_small"
-        android:gravity="center"
-        android:text="选我"
-        android:textColor="@color/uikit_text_main_content"
-        android:textSize="@dimen/uikti_sub_content_text_size" />
 </LinearLayout>
 

@@ -1,8 +1,8 @@
-package com.hm.iou.pay.business.history;
+package com.hm.iou.pay.business.locksign;
 
 
 import com.hm.iou.base.mvp.BaseContract;
-import com.hm.iou.pay.business.history.view.IHistoryItem;
+import com.hm.iou.pay.business.locksign.view.ILockSignItem;
 
 import java.util.List;
 
@@ -12,7 +12,7 @@ import java.util.List;
  * @author syl
  * @time 2018/7/13 下午3:19
  */
-public interface HistoryContract {
+public interface LockSignListContract {
 
     interface View extends BaseContract.BaseView {
         /**
@@ -46,11 +46,9 @@ public interface HistoryContract {
         void showDataEmpty();
 
         /**
-         * 显示充值列表
+         * 显示数据
          */
-        void showList(List<IHistoryItem> list);
-
-        void updateItem(int position);
+        void showList(List<ILockSignItem> list);
     }
 
     interface Presenter extends BaseContract.BasePresenter {

@@ -21,6 +21,17 @@ public interface IHistoryItemChild {
     String getType();
 
 
-    int getTextColor();
+    /**
+     * 获取时间文本字体的颜色
+     *
+     * @return
+     */
+    int getTimeTextColor();
 
+    /**
+     * 获取类型文本字体的颜色
+     *
+     * @return
+     */
+    int getTypeTextColor();
 }

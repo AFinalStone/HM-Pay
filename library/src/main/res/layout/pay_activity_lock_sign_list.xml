@@ -10,7 +10,7 @@
         android:layout_height="@dimen/uikit_topbar_height"
         app:bottomDividerIsShow="false"
         app:rightText="客服"
-        app:titleText="使用记录" />
+        app:titleText="占用签章" />
 
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:id="@+id/refreshLayout"
