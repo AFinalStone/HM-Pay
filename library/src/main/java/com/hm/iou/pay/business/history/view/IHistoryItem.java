@@ -13,15 +13,15 @@ public interface IHistoryItem {
      *
      * @return
      */
-    String getTitle();
+    String getITitle();
 
     /**
      * 获取当前充值条目的消费历史记录
      *
      * @return
      */
-    List<IHistoryItemChild> getChild();
+    List<IHistoryItemChild> getIChild();
 
-    int getTextColor();
+    int getITitleTextColor();
 
 }

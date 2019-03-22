@@ -16,7 +16,6 @@ import com.hm.iou.pay.R2;
 import com.hm.iou.pay.business.expend.ExpendContract;
 import com.hm.iou.pay.business.expend.ExpendPresenter;
 import com.hm.iou.pay.comm.ITimeCardItem;
-import com.hm.iou.pay.comm.TimeCardListAdapter;
 import com.hm.iou.router.Router;
 import com.hm.iou.uikit.HMLoadingView;
 import com.hm.iou.uikit.HMTopBarView;
@@ -46,7 +45,7 @@ public class ExpendActivity extends BaseActivity<ExpendPresenter> implements Exp
     @BindView(R2.id.loading_init)
     HMLoadingView mLoadingInitView;
 
-    private TimeCardListAdapter mAdapter;
+    private ExpendTimeCardListAdapter mAdapter;
     private ExpendListHeaderHelper mExpendListHeaderHelper;
     private ExpendListFooterHelper mExpendListFooterHelper;
 
@@ -122,7 +121,7 @@ public class ExpendActivity extends BaseActivity<ExpendPresenter> implements Exp
 
             }
         });
-        mAdapter = new TimeCardListAdapter(mContext);
+        mAdapter = new ExpendTimeCardListAdapter(mContext);
         mRvTimeCardList.setLayoutManager(new GridLayoutManager(mContext, 3));
         //头部
         mExpendListHeaderHelper = new ExpendListHeaderHelper(mRvTimeCardList, this, mPresenter);
@@ -193,7 +192,7 @@ public class ExpendActivity extends BaseActivity<ExpendPresenter> implements Exp
 
     @Override
     public void showRemainNum(String num) {
-        mExpendListHeaderHelper.setRemainderNum(num);
+        mExpendListHeaderHelper.setCanUseSignNum(num);
     }
 
     @Override

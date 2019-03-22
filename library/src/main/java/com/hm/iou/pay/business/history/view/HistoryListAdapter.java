@@ -21,12 +21,12 @@ public class HistoryListAdapter extends BaseQuickAdapter<IHistoryItem, BaseViewH
 
     @Override
     protected void convert(BaseViewHolder helper, IHistoryItem item) {
-        helper.setText(R.id.tv_title, item.getTitle());
-        helper.setTextColor(R.id.tv_title, item.getTextColor());
+        helper.setText(R.id.tv_title, item.getITitle());
+        helper.setTextColor(R.id.tv_title, item.getITitleTextColor());
 
         LinearLayout llChild = helper.getView(R.id.ll_childList);
         llChild.removeAllViews();
-        List<IHistoryItemChild> list = item.getChild();
+        List<IHistoryItemChild> list = item.getIChild();
         for (IHistoryItemChild child : list) {
             HistoryItemChildHelper help = new HistoryItemChildHelper(llChild, child);
             llChild.addView(help.getChildView());

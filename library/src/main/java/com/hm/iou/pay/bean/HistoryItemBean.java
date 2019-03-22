@@ -1,5 +1,6 @@
 package com.hm.iou.pay.bean;
 
+import com.hm.iou.pay.Constants;
 import com.hm.iou.pay.business.history.view.IHistoryItem;
 import com.hm.iou.pay.business.history.view.IHistoryItemChild;
 import com.hm.iou.pay.dict.OrderStatusEnum;
@@ -7,55 +8,53 @@ import com.hm.iou.pay.dict.OrderStatusEnum;
 import java.util.ArrayList;
 import java.util.List;
 
+import lombok.Data;
+
 /**
  * @author syl
  * @time 2018/7/16 下午2:35
  */
+@Data
 public class HistoryItemBean implements IHistoryItem {
 
-    //绿色：0xFF417505
-    //蓝色：0xFF4A90E2
-    //灰色：0xFFBBBBBB
-    //红色：0xFFF43048
-
-    private String sortDate;
-    private String title;
-    private int showStatus;
-    private List<HistoryItemChildBean> records;
+    private String title;//名称
+    private int showStatus;//状态
+    private List<HistoryItemChildBean> records;//记录
 
     private int textColor;
     private boolean childListInit;
 
     @Override
-    public String getTitle() {
+    public String getITitle() {
         return title;
     }
 
     @Override
-    public List<IHistoryItemChild> getChild() {
+    public List<IHistoryItemChild> getIChild() {
         if (records == null) {
             return new ArrayList<>();
         }
         if (childListInit) {
             return (ArrayList) records;
         }
-        if (showStatus == OrderStatusEnum.WAIT_PAY.getStatus() ||
-                showStatus == OrderStatusEnum.PAYING.getStatus()) {
+        //待支付,支付中
+        if (showStatus == OrderStatusEnum.WAIT_PAY.getStatus() || showStatus == OrderStatusEnum.PAYING.getStatus()) {
             for (HistoryItemChildBean item : records) {
-                item.setTextColor(0xFF417505);
+                item.setTimeTextColor(Constants.colorBlack);
             }
+            //已支付（未使用完)，已赠送（未使用完）
         } else if (showStatus == OrderStatusEnum.PAID_NOT_USED.getStatus() ||
                 showStatus == OrderStatusEnum.GIFT_NOT_USED.getStatus()) {
             for (HistoryItemChildBean item : records) {
-                item.setTextColor(0xFF4A90E2);
+                item.setTimeTextColor(Constants.colorGray);
             }
         } else {
             int i = 0;
             for (HistoryItemChildBean item : records) {
-                item.setTextColor(0xFFBBBBBB);
+                item.setTimeTextColor(Constants.colorGray);
                 i++;
                 if (showStatus == OrderStatusEnum.RETURN_MONEY.getStatus() && i == records.size()) {
-                    item.setTextColor(0xFFF43048);
+                    item.setTimeTextColor(Constants.colorRed);
                 }
             }
         }
@@ -63,31 +62,19 @@ public class HistoryItemBean implements IHistoryItem {
         return (ArrayList) records;
     }
 
-    public String getSortDate() {
-        return sortDate;
-    }
-
-    public void setSortDate(String sortDate) {
-        this.sortDate = sortDate;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     @Override
-    public int getTextColor() {
+    public int getITitleTextColor() {
         if (textColor != 0) {
             return textColor;
         }
         if (showStatus == OrderStatusEnum.WAIT_PAY.getStatus() ||
                 showStatus == OrderStatusEnum.PAYING.getStatus()) {
-            textColor = 0xFF417505;
+            textColor = Constants.colorGreen;
         } else if (showStatus == OrderStatusEnum.PAID_NOT_USED.getStatus() ||
                 showStatus == OrderStatusEnum.GIFT_NOT_USED.getStatus()) {
-            textColor = 0xFF4A90E2;
+            textColor = Constants.colorBlue;
         } else {
-            textColor = 0xFFBBBBBB;
+            textColor = Constants.colorGray;
         }
         return textColor;
     }

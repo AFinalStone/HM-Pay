@@ -46,6 +46,13 @@ public interface TimeCardRechargeContract {
         void showRemainNum(String num);
 
         /**
+         * 显示被占用的签章数量
+         *
+         * @param num
+         */
+        void showLockSignNum(String num);
+
+        /**
          * 显示充值列表
          */
         void showList(List<ITimeCardItem> list);
@@ -103,7 +110,8 @@ public interface TimeCardRechargeContract {
          *
          * @param position
          */
-        void toAddTimeCardNum(int position);
+        void toAddTimeCardByPosition(int position);
+
 
         /**
          * 首次体验

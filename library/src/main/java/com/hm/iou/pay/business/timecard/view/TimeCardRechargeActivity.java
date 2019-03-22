@@ -15,7 +15,6 @@ import com.hm.iou.pay.R2;
 import com.hm.iou.pay.business.timecard.TimeCardRechargeContract;
 import com.hm.iou.pay.business.timecard.TimeCardRechargePresenter;
 import com.hm.iou.pay.comm.ITimeCardItem;
-import com.hm.iou.pay.comm.TimeCardListAdapter;
 import com.hm.iou.router.Router;
 import com.hm.iou.uikit.HMLoadingView;
 import com.hm.iou.uikit.HMTopBarView;
@@ -77,7 +76,7 @@ public class TimeCardRechargeActivity extends BaseActivity<TimeCardRechargePrese
             public void onClickTextMenu() {
                 TraceUtil.onEvent(mContext, "my_charge_history_click");
                 Router.getInstance()
-                        .buildWithUrl("hmiou://m.54jietiao.com/pay/history")
+                        .buildWithUrl("hmiou://m.54jietiao.com/message/helpcenter")
                         .navigation(mContext);
             }
 
@@ -89,7 +88,7 @@ public class TimeCardRechargeActivity extends BaseActivity<TimeCardRechargePrese
         mAdapter = new TimeCardListAdapter(mContext);
         mRvTimeCardList.setLayoutManager(new GridLayoutManager(mContext, 3));
         //头部
-        mTimeCardListHeaderHelper = new TimeCardListHeaderHelper(mRvTimeCardList);
+        mTimeCardListHeaderHelper = new TimeCardListHeaderHelper(mPresenter, mRvTimeCardList);
         mAdapter.addHeaderView(mTimeCardListHeaderHelper.getHeaderView());
 
         mRvTimeCardList.setAdapter(mAdapter);
@@ -103,7 +102,7 @@ public class TimeCardRechargeActivity extends BaseActivity<TimeCardRechargePrese
                 } else if (position == 2) {
                     TraceUtil.onEvent(mContext, "my_silver_click");
                 }
-                mPresenter.toAddTimeCardNum(position);
+                mPresenter.toAddTimeCardByPosition(position);
             }
         });
         mAdapter.setOnItemLongClickListener(new BaseQuickAdapter.OnItemLongClickListener() {
@@ -127,7 +126,12 @@ public class TimeCardRechargeActivity extends BaseActivity<TimeCardRechargePrese
 
     @Override
     public void showRemainNum(String num) {
-        mTimeCardListHeaderHelper.setRemainderNum(num);
+        mTimeCardListHeaderHelper.setCanUseSignNum(num);
+    }
+
+    @Override
+    public void showLockSignNum(String num) {
+        mTimeCardListHeaderHelper.setDisableSignNum(num);
     }
 
     @Override
@@ -226,4 +230,5 @@ public class TimeCardRechargeActivity extends BaseActivity<TimeCardRechargePrese
                 })
                 .create().show();
     }
+
 }

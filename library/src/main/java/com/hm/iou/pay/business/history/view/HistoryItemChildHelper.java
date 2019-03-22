@@ -26,8 +26,8 @@ public class HistoryItemChildHelper {
         mTvTime.setText(itemChild.getTime());
         mTvType.setText(itemChild.getType());
 
-        mTvTime.setTextColor(itemChild.getTextColor());
-        mTvType.setTextColor(itemChild.getTextColor());
+        mTvTime.setTextColor(itemChild.getTimeTextColor());
+        mTvType.setTextColor(itemChild.getTypeTextColor());
     }
 
     public View getChildView() {

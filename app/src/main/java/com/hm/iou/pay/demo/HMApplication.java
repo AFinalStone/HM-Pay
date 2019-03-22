@@ -8,6 +8,7 @@ import com.hm.iou.network.HttpReqManager;
 import com.hm.iou.network.HttpRequestConfig;
 import com.hm.iou.router.Router;
 import com.hm.iou.sharedata.UserManager;
+import com.orm.SugarContext;
 
 
 /**
@@ -24,13 +25,14 @@ public class HMApplication extends Application {
 
         BaseBizAppLike baseBizAppLike = new BaseBizAppLike();
         baseBizAppLike.onCreate(this);
-//        baseBizAppLike.initServer("http://192.168.1.82:8021", "http://192.168.1.254",
-//                "http://192.168.1.254");
-        baseBizAppLike.initServer("https://api.54jietiao.com", "http://192.168.1.217",
-                "http://192.168.1.217");
-//        baseBizAppLike.initServer("http://192.168.1.254:8021", "http://192.168.1.254",
-//                "http://192.168.1.254");
+//        baseBizAppLike.initServer("http://192.168.1.217", "http://192.168.1.217",
+//                "http://192.168.1.217");
+//        baseBizAppLike.initServer("https://api.54jietiao.com", "http://192.168.1.217",
+//                "http://192.168.1.217");
+        baseBizAppLike.initServer("http://192.168.1.107:3000", "http://192.168.1.107:3000",
+                "http://192.168.1.107:3000");
         initNetwork();
+        SugarContext.init(this);
     }
 
 

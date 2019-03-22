@@ -7,14 +7,12 @@ import lombok.Data;
  * @time 2018/7/16 下午2:35
  */
 @Data
-public class CreatePreparePayReqBean {
+public class GetLockSignListReqBean {
+
 
     /**
-     * channel : 0
-     * orderId : 0
+     * lastReqDate : 2019-03-22T01:05:41.295Z
      */
 
-    private int channel;
-    private String orderId;
-
+    private String lastReqDate;
 }
