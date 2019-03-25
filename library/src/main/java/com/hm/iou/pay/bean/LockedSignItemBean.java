@@ -30,7 +30,7 @@ public class LockedSignItemBean implements ILockSignItem, Serializable {
     private String justiceId;//合同id
     private int lockedStatus;   //1-签署中，2-未签退回，3-签完已付
     private int signNum;//占用的签章数量
-
+    private int consumeBusinessType;//消费的业务类型，1-资金借条，9-电子收条，10-资金借条v2 ,
 
     @Override
     public String getITitle() {

@@ -20,6 +20,7 @@ import com.hm.iou.sharedata.model.IOUKindEnum;
 import com.hm.iou.uikit.HMLoadMoreView;
 import com.hm.iou.uikit.HMLoadingView;
 import com.hm.iou.uikit.HMTopBarView;
+import com.hm.iou.uikit.dialog.HMAlertDialog;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
@@ -143,22 +144,52 @@ public class LockSignListActivity extends BaseActivity<LockSignListPresenter> im
         mAdapter.setNewData(list);
     }
 
-    public void toIOUDetailByJusticeId(String justiceId) {
+    public void toIOUDetailByJusticeId(final String justiceId) {
         IouData iouData = IouDbHelper.queryIOUByJusticeId(justiceId);
-        if (iouData != null) {
-            String iouId = iouData.getIouId();
-            if (IOUKindEnum.ElecBorrowReceipt.getValue() == iouData.getIouKind()) {
-                Router.getInstance()
-                        .buildWithUrl("hmiou://m.54jietiao.com/iou/elec_borrow_detail")
-                        .withString("iou_id", iouId)
-                        .navigation(mContext);
-                return;
-            }
+        if (iouData == null) {//电子借条2.0已经被隐藏，收录电子借条2.0
+            new HMAlertDialog.Builder(mContext)
+                    .setMessage("借条已隐藏，是否需要收录此借条")
+                    .setPositiveButton("收录")
+                    .setNegativeButton("取消")
+                    .setOnClickListener(new HMAlertDialog.OnClickListener() {
+                        @Override
+                        public void onPosClick() {
+                            Router.getInstance().buildWithUrl("hmiou://m.54jietiao.com/iou_search/include")
+                                    .withString("iou_kind_type", "10")
+                                    .withString("justId", justiceId)
+                                    .navigation(mContext);
+
+                        }
+
+                        @Override
+                        public void onNegClick() {
+
+                        }
+                    })
+                    .create()
+                    .show();
+
+            return;
+        }
+        String iouId = iouData.getIouId();
+        if (IOUKindEnum.ElecBorrowReceipt.getValue() == iouData.getIouKind()) {//吕约借条
             Router.getInstance()
-                    .buildWithUrl("hmiou://m.54jietiao.com/iou/elec_borrow_detail_v2")
+                    .buildWithUrl("hmiou://m.54jietiao.com/iou/elec_borrow_detail")
                     .withString("iou_id", iouId)
                     .navigation(mContext);
+            return;
         }
-
+        if (IOUKindEnum.ElecReceiveReceipt.getValue() == iouData.getIouKind()) {//吕约收条
+            Router.getInstance()
+                    .buildWithUrl("hmiou://m.54jietiao.com/iou/elec_receive_detail")
+                    .withString("iou_id", iouId)
+                    .navigation(mContext);
+            return;
+        }
+        //吕约借条2.0
+        Router.getInstance()
+                .buildWithUrl("hmiou://m.54jietiao.com/iou/elec_borrow_detail_v2")
+                .withString("iou_id", iouId)
+                .navigation(mContext);
     }
 }

@@ -5,21 +5,6 @@
     android:orientation="vertical"
     android:paddingBottom="20dp">
 
-    <Button
-        android:id="@+id/tv_firstTry"
-        style="@style/UikitButton"
-        android:layout_width="match_parent"
-        android:layout_marginEnd="10dp"
-        android:layout_marginStart="10dp"
-        android:background="@drawable/pay_selector_bg_item_time_card_recharge_unselect"
-        android:gravity="center"
-        android:minHeight="60dp"
-        android:text="首次体验 ¥5"
-        android:textSize="@dimen/textFontSize_16"
-        android:visibility="gone"
-        tools:visibility="visible" />
-
-
     <ImageView
         android:id="@+id/iv_advertisement"
         android:layout_width="match_parent"

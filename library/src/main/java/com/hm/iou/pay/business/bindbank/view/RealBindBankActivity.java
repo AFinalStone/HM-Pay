@@ -19,6 +19,7 @@ import com.hm.iou.pay.business.bindbank.presenter.RealBindBankPresenter;
 import com.hm.iou.pay.event.CancelBindBankEvent;
 import com.hm.iou.router.Router;
 import com.hm.iou.sharedata.event.BindBankSuccessEvent;
+import com.hm.iou.sharedata.event.UpdateUserInfoEvent;
 import com.hm.iou.uikit.HMTopBarView;
 import com.hm.iou.uikit.dialog.HMAlertDialog;
 import com.jakewharton.rxbinding2.widget.RxTextView;
@@ -197,6 +198,7 @@ public class RealBindBankActivity extends BaseActivity<RealBindBankPresenter> im
                 finish();
                 TraceUtil.onEvent(mContext, "back_receive_awardreceive_award");
                 EventBus.getDefault().post(new BindBankSuccessEvent());
+                EventBus.getDefault().post(new UpdateUserInfoEvent());
             }
         });
         dialog.show();
