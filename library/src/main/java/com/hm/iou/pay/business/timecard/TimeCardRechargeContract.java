@@ -71,18 +71,6 @@ public interface TimeCardRechargeContract {
         void hideAdvertisement();
 
         /**
-         * 显示首次体验的信息描述
-         *
-         * @param firstTryBean
-         */
-        void showFirstTry(ITimeCardItem firstTryBean);
-
-        /**
-         * 隐藏首次体验
-         */
-        void hideFirstTry();
-
-        /**
          * 刷新页面数据
          */
         void refresh();
@@ -111,12 +99,6 @@ public interface TimeCardRechargeContract {
          * @param position
          */
         void toAddTimeCardByPosition(int position);
-
-
-        /**
-         * 首次体验
-         */
-        void toFirstTry();
 
         /**
          * 获取底部广告

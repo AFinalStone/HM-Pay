@@ -46,7 +46,11 @@ public class HistoryItemBean implements IHistoryItem {
         } else if (showStatus == OrderStatusEnum.PAID_NOT_USED.getStatus() ||
                 showStatus == OrderStatusEnum.GIFT_NOT_USED.getStatus()) {
             for (HistoryItemChildBean item : records) {
-                item.setTimeTextColor(Constants.colorGray);
+                if (item.getRecordStatus() == 2) {//被冻结
+                    item.setTimeTextColor(Constants.colorBlack);
+                } else {
+                    item.setTimeTextColor(Constants.colorGray);
+                }
             }
         } else {
             int i = 0;
@@ -69,10 +73,10 @@ public class HistoryItemBean implements IHistoryItem {
         }
         if (showStatus == OrderStatusEnum.WAIT_PAY.getStatus() ||
                 showStatus == OrderStatusEnum.PAYING.getStatus()) {
-            textColor = Constants.colorGreen;
+            textColor = Constants.colorBlack;
         } else if (showStatus == OrderStatusEnum.PAID_NOT_USED.getStatus() ||
                 showStatus == OrderStatusEnum.GIFT_NOT_USED.getStatus()) {
-            textColor = Constants.colorBlue;
+            textColor = Constants.colorBlack;
         } else {
             textColor = Constants.colorGray;
         }

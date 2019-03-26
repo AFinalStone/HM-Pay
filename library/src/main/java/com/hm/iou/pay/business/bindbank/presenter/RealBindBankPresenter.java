@@ -15,6 +15,7 @@ import com.hm.iou.pay.business.bindbank.RealBindBinkContract;
 import com.hm.iou.pay.comm.PaySPUtil;
 import com.hm.iou.sharedata.UserManager;
 import com.hm.iou.sharedata.event.BindBankSuccessEvent;
+import com.hm.iou.sharedata.event.UpdateUserInfoEvent;
 import com.hm.iou.sharedata.model.BaseResponse;
 import com.trello.rxlifecycle2.android.ActivityEvent;
 
@@ -100,6 +101,7 @@ public class RealBindBankPresenter extends MvpActivityPresenter<RealBindBinkCont
                         //四要素认证已经成功，用SharedPreferences保存下来，
                         PaySPUtil.saveUserBindBankSuccess(mContext);
                         EventBus.getDefault().post(new BindBankSuccessEvent());
+                        EventBus.getDefault().post(new UpdateUserInfoEvent());
                         mView.showBindCardSucc();
                     }
 

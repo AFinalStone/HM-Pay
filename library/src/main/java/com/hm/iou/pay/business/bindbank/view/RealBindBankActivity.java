@@ -128,17 +128,17 @@ public class RealBindBankActivity extends BaseActivity<RealBindBankPresenter> im
             new HMAlertDialog.Builder(this)
                     .setMessage("信息必须是本人资料")
                     .setMessageGravity(Gravity.CENTER)
-                    .setNegativeButton("知道了")
+                    .setPositiveButton("知道了")
                     .create().show();
         } else if (v.getId() == R.id.iv_fourelement_cardno_i) {
             new HMAlertDialog.Builder(this)
                     .setMessage(mPresenter.isCardNoInputError() ? "银行卡必须“62”或“60”开头" : "银行卡必须“62”或“60”开头16-19位纯数字")
-                    .setNegativeButton("知道了").create().show();
+                    .setPositiveButton("知道了").create().show();
         } else if (v.getId() == R.id.iv_fourelement_mobile_i) {
             new HMAlertDialog.Builder(this)
                     .setMessage(mPresenter.isMobileInputError() ? "请使用正常号段的手机号码" : "必须为本人的11位纯数字手机号")
                     .setMessageGravity(Gravity.CENTER)
-                    .setNegativeButton("知道了").create().show();
+                    .setPositiveButton("知道了").create().show();
         } else if (v.getId() == R.id.btn_four_element_submit) {
             TraceUtil.onEvent(this, "bank_submit_count");
             mPresenter.doFourElementsRealName(mEtCardNo.getText().toString(), mEtMobile.getText().toString());

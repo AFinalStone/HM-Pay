@@ -124,7 +124,7 @@
             android:id="@+id/tv_recharge_agreement"
             style="@style/UikitTextView.Auxiliary.Small"
             android:layout_marginEnd="26dp"
-            android:text="《充值协议》"
+            android:text="《支付协议》"
             android:textColor="@color/uikit_function_remind" />
     </LinearLayout>
 
