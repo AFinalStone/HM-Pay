@@ -1,9 +1,11 @@
 package com.hm.iou.pay.business.bindbank.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 
 import com.hm.iou.base.BaseActivity;
+import com.hm.iou.pay.Constants;
 import com.hm.iou.pay.business.bindbank.BindBinkContract;
 import com.hm.iou.pay.business.bindbank.presenter.BindBankPresenter;
 import com.hm.iou.router.Router;
@@ -14,6 +16,9 @@ import com.hm.iou.uikit.dialog.HMAlertDialog;
  * @time 2018/7/31 下午2:14
  */
 public class BindBankActivity extends BaseActivity<BindBankPresenter> implements BindBinkContract.View {
+
+    //进入绑卡页面的源页面
+    private String mSource;
 
     @Override
     protected int getLayoutId() {
@@ -27,6 +32,7 @@ public class BindBankActivity extends BaseActivity<BindBankPresenter> implements
 
     @Override
     protected void initEventAndData(Bundle bundle) {
+        mSource = getIntent().getStringExtra(Constants.EXTRA_KEY_SOURCE);
         mPresenter.checkCanBindBank();
     }
 
@@ -88,10 +94,17 @@ public class BindBankActivity extends BaseActivity<BindBankPresenter> implements
     }
 
     @Override
-    public void showBinkBankInfo(String bankCardName, String bankCardCode, String bankCardType, String phoneCode) {
+    public void showBinkBankInfo() {
         Router.getInstance()
                 .buildWithUrl("hmiou://m.54jietiao.com/person/user_bind_bank_info")
                 .navigation(mContext);
         finish();
+    }
+
+    @Override
+    public void toRealBindCardPage() {
+        Intent intent = new Intent(mContext, RealBindBankActivity.class);
+        intent.putExtra(Constants.EXTRA_KEY_SOURCE, mSource);
+        startActivity(intent);
     }
 }

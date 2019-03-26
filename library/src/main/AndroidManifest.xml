@@ -40,6 +40,11 @@
             android:exported="true"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".business.bindbank.view.BindSuccActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait" />
+
     </application>
 
 

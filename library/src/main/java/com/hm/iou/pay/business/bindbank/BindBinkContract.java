@@ -22,12 +22,13 @@ public interface BindBinkContract {
         /**
          * 显示用户已绑定的银行卡信息
          *
-         * @param bankCardName 银行名称
-         * @param bankCardCode 卡号
-         * @param bankCardType 类型
-         * @param phoneCode 手机号
          */
-        void showBinkBankInfo(String bankCardName, String bankCardCode, String bankCardType, String phoneCode);
+        void showBinkBankInfo();
+
+        /**
+         * 进入到真实绑卡页面
+         */
+        void toRealBindCardPage();
 
     }
 

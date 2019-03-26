@@ -1,6 +1,6 @@
 package com.hm.iou.pay.business.bindbank.view;
 
-import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.hm.iou.base.BaseActivity;
 import com.hm.iou.base.utils.TraceUtil;
+import com.hm.iou.pay.Constants;
 import com.hm.iou.pay.R;
 import com.hm.iou.pay.R2;
 import com.hm.iou.pay.business.bindbank.BankCardTextWatcher;
@@ -18,8 +19,6 @@ import com.hm.iou.pay.business.bindbank.RealBindBinkContract;
 import com.hm.iou.pay.business.bindbank.presenter.RealBindBankPresenter;
 import com.hm.iou.pay.event.CancelBindBankEvent;
 import com.hm.iou.router.Router;
-import com.hm.iou.sharedata.event.BindBankSuccessEvent;
-import com.hm.iou.sharedata.event.UpdateUserInfoEvent;
 import com.hm.iou.uikit.HMTopBarView;
 import com.hm.iou.uikit.dialog.HMAlertDialog;
 import com.jakewharton.rxbinding2.widget.RxTextView;
@@ -51,6 +50,8 @@ public class RealBindBankActivity extends BaseActivity<RealBindBankPresenter> im
     @BindView(R2.id.btn_four_element_submit)
     Button mBtnSubmit;
 
+    String mSource;
+
     @Override
     protected int getLayoutId() {
         return R.layout.pay_activity_four_elements_realname;
@@ -63,6 +64,11 @@ public class RealBindBankActivity extends BaseActivity<RealBindBankPresenter> im
 
     @Override
     protected void initEventAndData(Bundle bundle) {
+        mSource = getIntent().getStringExtra(Constants.EXTRA_KEY_SOURCE);
+        if (bundle != null) {
+            mSource = bundle.getString(Constants.EXTRA_KEY_SOURCE);
+        }
+
         TraceUtil.onEvent(this, "bank_page_show");
         mTopBarView.setOnMenuClickListener(new HMTopBarView.OnTopBarMenuClickListener() {
             @Override
@@ -106,6 +112,12 @@ public class RealBindBankActivity extends BaseActivity<RealBindBankPresenter> im
     }
 
     @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(Constants.EXTRA_KEY_SOURCE, mSource);
+    }
+
+    @Override
     public void onBackPressed() {
         doGiveUpRealName();
     }
@@ -116,17 +128,17 @@ public class RealBindBankActivity extends BaseActivity<RealBindBankPresenter> im
             new HMAlertDialog.Builder(this)
                     .setMessage("信息必须是本人资料")
                     .setMessageGravity(Gravity.CENTER)
-                    .setNegativeButton("知道了")
+                    .setPositiveButton("知道了")
                     .create().show();
         } else if (v.getId() == R.id.iv_fourelement_cardno_i) {
             new HMAlertDialog.Builder(this)
                     .setMessage(mPresenter.isCardNoInputError() ? "银行卡必须“62”或“60”开头" : "银行卡必须“62”或“60”开头16-19位纯数字")
-                    .setNegativeButton("知道了").create().show();
+                    .setPositiveButton("知道了").create().show();
         } else if (v.getId() == R.id.iv_fourelement_mobile_i) {
             new HMAlertDialog.Builder(this)
                     .setMessage(mPresenter.isMobileInputError() ? "请使用正常号段的手机号码" : "必须为本人的11位纯数字手机号")
                     .setMessageGravity(Gravity.CENTER)
-                    .setNegativeButton("知道了").create().show();
+                    .setPositiveButton("知道了").create().show();
         } else if (v.getId() == R.id.btn_four_element_submit) {
             TraceUtil.onEvent(this, "bank_submit_count");
             mPresenter.doFourElementsRealName(mEtCardNo.getText().toString(), mEtMobile.getText().toString());
@@ -190,18 +202,11 @@ public class RealBindBankActivity extends BaseActivity<RealBindBankPresenter> im
     }
 
     @Override
-    public void showAuthSuccDialog() {
-        VerifySuccDialog dialog = new VerifySuccDialog(this);
-        dialog.setConfirmListener(new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                finish();
-                TraceUtil.onEvent(mContext, "back_receive_awardreceive_award");
-                EventBus.getDefault().post(new BindBankSuccessEvent());
-                EventBus.getDefault().post(new UpdateUserInfoEvent());
-            }
-        });
-        dialog.show();
+    public void showBindCardSucc() {
+        Intent intent = new Intent(this, BindSuccActivity.class);
+        intent.putExtra(Constants.EXTRA_KEY_SOURCE, mSource);
+        startActivity(intent);
+        finish();
     }
 
     /**

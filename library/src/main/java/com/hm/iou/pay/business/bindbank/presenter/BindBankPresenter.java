@@ -1,7 +1,6 @@
 package com.hm.iou.pay.business.bindbank.presenter;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.annotation.NonNull;
 
 import com.hm.iou.base.mvp.MvpActivityPresenter;
@@ -11,7 +10,6 @@ import com.hm.iou.base.utils.TraceUtil;
 import com.hm.iou.pay.api.PayApi;
 import com.hm.iou.pay.bean.FourElementsVerifyStatus;
 import com.hm.iou.pay.business.bindbank.BindBinkContract;
-import com.hm.iou.pay.business.bindbank.view.RealBindBankActivity;
 import com.hm.iou.pay.comm.PaySPUtil;
 import com.hm.iou.pay.dict.FourElementStatusEnumBean;
 import com.hm.iou.sharedata.UserManager;
@@ -48,7 +46,7 @@ public class BindBankPresenter extends MvpActivityPresenter<BindBinkContract.Vie
             UserThirdPlatformInfo.BankInfoRespBean bankInfoRespBean = userThirdPlatformInfo.getBankInfoResp();
             if (bankInfoRespBean != null && 0 != bankInfoRespBean.getIsBinded()) {
                 //已绑定过银行卡
-                mView.showBinkBankInfo(bankInfoRespBean.getBankName(), bankInfoRespBean.getBankCard(), bankInfoRespBean.getBankCardType(), bankInfoRespBean.getBankPhone());
+                mView.showBinkBankInfo();
                 return;
             }
         }
@@ -71,7 +69,7 @@ public class BindBankPresenter extends MvpActivityPresenter<BindBinkContract.Vie
                             if (0 == status.getRetryTimes()) {
                                 mView.warnNoTimeToBindToday();
                             } else {
-                                mContext.startActivity(new Intent(mContext, RealBindBankActivity.class));
+                                mView.toRealBindCardPage();
                                 mView.closeCurrPage();
                             }
                         } else {

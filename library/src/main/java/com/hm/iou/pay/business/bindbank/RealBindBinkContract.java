@@ -38,9 +38,9 @@ public interface RealBindBinkContract {
         void showAuthFailExceedCount(String msg);
 
         /**
-         * 显示认证成功对话框
+         * 显示认证成功
          */
-        void showAuthSuccDialog();
+        void showBindCardSucc();
     }
 
     interface Presenter extends BaseContract.BasePresenter {

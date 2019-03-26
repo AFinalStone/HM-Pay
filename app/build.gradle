@@ -3,7 +3,7 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 26
     defaultConfig {
-        applicationId "com.hm.iou"
+        applicationId "com.hm.iou.pay"
         minSdkVersion 19
         targetSdkVersion 26
         versionCode 1
