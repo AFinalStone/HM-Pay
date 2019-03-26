@@ -115,7 +115,9 @@ public class CacheDataUtil {
                 LockSignDbData dbData = new LockSignDbData();
                 dbData.setJusticeId(data.getJusticeId());
                 dbData.setContent(data.getContent());
-                dbData.setGenDateStr(data.getGenDateStr().replaceAll("\\.", "-"));
+                String genDateStr = data.getGenDateStr();
+                genDateStr = genDateStr.replaceAll("\\.", "-");
+                dbData.setGenDateStr(genDateStr);
                 dbData.setEndDateStr(data.getEndDateStr());
                 dbData.setLockedStatus(data.getLockedStatus());
                 dbData.setSignNum(data.getSignNum());
@@ -138,7 +140,9 @@ public class CacheDataUtil {
                 LockedSignItemBean itemBean = new LockedSignItemBean();
                 itemBean.setJusticeId(dbData.getJusticeId());
                 itemBean.setContent(dbData.getContent());
-                itemBean.setGenDateStr(dbData.getGenDateStr().replaceAll("-", "\\."));
+                String genDateStr = dbData.getGenDateStr();
+                genDateStr = genDateStr.replaceAll("-", "\\.");
+                itemBean.setGenDateStr(genDateStr);
                 itemBean.setEndDateStr(dbData.getEndDateStr());
                 itemBean.setLockedStatus(dbData.getLockedStatus());
                 itemBean.setSignNum(dbData.getSignNum());
