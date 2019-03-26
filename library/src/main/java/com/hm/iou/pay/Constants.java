@@ -26,4 +26,10 @@ public class Constants {
     public static final int colorGray = 0xFFBBBBBB;
     public static final int colorRed = 0xFFF43048;
     public static final int colorBlack = 0xFF111111;
+
+    //绑卡页面来源出处
+    public static final String EXTRA_KEY_SOURCE = "source";
+    public static final String BIND_CARD_SOURCE_BANNER = "banner";          //绑卡来源
+    public static final String BIND_CARD_SOURCE_USERCENTER = "usercenter";  //绑卡来源
+
 }

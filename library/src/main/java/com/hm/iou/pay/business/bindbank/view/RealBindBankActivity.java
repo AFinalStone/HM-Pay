@@ -1,6 +1,6 @@
 package com.hm.iou.pay.business.bindbank.view;
 
-import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.hm.iou.base.BaseActivity;
 import com.hm.iou.base.utils.TraceUtil;
+import com.hm.iou.pay.Constants;
 import com.hm.iou.pay.R;
 import com.hm.iou.pay.R2;
 import com.hm.iou.pay.business.bindbank.BankCardTextWatcher;
@@ -18,7 +19,6 @@ import com.hm.iou.pay.business.bindbank.RealBindBinkContract;
 import com.hm.iou.pay.business.bindbank.presenter.RealBindBankPresenter;
 import com.hm.iou.pay.event.CancelBindBankEvent;
 import com.hm.iou.router.Router;
-import com.hm.iou.sharedata.event.BindBankSuccessEvent;
 import com.hm.iou.uikit.HMTopBarView;
 import com.hm.iou.uikit.dialog.HMAlertDialog;
 import com.jakewharton.rxbinding2.widget.RxTextView;
@@ -50,6 +50,8 @@ public class RealBindBankActivity extends BaseActivity<RealBindBankPresenter> im
     @BindView(R2.id.btn_four_element_submit)
     Button mBtnSubmit;
 
+    String mSource;
+
     @Override
     protected int getLayoutId() {
         return R.layout.pay_activity_four_elements_realname;
@@ -62,6 +64,11 @@ public class RealBindBankActivity extends BaseActivity<RealBindBankPresenter> im
 
     @Override
     protected void initEventAndData(Bundle bundle) {
+        mSource = getIntent().getStringExtra(Constants.EXTRA_KEY_SOURCE);
+        if (bundle != null) {
+            mSource = bundle.getString(Constants.EXTRA_KEY_SOURCE);
+        }
+
         TraceUtil.onEvent(this, "bank_page_show");
         mTopBarView.setOnMenuClickListener(new HMTopBarView.OnTopBarMenuClickListener() {
             @Override
@@ -102,6 +109,12 @@ public class RealBindBankActivity extends BaseActivity<RealBindBankPresenter> im
         });
 
         mPresenter.getUserRealName();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(Constants.EXTRA_KEY_SOURCE, mSource);
     }
 
     @Override
@@ -189,17 +202,11 @@ public class RealBindBankActivity extends BaseActivity<RealBindBankPresenter> im
     }
 
     @Override
-    public void showAuthSuccDialog() {
-        VerifySuccDialog dialog = new VerifySuccDialog(this);
-        dialog.setConfirmListener(new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                finish();
-                TraceUtil.onEvent(mContext, "back_receive_awardreceive_award");
-                EventBus.getDefault().post(new BindBankSuccessEvent());
-            }
-        });
-        dialog.show();
+    public void showBindCardSucc() {
+        Intent intent = new Intent(this, BindSuccActivity.class);
+        intent.putExtra(Constants.EXTRA_KEY_SOURCE, mSource);
+        startActivity(intent);
+        finish();
     }
 
     /**
