@@ -71,7 +71,7 @@ public class CacheDataUtil {
                     @Override
                     public Boolean apply(GetLockedSignListResBean resBean) throws Exception {
                         //保存缓存数据
-                        LockSignDbHelper.saveOrUpdateDebtBookList(lockedSignItemBeanToLockSignDbData(resBean.getInfoList()));
+                        LockSignDbHelper.saveOrUpdateLockSignDataList(lockedSignItemBeanToLockSignDbData(resBean.getInfoList()));
                         //保存更新时间
                         String lastPullTime = resBean.getLastReqDate();
                         CacheDataUtil.setLastPullDate(context, lastPullTime);
@@ -92,7 +92,7 @@ public class CacheDataUtil {
         Disposable disposable = Flowable.create(new FlowableOnSubscribe<List<LockedSignItemBean>>() {
             @Override
             public void subscribe(FlowableEmitter<List<LockedSignItemBean>> flowableEmitter) throws Exception {
-                List<LockSignDbData> listCache = LockSignDbHelper.queryDebtBookList();
+                List<LockSignDbData> listCache = LockSignDbHelper.queryLockSignDataList();
                 flowableEmitter.onNext(lockSignDbDataToLockedSignItemBean(listCache));
             }
         }, BackpressureStrategy.ERROR)
@@ -115,7 +115,7 @@ public class CacheDataUtil {
                 LockSignDbData dbData = new LockSignDbData();
                 dbData.setJusticeId(data.getJusticeId());
                 dbData.setContent(data.getContent());
-                dbData.setGenDateStr(data.getGenDateStr());
+                dbData.setGenDateStr(data.getGenDateStr().replaceAll("\\.", "-"));
                 dbData.setEndDateStr(data.getEndDateStr());
                 dbData.setLockedStatus(data.getLockedStatus());
                 dbData.setSignNum(data.getSignNum());
@@ -138,7 +138,7 @@ public class CacheDataUtil {
                 LockedSignItemBean itemBean = new LockedSignItemBean();
                 itemBean.setJusticeId(dbData.getJusticeId());
                 itemBean.setContent(dbData.getContent());
-                itemBean.setGenDateStr(dbData.getGenDateStr());
+                itemBean.setGenDateStr(dbData.getGenDateStr().replaceAll("-", "\\."));
                 itemBean.setEndDateStr(dbData.getEndDateStr());
                 itemBean.setLockedStatus(dbData.getLockedStatus());
                 itemBean.setSignNum(dbData.getSignNum());

@@ -39,13 +39,19 @@ public class HistoryItemBean implements IHistoryItem {
         }
         //待支付,支付中
         if (showStatus == OrderStatusEnum.WAIT_PAY.getStatus() || showStatus == OrderStatusEnum.PAYING.getStatus()) {
-            for (HistoryItemChildBean item : records) {
+            for (int i = 0; i < records.size(); i++) {
+                HistoryItemChildBean item = records.get(i);
                 item.setTimeTextColor(Constants.colorBlack);
             }
             //已支付（未使用完)，已赠送（未使用完）
         } else if (showStatus == OrderStatusEnum.PAID_NOT_USED.getStatus() ||
                 showStatus == OrderStatusEnum.GIFT_NOT_USED.getStatus()) {
-            for (HistoryItemChildBean item : records) {
+            for (int i = 0; i < records.size(); i++) {
+                HistoryItemChildBean item = records.get(i);
+                if (i == 0) {
+                    item.setTimeTextColor(Constants.colorBlack);
+                    continue;
+                }
                 if (item.getRecordStatus() == 2) {//被冻结
                     item.setTimeTextColor(Constants.colorBlack);
                 } else {

@@ -4,6 +4,9 @@ import com.hm.iou.pay.business.locksign.view.ILockSignItem;
 import com.hm.iou.pay.dict.LockSignStatusEnum;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import lombok.Data;
 
@@ -49,6 +52,14 @@ public class LockedSignItemBean implements ILockSignItem, Serializable {
 
     @Override
     public String getIEndTime() {
+        try {
+            SimpleDateFormat sf = new SimpleDateFormat("yyyy.MM.dd HH:mm");
+            Date date = sf.parse(endDateStr);
+            sf = new SimpleDateFormat("yyyy-MM-dd");
+            return sf.format(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         return endDateStr;
     }
 
