@@ -30,9 +30,8 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="3dip"
+        android:layout_height="1dip"
         android:layout_marginTop="15dp"
-        android:background="@drawable/pay_line_dash_black"
-        android:layerType="software" />
+        android:background="@color/uikit_divider" />
 </LinearLayout>
 
