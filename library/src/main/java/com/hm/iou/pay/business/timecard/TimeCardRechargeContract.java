@@ -101,11 +101,6 @@ public interface TimeCardRechargeContract {
         void toAddTimeCardByPosition(int position);
 
         /**
-         * 获取底部广告
-         */
-        void getBottomAd();
-
-        /**
          * 获取内部用户充值信息
          */
         void getInwardPackage(String packageId);

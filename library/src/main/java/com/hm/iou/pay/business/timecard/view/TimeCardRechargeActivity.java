@@ -16,12 +16,17 @@ import com.hm.iou.pay.business.timecard.TimeCardRechargeContract;
 import com.hm.iou.pay.business.timecard.TimeCardRechargePresenter;
 import com.hm.iou.pay.comm.ITimeCardItem;
 import com.hm.iou.router.Router;
+import com.hm.iou.sharedata.event.BindBankSuccessEvent;
 import com.hm.iou.uikit.HMLoadingView;
 import com.hm.iou.uikit.HMTopBarView;
 import com.hm.iou.uikit.dialog.HMAlertDialog;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
@@ -44,6 +49,8 @@ public class TimeCardRechargeActivity extends BaseActivity<TimeCardRechargePrese
     private TimeCardListHeaderHelper mTimeCardListHeaderHelper;
     private TimeCardListFooterHelper mTimeCardListFooterHelper;
 
+    private boolean mIsNeedRefresh = false;
+
     @Override
     protected int getLayoutId() {
         return R.layout.pay_activity_time_card_recharge;
@@ -57,6 +64,7 @@ public class TimeCardRechargeActivity extends BaseActivity<TimeCardRechargePrese
 
     @Override
     protected void initEventAndData(Bundle bundle) {
+        EventBus.getDefault().register(this);
         initView();
         mPresenter.init();
     }
@@ -64,7 +72,10 @@ public class TimeCardRechargeActivity extends BaseActivity<TimeCardRechargePrese
     @Override
     protected void onResume() {
         super.onResume();
-        mPresenter.getBottomAd();
+        if (mIsNeedRefresh) {
+            mRefreshLayout.autoRefresh();
+            mIsNeedRefresh = false;
+        }
     }
 
     @Override
@@ -73,6 +84,12 @@ public class TimeCardRechargeActivity extends BaseActivity<TimeCardRechargePrese
         if (REQ_OPEN_SELECT_PAY_TYPE == requestCode && RESULT_OK == resultCode) {
             mPresenter.refresh();
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
     private void initView() {
@@ -220,4 +237,13 @@ public class TimeCardRechargeActivity extends BaseActivity<TimeCardRechargePrese
                 .create().show();
     }
 
+    /**
+     * 银行卡绑定成功，重新刷新页面
+     *
+     * @param bindBankSuccessEvent
+     */
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvenBusBindBankCard(BindBankSuccessEvent bindBankSuccessEvent) {
+        mIsNeedRefresh = true;
+    }
 }

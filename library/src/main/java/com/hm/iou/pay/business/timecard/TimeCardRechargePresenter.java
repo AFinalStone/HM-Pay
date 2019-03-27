@@ -8,6 +8,7 @@ import com.hm.iou.base.mvp.MvpActivityPresenter;
 import com.hm.iou.base.utils.CommSubscriber;
 import com.hm.iou.base.utils.RxJavaStopException;
 import com.hm.iou.base.utils.RxUtil;
+import com.hm.iou.logger.Logger;
 import com.hm.iou.pay.Constants;
 import com.hm.iou.pay.api.PayApi;
 import com.hm.iou.pay.bean.AdBean;
@@ -16,7 +17,6 @@ import com.hm.iou.pay.bean.TimeCardBean;
 import com.hm.iou.pay.event.PaySuccessEvent;
 import com.hm.iou.router.Router;
 import com.hm.iou.sharedata.UserManager;
-import com.hm.iou.sharedata.event.BindBankSuccessEvent;
 import com.hm.iou.sharedata.model.BaseResponse;
 import com.hm.iou.sharedata.model.PersonalCenterInfo;
 import com.hm.iou.sharedata.model.UserExtendInfo;
@@ -44,10 +44,9 @@ import io.reactivex.functions.Function;
 public class TimeCardRechargePresenter extends MvpActivityPresenter<TimeCardRechargeContract.View> implements TimeCardRechargeContract.Presenter {
 
     private Disposable mListDisposable;
-    private long mSignUnitPrice; //单价
+    private Disposable mBotttomAdDisposable;
     private List<TimeCardBean> mListData = new ArrayList<>();
     private SearchTimeCardListResBean mTimeCardInfo;
-    private boolean mIsNeedRefreshAd = true;
 
     public TimeCardRechargePresenter(@NonNull Context context, @NonNull TimeCardRechargeContract.View view) {
         super(context, view);
@@ -88,7 +87,6 @@ public class TimeCardRechargePresenter extends MvpActivityPresenter<TimeCardRech
                             mView.showInitFailed("数据异常");
                             return;
                         }
-                        mSignUnitPrice = searchTimeCardListResBean.getSignUnitPrice();
                         //套餐列表
                         List<TimeCardBean> list = searchTimeCardListResBean.getPackageRespList();
                         mListData.clear();
@@ -100,6 +98,7 @@ public class TimeCardRechargePresenter extends MvpActivityPresenter<TimeCardRech
                         long countSign = searchTimeCardListResBean.getCountSign();
                         mView.showRemainNum(String.valueOf(countSign));
                         mView.enableRefresh(true);
+                        getBottomAd();
                     }
 
                     @Override
@@ -127,6 +126,7 @@ public class TimeCardRechargePresenter extends MvpActivityPresenter<TimeCardRech
         if (mListDisposable != null && !mListDisposable.isDisposed()) {
             mListDisposable.dispose();
         }
+        Logger.d("========刷新数据======");
         mListDisposable = PayApi.getLockedSignNum()
                 .compose(getProvider().<BaseResponse<Integer>>bindUntilEvent(ActivityEvent.DESTROY))
                 .map(RxUtil.<Integer>handleResponse())
@@ -160,6 +160,8 @@ public class TimeCardRechargePresenter extends MvpActivityPresenter<TimeCardRech
                         long countSign = searchTimeCardListResBean.getCountSign();
                         mView.showRemainNum(String.valueOf(countSign));
                         mView.enableRefresh(true);
+                        Logger.d("========成功获取套餐，开始获取底部广告======");
+                        getBottomAd();
                     }
 
                     @Override
@@ -209,61 +211,6 @@ public class TimeCardRechargePresenter extends MvpActivityPresenter<TimeCardRech
         toSelectPayType(strTimeCardName, strTimeCardPayMoney, strTimeCardAddNum, strPackageId);
     }
 
-
-    @Override
-    public void getBottomAd() {
-        if (mIsNeedRefreshAd) {
-            CommApi.getPersonalCenter()
-                    .compose(getProvider().<BaseResponse<PersonalCenterInfo>>bindUntilEvent(ActivityEvent.DESTROY))
-                    .map(RxUtil.<PersonalCenterInfo>handleResponse())
-                    .flatMap(new Function<PersonalCenterInfo, Publisher<BaseResponse<List<AdBean>>>>() {
-                        @Override
-                        public Publisher<BaseResponse<List<AdBean>>> apply(PersonalCenterInfo personalCenterInfo) throws Exception {
-                            //存储个人中心摘要信息
-                            UserManager userManager = UserManager.getInstance(mContext);
-                            UserExtendInfo userExtendInfo = userManager.getUserExtendInfo();
-                            userExtendInfo.setPersonalCenterInfo(personalCenterInfo);
-                            if (personalCenterInfo != null && personalCenterInfo.getBankCardResp() != null && personalCenterInfo.getBankCardResp().isHasBinded()) {
-                                throw new RxJavaStopException();
-                            }
-                            return PayApi.getAdvertiseList(Constants.AD_POSITION_CARD_CHARGE);
-                        }
-                    })
-                    .compose(getProvider().<BaseResponse<List<AdBean>>>bindUntilEvent(ActivityEvent.DESTROY))
-                    .map(RxUtil.<List<AdBean>>handleResponse())
-                    .subscribeWith(new CommSubscriber<List<AdBean>>(mView) {
-                        @Override
-                        public void handleResult(List<AdBean> list) {
-                            mIsNeedRefreshAd = false;
-                            if (list != null && !list.isEmpty()) {
-                                AdBean bean = list.get(0);
-                                mView.showAdvertisement(bean.getUrl(), bean.getLinkUrl());
-                            } else {
-                                mView.hideAdvertisement();
-                            }
-                        }
-
-                        @Override
-                        public void handleException(Throwable throwable, String s, String s1) {
-                            if (throwable instanceof RxJavaStopException) {
-                                mIsNeedRefreshAd = false;
-                            }
-                            mView.hideAdvertisement();
-                        }
-
-                        @Override
-                        public boolean isShowCommError() {
-                            return false;
-                        }
-
-                        @Override
-                        public boolean isShowBusinessError() {
-                            return false;
-                        }
-                    });
-        }
-
-    }
 
     @Override
     public void getInwardPackage(String packageId) {
@@ -324,6 +271,66 @@ public class TimeCardRechargePresenter extends MvpActivityPresenter<TimeCardRech
     }
 
     /**
+     * 获取底部广告资源
+     */
+    private void getBottomAd() {
+        if (mBotttomAdDisposable != null && !mBotttomAdDisposable.isDisposed()) {
+            mBotttomAdDisposable.dispose();
+        }
+        Logger.d("========开始获取个人中心摘要信息======");
+        mBotttomAdDisposable = CommApi.getPersonalCenter()
+                .compose(getProvider().<BaseResponse<PersonalCenterInfo>>bindUntilEvent(ActivityEvent.DESTROY))
+                .map(RxUtil.<PersonalCenterInfo>handleResponse())
+                .flatMap(new Function<PersonalCenterInfo, Publisher<BaseResponse<List<AdBean>>>>() {
+                    @Override
+                    public Publisher<BaseResponse<List<AdBean>>> apply(PersonalCenterInfo personalCenterInfo) throws Exception {
+                        //存储个人中心摘要信息
+                        UserManager userManager = UserManager.getInstance(mContext);
+                        UserExtendInfo userExtendInfo = userManager.getUserExtendInfo();
+                        userExtendInfo.setPersonalCenterInfo(personalCenterInfo);
+                        if (personalCenterInfo != null && personalCenterInfo.getBankCardResp() != null && personalCenterInfo.getBankCardResp().isHasBinded()) {
+                            Logger.d("========用户已经绑定过银行卡======");
+                            mView.hideAdvertisement();
+                            throw new RxJavaStopException();
+                        }
+                        Logger.d("========开始获取广告======");
+                        return PayApi.getAdvertiseList(Constants.AD_POSITION_CARD_CHARGE);
+                    }
+                })
+                .compose(getProvider().<BaseResponse<List<AdBean>>>bindUntilEvent(ActivityEvent.DESTROY))
+                .map(RxUtil.<List<AdBean>>handleResponse())
+                .subscribeWith(new CommSubscriber<List<AdBean>>(mView) {
+                    @Override
+                    public void handleResult(List<AdBean> list) {
+                        if (list != null && !list.isEmpty()) {
+                            Logger.d("========获取广告，展示广告======");
+                            AdBean bean = list.get(0);
+                            mView.showAdvertisement(bean.getUrl(), bean.getLinkUrl());
+                        } else {
+                            Logger.d("========没有广告数据，隐藏广告======");
+                            mView.hideAdvertisement();
+                        }
+                    }
+
+                    @Override
+                    public void handleException(Throwable throwable, String s, String s1) {
+                        Logger.d("========发生异常，隐藏广告======");
+                        mView.hideAdvertisement();
+                    }
+
+                    @Override
+                    public boolean isShowCommError() {
+                        return false;
+                    }
+
+                    @Override
+                    public boolean isShowBusinessError() {
+                        return false;
+                    }
+                });
+    }
+
+    /**
      * 支付成功
      *
      * @param paySuccessEvent
@@ -333,14 +340,5 @@ public class TimeCardRechargePresenter extends MvpActivityPresenter<TimeCardRech
         mView.refresh();
     }
 
-    /**
-     * 银行卡绑定成功，重新刷新广告页面
-     *
-     * @param bindBankSuccessEvent
-     */
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEvenBusBindBankCard(BindBankSuccessEvent bindBankSuccessEvent) {
-        mIsNeedRefreshAd = true;
-    }
 
 }
