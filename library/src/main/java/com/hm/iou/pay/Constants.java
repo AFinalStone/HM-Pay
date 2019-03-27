@@ -21,11 +21,11 @@ public class Constants {
     public static final String AD_POSITION_CARD_CHARGE = "banner001";
     public static final String AD_POSITION_FOUR_ELEMENTS = "banner002";
 
-    public static final int colorGreen = 0xFF417505;
-    public static final int colorBlue = 0xFF4A90E2;
-    public static final int colorGray = 0xFFBBBBBB;
-    public static final int colorRed = 0xFFF43048;
-    public static final int colorBlack = 0xFF111111;
+    public static int colorGreen = 0xFF07C160;
+    public static int colorBlue = 0xFF2782E2;
+    public static int colorGray = 0xFF575B62;
+    public static int colorRed = 0xFFEF5050;
+    public static int colorBlack = 0xFF111111;
 
     //绑卡页面来源出处
     public static final String EXTRA_KEY_SOURCE = "source";
