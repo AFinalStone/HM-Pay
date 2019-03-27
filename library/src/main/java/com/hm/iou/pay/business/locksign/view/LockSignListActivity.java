@@ -11,6 +11,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.hm.iou.base.BaseActivity;
 import com.hm.iou.database.IouDbHelper;
 import com.hm.iou.database.table.IouData;
+import com.hm.iou.logger.Logger;
 import com.hm.iou.pay.R;
 import com.hm.iou.pay.R2;
 import com.hm.iou.pay.business.locksign.LockSignListContract;
@@ -146,6 +147,7 @@ public class LockSignListActivity extends BaseActivity<LockSignListPresenter> im
 
     public void toIOUDetailByJusticeId(final String justiceId) {
         IouData iouData = IouDbHelper.queryIOUByJusticeId(justiceId);
+        Logger.d("justiceId = " + justiceId);
         if (iouData == null) {//电子借条2.0已经被隐藏，收录电子借条2.0
             new HMAlertDialog.Builder(mContext)
                     .setMessage("借条已隐藏，是否需要收录此借条")
