@@ -31,10 +31,10 @@
         android:layout_width="42dp"
         android:layout_height="24dp"
         android:layout_marginTop="12dp"
-        android:background="@drawable/uikit_selector_btn_main_small"
+        android:background="@drawable/uikit_selector_btn_black_small"
         android:gravity="center"
         android:text="选我"
-        android:textColor="@color/uikit_text_main_content"
+        android:textColor="@color/white"
         android:textSize="@dimen/uikti_sub_content_text_size" />
 </LinearLayout>
 
