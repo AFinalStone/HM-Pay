@@ -18,6 +18,8 @@ import com.tencent.mm.opensdk.modelpay.PayResp;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
+import com.umeng.socialize.PlatformConfig;
+import com.umeng.socialize.bean.SHARE_MEDIA;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -30,15 +32,22 @@ import org.greenrobot.eventbus.EventBus;
  */
 public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
 
-    private static final String APP_ID = "wx54a8a6252c69ea7c";
     private IWXAPI mIWXAPI;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(com.hm.iou.base.R.layout.base_activity_wx_pay);
-        mIWXAPI = WXAPIFactory.createWXAPI(this, APP_ID);
+        mIWXAPI = WXAPIFactory.createWXAPI(this, getAppId());
         mIWXAPI.handleIntent(getIntent(), this);
+
+
+    }
+
+    private static String getAppId() {
+        PlatformConfig.APPIDPlatform weixin = (PlatformConfig.APPIDPlatform) PlatformConfig.configs.get(SHARE_MEDIA.WEIXIN);
+        String appId = weixin.appId;
+        return appId;
     }
 
     @Override
@@ -95,7 +104,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
 
     public static IWXAPI createWXApi(Context context) {
         IWXAPI iwxapi = WXAPIFactory.createWXAPI(context, null);
-        iwxapi.registerApp(APP_ID);
+        iwxapi.registerApp(getAppId());
         return iwxapi;
     }
 
@@ -112,7 +121,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
     public static boolean wxPay(IWXAPI wxApi, String partnerId, String prepayid
             , String packageValue, String nonceStr, String timeStamp, String sign, String key) {
         PayReq request = new PayReq();
-        request.appId = APP_ID;
+        request.appId = getAppId();
         request.partnerId = partnerId;
         request.prepayId = prepayid;
         request.packageValue = packageValue;
