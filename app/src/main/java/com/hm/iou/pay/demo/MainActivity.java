@@ -1,6 +1,7 @@
 package com.hm.iou.pay.demo;
 
 import android.app.Activity;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 
@@ -32,8 +33,13 @@ public class MainActivity extends Activity {
         findViewById(R.id.btn_timeCardRecharge).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Router.getInstance()
+                /*Router.getInstance()
                         .buildWithUrl("hmiou://m.54jietiao.com/pay/time_card_recharge")
+                        .navigation(MainActivity.this);
+                */
+
+                Router.getInstance()
+                        .buildWithUrl("hmiou://m.54jietiao.com/pay/pay_vip?time_card_pay_money=9&time_card_name=VIP会员&package_id=123")
                         .navigation(MainActivity.this);
             }
         });
@@ -62,6 +68,8 @@ public class MainActivity extends Activity {
                         .navigation(MainActivity.this);
             }
         });
+
+        test();
     }
 
     private void login() {
@@ -97,4 +105,22 @@ public class MainActivity extends Activity {
                     }
                 });
     }
+
+
+    private void test() {
+        System.out.println("BOARD=" + Build.BOARD);
+        System.out.println("BRAND=" + Build.BRAND);
+        System.out.println("CPU_ABI=" + Build.CPU_ABI);
+        System.out.println("DEVICE=" + Build.DEVICE);
+        System.out.println("DISPLAY=" + Build.DISPLAY);
+        System.out.println("HOST=" + Build.HOST);
+        System.out.println("ID=" + Build.ID);
+        System.out.println("MANUFACTURER=" + Build.MANUFACTURER);
+        System.out.println("MODEL=" + Build.MODEL);
+        System.out.println("PRODUCT=" + Build.PRODUCT);
+        System.out.println("TAGS=" + Build.TAGS);
+        System.out.println("TYPE=" + Build.TYPE);
+        System.out.println("USER=" + Build.USER);
+    }
+
 }

@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="279dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/pay_shape_bg_select_pay_type"
+        android:clickable="true"
+        android:focusable="true"
+        android:orientation="vertical"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:paddingLeft="15dip"
+            android:paddingRight="15dip"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_payTimeCardNum"
+                style="@style/UikitTextView"
+                android:textSize="@dimen/textFontSize_18"
+                android:text="VIP会员"
+                />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/tv_payTimeCardMoney"
+                style="@style/UikitTextView"
+                android:textSize="@dimen/textFontSize_30"
+                android:text="¥9" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dip"
+            android:background="#ff8b9ec3"
+            android:layout_marginTop="10dip"
+            android:layout_marginBottom="15dip"
+            />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/pay_vip_desc"
+            android:layout_gravity="center_horizontal"
+            />
+
+        <RelativeLayout
+            android:id="@+id/rl_payByWX"
+            android:layout_width="239dp"
+            android:layout_height="48dip"
+            android:layout_marginTop="18dp"
+            android:background="@drawable/pay_selector_btn_pay_by_wx"
+            android:visibility="visible">
+
+            <ImageView
+                android:layout_width="29dp"
+                android:layout_height="25dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="63dp"
+                android:src="@mipmap/pay_icon_pay_by_wx" />
+
+            <TextView
+                style="@style/UikitTextView"
+                android:layout_marginLeft="101dp"
+                android:layout_centerVertical="true"
+                android:minHeight="17dp"
+                android:minWidth="58dp"
+                android:text="微信支付"
+                android:textColor="@color/white"
+                android:textSize="@dimen/textFontSize_14" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_checkPayResult"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:minWidth="239dp"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <Button
+                android:id="@+id/btn_checkPayResult"
+                style="@style/UikitHMButton.Large.Main"
+                android:layout_marginTop="18dp"
+                android:minWidth="239dp"
+                android:text="手动校验  30:00"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/btn_payFailed"
+                style="@style/UikitHMButton.Large.Main"
+                android:layout_marginTop="18dp"
+                android:minWidth="239dp"
+                android:text="支付失败，重新支付"
+                android:visibility="gone" />
+
+            <TextView
+                style="@style/UikitTextView.Auxiliary.Small"
+                android:layout_marginTop="22dp"
+                android:minHeight="17dp"
+                android:text="30分钟内不支付，订单自动关闭。"
+                android:textSize="@dimen/textFontSize_12" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/iv_close"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:padding="23dp"
+            android:src="@mipmap/uikit_icon_close_black" />
+    </LinearLayout>
+
+
+</FrameLayout>
