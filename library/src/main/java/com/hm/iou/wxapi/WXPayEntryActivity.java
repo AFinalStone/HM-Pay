@@ -38,7 +38,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(com.hm.iou.base.R.layout.base_activity_wx_pay);
-        mIWXAPI = WXAPIFactory.createWXAPI(this, getAppId());
+        mIWXAPI = WXAPIFactory.createWXAPI(getApplicationContext(), getAppId());
         mIWXAPI.handleIntent(getIntent(), this);
 
 
@@ -103,7 +103,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
     }
 
     public static IWXAPI createWXApi(Context context) {
-        IWXAPI iwxapi = WXAPIFactory.createWXAPI(context, null);
+        IWXAPI iwxapi = WXAPIFactory.createWXAPI(context.getApplicationContext(), null);
         iwxapi.registerApp(getAppId());
         return iwxapi;
     }
