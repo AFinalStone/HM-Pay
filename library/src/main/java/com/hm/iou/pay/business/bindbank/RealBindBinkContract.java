@@ -38,9 +38,9 @@ public interface RealBindBinkContract {
         void showAuthFailExceedCount(String msg);
 
         /**
-         * 显示认证成功
+         * 认证成功，并跳转到赠送签章页面
          */
-        void showBindCardSucc();
+        void bindSuccAndJump2GiveSignaturePage();
     }
 
     interface Presenter extends BaseContract.BasePresenter {
@@ -58,10 +58,11 @@ public interface RealBindBinkContract {
         /**
          * 进行4要素实名认证
          *
+         * @param source
          * @param cardNo
          * @param mobile
          */
-        void doFourElementsRealName(String cardNo, String mobile);
+        void doFourElementsRealName(String source, String cardNo, String mobile);
 
         boolean isCardNoInputError();
 

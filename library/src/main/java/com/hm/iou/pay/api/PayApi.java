@@ -62,12 +62,14 @@ public class PayApi {
      *
      * @param bankCardNo 银行卡号
      * @param mobile     预留手机号
+     * @param source     来源：0=普通,1=可加签章banner，2=不加签章
      * @return
      */
-    public static Flowable<BaseResponse<Object>> bindBankCard(String bankCardNo, String mobile) {
+    public static Flowable<BaseResponse<Integer>> bindBankCard(String bankCardNo, String mobile, int source) {
         BindBankCardReqBean reqBean = new BindBankCardReqBean();
         reqBean.setBankcard(bankCardNo);
         reqBean.setMobile(mobile);
+        reqBean.setSource(source);
         return getService().bindBankCard(reqBean)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());

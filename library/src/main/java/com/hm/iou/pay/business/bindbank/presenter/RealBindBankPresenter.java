@@ -8,9 +8,9 @@ import com.hm.iou.base.mvp.MvpActivityPresenter;
 import com.hm.iou.base.utils.CommSubscriber;
 import com.hm.iou.base.utils.RxUtil;
 import com.hm.iou.logger.Logger;
+import com.hm.iou.pay.Constants;
 import com.hm.iou.pay.R;
 import com.hm.iou.pay.api.PayApi;
-import com.hm.iou.pay.bean.WelfareAdvertiseBean;
 import com.hm.iou.pay.business.bindbank.RealBindBinkContract;
 import com.hm.iou.pay.comm.PaySPUtil;
 import com.hm.iou.sharedata.UserManager;
@@ -32,8 +32,6 @@ public class RealBindBankPresenter extends MvpActivityPresenter<RealBindBinkCont
 
     private boolean mInputMobileError;
     private boolean mInputCardNoError;
-
-    private WelfareAdvertiseBean mWelfareAdData;
 
     public RealBindBankPresenter(@NonNull Context context, @NonNull RealBindBinkContract.View view) {
         super(context, view);
@@ -71,7 +69,7 @@ public class RealBindBankPresenter extends MvpActivityPresenter<RealBindBinkCont
     }
 
     @Override
-    public void doFourElementsRealName(String cardNo, String mobile) {
+    public void doFourElementsRealName(final String source, String cardNo, String mobile) {
         cardNo = cardNo.replace(" ", "");
         if (!cardNo.startsWith("60") && !cardNo.startsWith("62")) {
             mView.updateCardNoAboutIcon(R.mipmap.uikit_icon_warn_red);
@@ -91,18 +89,32 @@ public class RealBindBankPresenter extends MvpActivityPresenter<RealBindBinkCont
             return;
         }
         mView.showLoadingView();
-        PayApi.bindBankCard(cardNo, mobile)
-                .compose(getProvider().<BaseResponse<Object>>bindUntilEvent(ActivityEvent.DESTROY))
-                .map(RxUtil.<Object>handleResponse())
-                .subscribeWith(new CommSubscriber<Object>(mView) {
+        int s = 0;
+        if (Constants.BIND_CARD_SOURCE_BANNER.equals(source)) {
+            s = 1;
+        } else if (Constants.BIND_CARD_SOURCE_USERCENTER.equals(source)) {
+            s = 0;
+        } else if (Constants.BIND_CARD_SOURCE_UPDATE.equals(source)) {
+            s = 0;
+        } else {
+            s = 2;
+        }
+        PayApi.bindBankCard(cardNo, mobile, s)
+                .compose(getProvider().<BaseResponse<Integer>>bindUntilEvent(ActivityEvent.DESTROY))
+                .map(RxUtil.<Integer>handleResponse())
+                .subscribeWith(new CommSubscriber<Integer>(mView) {
                     @Override
-                    public void handleResult(Object o) {
+                    public void handleResult(Integer result) {
                         mView.dismissLoadingView();
                         //四要素认证已经成功，用SharedPreferences保存下来，
                         PaySPUtil.saveUserBindBankSuccess(mContext);
                         EventBus.getDefault().post(new BindBankSuccessEvent());
                         EventBus.getDefault().post(new UpdateUserInfoEvent());
-                        mView.showBindCardSucc();
+                        if (result == 2) {  //绑定成功，并添加签章
+                            mView.bindSuccAndJump2GiveSignaturePage();
+                        } else {
+                            mView.closeCurrPage();
+                        }
                     }
 
                     @Override

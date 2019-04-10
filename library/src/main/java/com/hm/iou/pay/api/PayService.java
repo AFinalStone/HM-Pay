@@ -46,8 +46,8 @@ public interface PayService {
     @POST("/pay/iou/v1/unifiedOrder")
     Flowable<BaseResponse<WxPayBean>> createPreparePayOrder(@Body CreatePreparePayReqBean reqBean);
 
-    @POST("/pay/welfare/v1/bindBankCardInfo")
-    Flowable<BaseResponse<Object>> bindBankCard(@Body BindBankCardReqBean reqBean);
+    @POST("/pay/welfare/v2/bindBankCardInfo")
+    Flowable<BaseResponse<Integer>> bindBankCard(@Body BindBankCardReqBean reqBean);
 
     @GET("/pay/welfare/v1/selectWelfareAdvertise")
     Flowable<BaseResponse<WelfareAdvertiseBean>> getWelfareAdvertise();

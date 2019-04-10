@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.hm.iou.base.BaseActivity;
 import com.hm.iou.base.utils.TraceUtil;
+import com.hm.iou.logger.Logger;
 import com.hm.iou.pay.Constants;
 import com.hm.iou.pay.R;
 import com.hm.iou.pay.R2;
@@ -68,6 +69,7 @@ public class RealBindBankActivity extends BaseActivity<RealBindBankPresenter> im
         if (bundle != null) {
             mSource = bundle.getString(Constants.EXTRA_KEY_SOURCE);
         }
+        Logger.d("bind card source : " + mSource);
 
         TraceUtil.onEvent(this, "bank_page_show");
         mTopBarView.setOnMenuClickListener(new HMTopBarView.OnTopBarMenuClickListener() {
@@ -86,7 +88,7 @@ public class RealBindBankActivity extends BaseActivity<RealBindBankPresenter> im
         mTopBarView.setOnBackClickListener(new HMTopBarView.OnTopBarBackClickListener() {
             @Override
             public void onClickBack() {
-                doGiveUpRealName();
+                onBackPressed();
             }
         });
 
@@ -119,7 +121,12 @@ public class RealBindBankActivity extends BaseActivity<RealBindBankPresenter> im
 
     @Override
     public void onBackPressed() {
-        doGiveUpRealName();
+        //如果是从banner页进来，退出时提示
+        if (Constants.BIND_CARD_SOURCE_BANNER.equals(mSource)) {
+            doGiveUpRealName();
+        } else {
+            finish();
+        }
     }
 
     @OnClick(value = {R2.id.iv_fourelement_name_i, R2.id.iv_fourelement_cardno_i, R2.id.iv_fourelement_mobile_i, R2.id.btn_four_element_submit})
@@ -141,7 +148,7 @@ public class RealBindBankActivity extends BaseActivity<RealBindBankPresenter> im
                     .setPositiveButton("知道了").create().show();
         } else if (v.getId() == R.id.btn_four_element_submit) {
             TraceUtil.onEvent(this, "bank_submit_count");
-            mPresenter.doFourElementsRealName(mEtCardNo.getText().toString(), mEtMobile.getText().toString());
+            mPresenter.doFourElementsRealName(mSource, mEtCardNo.getText().toString(), mEtMobile.getText().toString());
         }
     }
 
@@ -202,7 +209,7 @@ public class RealBindBankActivity extends BaseActivity<RealBindBankPresenter> im
     }
 
     @Override
-    public void showBindCardSucc() {
+    public void bindSuccAndJump2GiveSignaturePage() {
         Intent intent = new Intent(this, BindSuccActivity.class);
         intent.putExtra(Constants.EXTRA_KEY_SOURCE, mSource);
         startActivity(intent);

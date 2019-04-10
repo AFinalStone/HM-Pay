@@ -29,7 +29,8 @@ public class Constants {
 
     //绑卡页面来源出处
     public static final String EXTRA_KEY_SOURCE = "source";
-    public static final String BIND_CARD_SOURCE_BANNER = "banner";          //绑卡来源
-    public static final String BIND_CARD_SOURCE_USERCENTER = "usercenter";  //绑卡来源
+    public static final String BIND_CARD_SOURCE_BANNER = "banner";       //绑卡来源，从banner里进
+    public static final String BIND_CARD_SOURCE_USERCENTER = "usercenter";  //绑卡来源，个人中心侧滑
+    public static final String BIND_CARD_SOURCE_UPDATE = "updatebank";      //绑卡来源，更新银行卡地址
 
 }

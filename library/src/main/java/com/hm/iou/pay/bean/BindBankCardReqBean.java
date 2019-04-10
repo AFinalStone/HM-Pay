@@ -8,6 +8,7 @@ public class BindBankCardReqBean {
 
     private String bankcard;
     private String mobile;
+    private int source;
 
     public String getBankcard() {
         return bankcard;
@@ -23,5 +24,13 @@ public class BindBankCardReqBean {
 
     public void setMobile(String mobile) {
         this.mobile = mobile;
+    }
+
+    public int getSource() {
+        return source;
+    }
+
+    public void setSource(int source) {
+        this.source = source;
     }
 }
