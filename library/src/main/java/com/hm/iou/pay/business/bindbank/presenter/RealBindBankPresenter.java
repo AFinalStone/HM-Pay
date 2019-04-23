@@ -113,6 +113,11 @@ public class RealBindBankPresenter extends MvpActivityPresenter<RealBindBinkCont
                         if (result == 2) {  //绑定成功，并添加签章
                             mView.bindSuccAndJump2GiveSignaturePage();
                         } else {
+                            if (Constants.BIND_CARD_SOURCE_UPDATE.equals(source)) {
+                                mView.toastMessage("更新成功");
+                            } else {
+                                mView.toastMessage("绑定成功");
+                            }
                             mView.closeCurrPage();
                         }
                     }
