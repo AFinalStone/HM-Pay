@@ -7,6 +7,7 @@ package com.hm.iou.pay;
 
 import android.content.Context;
 
+import com.hm.iou.pay.comm.PaySPUtil;
 import com.hm.iou.sharedata.event.LogoutEvent;
 
 import org.greenrobot.eventbus.EventBus;
@@ -31,6 +32,7 @@ public class PayAppLike {
     @Subscribe(threadMode = ThreadMode.ASYNC)
     public void onEventLogout(LogoutEvent event) {
         CacheDataUtil.clearCache(mContext);
+        PaySPUtil.clearCache(mContext);
     }
 
 

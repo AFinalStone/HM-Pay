@@ -5,9 +5,6 @@ import android.content.Context;
 import com.hm.iou.pay.Constants;
 import com.hm.iou.sharedata.UserManager;
 import com.hm.iou.tools.SPUtil;
-import com.hm.iou.tools.TimeUtil;
-
-import java.util.Date;
 
 /**
  * Created by syl on 2018/7/19.
@@ -35,6 +32,10 @@ public class PaySPUtil {
     public static boolean checkUserHaveBindBankSuccess(Context context) {
         String userId = UserManager.getInstance(context).getUserId();
         return SPUtil.getBoolean(context, Constants.SP_NAME, Constants.SP_KEY_BIND_BANK_SUCCESS + userId, false);
+    }
+
+    public static void clearCache(Context context) {
+        SPUtil.clear(context, Constants.SP_NAME);
     }
 
 //    /**
