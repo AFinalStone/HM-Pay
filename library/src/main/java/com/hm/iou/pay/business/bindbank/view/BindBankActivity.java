@@ -65,7 +65,12 @@ public class BindBankActivity extends BaseActivity<BindBankPresenter> implements
     @Override
     public void showAuthDialog() {
         String title = "银行卡认证";
-        String msg = "通过银行卡认证，您可以免费获得1次签章的机会，目前您未通过实名认证，是否立即认证实名信息？";
+        String msg;
+        if (Constants.BIND_CARD_SOURCE_BANNER.equals(mSource)) {
+            msg = "通过银行卡认证，您可以免费获得1次签章的机会，目前您未通过实名认证，是否立即认证实名信息？";
+        } else {
+            msg = "为了保障账号安全，银行卡认证前需要先进行实名认证，目前您未通过实名认证，是否立即认证实名信息？";
+        }
         new HMAlertDialog
                 .Builder(mContext)
                 .setTitle(title)

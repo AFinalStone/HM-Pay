@@ -125,6 +125,7 @@ public class RealBindBankActivity extends BaseActivity<RealBindBankPresenter> im
         if (Constants.BIND_CARD_SOURCE_BANNER.equals(mSource)) {
             doGiveUpRealName();
         } else {
+            EventBus.getDefault().post(new CancelBindBankEvent());
             finish();
         }
     }
