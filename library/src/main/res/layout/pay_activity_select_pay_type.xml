@@ -23,11 +23,30 @@
             android:paddingRight="15dip"
             android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/tv_payTimeCardNum"
-                style="@style/UikitTextView"
-                android:textSize="@dimen/textFontSize_18"
-                tools:text="充值1次" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:orientation="vertical"
+                >
+                <TextView
+                    android:id="@+id/tv_payTimeCardNum"
+                    style="@style/UikitTextView"
+                    android:textSize="@dimen/textFontSize_18"
+                    tools:text="充值1次" />
+
+                <TextView
+                    android:id="@+id/tv_pay_coupon_info"
+                    style="@style/UikitTextView"
+                    android:textSize="12dip"
+                    android:textColor="@color/uikit_function_remind"
+                    tools:text="(原价18元，已优惠2元)"
+                    android:layout_marginTop="3dip"
+                    android:visibility="gone"
+                    />
+
+            </LinearLayout>
 
             <View
                 android:layout_width="0dp"
@@ -57,7 +76,7 @@
             android:lineSpacingMultiplier="1.3"
             android:paddingLeft="15dip"
             android:paddingRight="15dip"
-            android:text="CA签章（付费）\n可信时间戳（付费）\nPDF文件加密（付费）\n泰康保险（付费）\n国立公证处（付费）\n实名认证（付费）\n电子合同多地同步备份（付费）"
+            android:text=" CFCA数字证书签章（付费）\n国家授时中心可信时间戳（付费）\nPDF文件加密（付费）\n实名认证（付费）\n电子合同多地同步备份（付费）\n泰康保险（赠送）\n国立公证处公证（赠送） "
             />
 
         <RelativeLayout

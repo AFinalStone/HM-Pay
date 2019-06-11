@@ -55,12 +55,14 @@ public interface SelectPayTypeContract {
     }
 
     interface Presenter extends BaseContract.BasePresenter {
+
         /**
-         * 创建微信支付订单
+         * 创建微信支付订单，有优惠券
          *
          * @param packageId 套餐id
+         * @param couponId  优惠券id
          */
-        void createPayOrderByWx(String packageId);
+        void createPayOrderByWx(String packageId, String couponId);
 
         /**
          * 再次进行支付

@@ -2,12 +2,14 @@ package com.hm.iou.pay.business.type;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.text.TextUtils;
 
 import com.hm.iou.base.event.OpenWxResultEvent;
 import com.hm.iou.base.mvp.MvpActivityPresenter;
 import com.hm.iou.base.utils.CommSubscriber;
 import com.hm.iou.base.utils.RxUtil;
 import com.hm.iou.pay.api.PayApi;
+import com.hm.iou.pay.bean.CreateOrderResBean;
 import com.hm.iou.pay.bean.WxPayBean;
 import com.hm.iou.pay.dict.ChannelEnumBean;
 import com.hm.iou.pay.dict.OrderPayStatusEnumBean;
@@ -69,10 +71,15 @@ public class SelectPayTypePresenter extends MvpActivityPresenter<SelectPayTypeCo
     }
 
     @Override
-    public void createPayOrderByWx(String packageId) {
+    public void createPayOrderByWx(String packageId, String couponId) {
         boolean flag = SystemUtil.isAppInstalled(mContext, PACKAGE_NAME_OF_WX_CHAT);
         if (flag) {
-            createTimeCardOrder(packageId);
+            if (TextUtils.isEmpty(couponId)) {
+                createTimeCardOrder(packageId);
+            } else {
+                //当 couponId = none 时，表示没有使用优惠券
+                createChargeOrder(packageId, "none".equals(couponId) ? null : couponId);
+            }
         } else {
             mView.toastMessage("当前手机未安装微信");
             mView.closeCurrPage();
@@ -200,6 +207,34 @@ public class SelectPayTypePresenter extends MvpActivityPresenter<SelectPayTypeCo
                         mView.dismissLoadingView();
                         mTimeCareOrderId = orderId;
                         createPayByWxPrepareOrder();
+                    }
+
+                    @Override
+                    public void handleException(Throwable throwable, String s, String s1) {
+                        mView.dismissLoadingView();
+                    }
+                });
+    }
+
+    private void createChargeOrder(String packageCode, String couponId) {
+        mView.showLoadingView("创建订单...");
+        PayApi.createOrderV2(packageCode, couponId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .compose(getProvider().<BaseResponse<CreateOrderResBean>>bindUntilEvent(ActivityEvent.DESTROY))
+                .map(RxUtil.<CreateOrderResBean>handleResponse())
+                .subscribeWith(new CommSubscriber<CreateOrderResBean>(mView) {
+                    @Override
+                    public void handleResult(CreateOrderResBean orderInfo) {
+                        mView.dismissLoadingView();
+                        if (orderInfo.isPay()) {
+                            mTimeCareOrderId = orderInfo.getOrderId();
+                            createPayByWxPrepareOrder();
+                        } else {
+                            //不需要支付，直接优惠抵扣完了
+                            EventBus.getDefault().post(new PaySuccessEvent());
+                            mView.closePageByPaySuccess();
+                        }
                     }
 
                     @Override

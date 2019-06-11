@@ -3,6 +3,7 @@ package com.hm.iou.pay.api;
 import com.hm.iou.network.HttpReqManager;
 import com.hm.iou.pay.bean.AdBean;
 import com.hm.iou.pay.bean.BindBankCardReqBean;
+import com.hm.iou.pay.bean.CreateOrderResBean;
 import com.hm.iou.pay.bean.FourElementsVerifyStatus;
 import com.hm.iou.pay.bean.GetLockedSignListResBean;
 import com.hm.iou.pay.bean.HistoryItemBean;
@@ -10,6 +11,7 @@ import com.hm.iou.pay.bean.SearchTimeCardListResBean;
 import com.hm.iou.pay.bean.TimeCardBean;
 import com.hm.iou.pay.bean.WelfareAdvertiseBean;
 import com.hm.iou.pay.bean.WxPayBean;
+import com.hm.iou.pay.bean.req.CreateOrderReqBean;
 import com.hm.iou.pay.bean.req.CreatePreparePayReqBean;
 import com.hm.iou.pay.bean.req.GetLockSignListReqBean;
 import com.hm.iou.pay.dict.ChannelEnumBean;
@@ -169,4 +171,10 @@ public class PayApi {
         return getService().getLockedSignList(reqBean).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
 
+    public static Flowable<BaseResponse<CreateOrderResBean>> createOrderV2(String packageCode, String couponId) {
+        CreateOrderReqBean reqBean = new CreateOrderReqBean();
+        reqBean.setCouponId(couponId);
+        reqBean.setPackageCode(packageCode);
+        return getService().createOrderV2(reqBean).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+    }
 }

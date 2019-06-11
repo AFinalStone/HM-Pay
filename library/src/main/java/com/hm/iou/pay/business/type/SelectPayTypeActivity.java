@@ -18,16 +18,21 @@ import butterknife.OnClick;
 
 public class SelectPayTypeActivity extends BaseActivity<SelectPayTypePresenter> implements SelectPayTypeContract.View {
 
-    public static final String EXTRA_PACKAGE_ID = "package_id";
+    public static final String EXTRA_PACKAGE_ID = "package_id";                     // packageId 或者是 packageCode
     public static final String EXTRA_TIME_CARD_NAME = "time_card_name";
     public static final String EXTRA_TIME_CARD_MONEY = "time_card_pay_money";
     public static final String EXTRA_TIME_CARD_ADD_NUM = "time_card_add_num";
 
+    public static final String EXTRA_COUPON_ID = "coupon_id";       //优惠券id，为了兼容以前的版本，当该值不为空时，表示采用 packageCode。当couponId = "none" 字符串时，表示无优惠券
+    public static final String EXTRA_COUPON_DESC = "coupon_desc";   //优惠信息描述文字
+
     @BindView(R2.id.tv_payTimeCardNum)
     TextView mTvPayTimeCardNum;
+    @BindView(R2.id.tv_pay_coupon_info)
+    TextView mTvPayCouponInfo;              //优惠信息
 
-    @BindView(R2.id.tv_payTimeCardMoney)
-    TextView mTvPayTimeCardMoney;
+    @BindView(R2.id.tv_payTimeCardMoney)    //支付的金额
+            TextView mTvPayTimeCardMoney;
 
     @BindView(R2.id.tv_payTimeCardDesc)
     TextView mTvPayTimeCardDesc;
@@ -46,6 +51,9 @@ public class SelectPayTypeActivity extends BaseActivity<SelectPayTypePresenter> 
     private String mPayTimeCardMoney;   //总金额
     private String mPayTimeCardAddNum;  //增加的数量
 
+    private String mCouponId;           //优惠券id
+    private String mCouponDesc;         //优惠信息描述文字
+
     @Override
     protected int getLayoutId() {
         return R.layout.pay_activity_select_pay_type;
@@ -63,11 +71,15 @@ public class SelectPayTypeActivity extends BaseActivity<SelectPayTypePresenter> 
         mPayTimeCareName = getIntent().getStringExtra(EXTRA_TIME_CARD_NAME);
         mPayTimeCardMoney = getIntent().getStringExtra(EXTRA_TIME_CARD_MONEY);
         mPayTimeCardAddNum = getIntent().getStringExtra(EXTRA_TIME_CARD_ADD_NUM);
+        mCouponId = getIntent().getStringExtra(EXTRA_COUPON_ID);
+        mCouponDesc = getIntent().getStringExtra(EXTRA_COUPON_DESC);
         if (bundle != null) {
             mPackageId = bundle.getString(EXTRA_PACKAGE_ID);
             mPayTimeCareName = bundle.getString(EXTRA_TIME_CARD_NAME);
             mPayTimeCardMoney = bundle.getString(EXTRA_TIME_CARD_MONEY);
             mPayTimeCardAddNum = bundle.getString(EXTRA_TIME_CARD_ADD_NUM);
+            mCouponId = bundle.getString(EXTRA_COUPON_ID);
+            mCouponDesc = bundle.getString(EXTRA_COUPON_DESC);
         }
         if (!TextUtils.isEmpty(mPayTimeCareName)) {
             mTvPayTimeCardNum.setText(mPayTimeCareName);
@@ -82,6 +94,10 @@ public class SelectPayTypeActivity extends BaseActivity<SelectPayTypePresenter> 
             stringBuffer.append("次签章，每次签章包含：");
             mTvPayTimeCardDesc.setText(stringBuffer.toString());
         }
+        if (!TextUtils.isEmpty(mCouponDesc)) {
+            mTvPayCouponInfo.setVisibility(View.VISIBLE);
+            mTvPayCouponInfo.setText(mCouponDesc);
+        }
     }
 
     @Override
@@ -91,6 +107,8 @@ public class SelectPayTypeActivity extends BaseActivity<SelectPayTypePresenter> 
         outState.putString(EXTRA_TIME_CARD_NAME, mPayTimeCareName);
         outState.putString(EXTRA_TIME_CARD_MONEY, mPayTimeCardMoney);
         outState.putString(EXTRA_TIME_CARD_ADD_NUM, mPayTimeCardAddNum);
+        outState.putString(EXTRA_COUPON_ID, mCouponId);
+        outState.putString(EXTRA_COUPON_DESC, mCouponDesc);
     }
 
     //关闭Activity的切换动画
@@ -105,7 +123,7 @@ public class SelectPayTypeActivity extends BaseActivity<SelectPayTypePresenter> 
         int id = view.getId();
         if (R.id.rl_payByWX == id) {
             TraceUtil.onEvent(this, "pay_wx_submit_click");
-            mPresenter.createPayOrderByWx(mPackageId);
+            mPresenter.createPayOrderByWx(mPackageId, mCouponId);
         } else if (R.id.iv_close == id) {
             onBackPressed();
         }

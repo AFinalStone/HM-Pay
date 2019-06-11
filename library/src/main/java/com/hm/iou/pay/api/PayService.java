@@ -2,6 +2,7 @@ package com.hm.iou.pay.api;
 
 import com.hm.iou.pay.bean.AdBean;
 import com.hm.iou.pay.bean.BindBankCardReqBean;
+import com.hm.iou.pay.bean.CreateOrderResBean;
 import com.hm.iou.pay.bean.FourElementsVerifyStatus;
 import com.hm.iou.pay.bean.GetLockedSignListResBean;
 import com.hm.iou.pay.bean.HistoryItemBean;
@@ -9,6 +10,7 @@ import com.hm.iou.pay.bean.SearchTimeCardListResBean;
 import com.hm.iou.pay.bean.TimeCardBean;
 import com.hm.iou.pay.bean.WelfareAdvertiseBean;
 import com.hm.iou.pay.bean.WxPayBean;
+import com.hm.iou.pay.bean.req.CreateOrderReqBean;
 import com.hm.iou.pay.bean.req.CreatePreparePayReqBean;
 import com.hm.iou.pay.bean.req.GetLockSignListReqBean;
 import com.hm.iou.sharedata.model.BaseResponse;
@@ -66,5 +68,9 @@ public interface PayService {
 
     @POST("/api/iou/consumer/v1/getLockedSignList")
     Flowable<BaseResponse<GetLockedSignListResBean>> getLockedSignList(@Body GetLockSignListReqBean reqBean);
+
+    @POST("/pay/iou/v2/createOrder")
+    Flowable<BaseResponse<CreateOrderResBean>> createOrderV2(@Body CreateOrderReqBean reqBean);
+
 
 }
