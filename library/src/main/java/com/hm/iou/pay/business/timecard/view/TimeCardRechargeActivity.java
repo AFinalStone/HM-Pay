@@ -32,6 +32,9 @@ import java.util.List;
 
 import butterknife.BindView;
 
+/**
+ * 我的签章页面
+ */
 public class TimeCardRechargeActivity extends BaseActivity<TimeCardRechargePresenter> implements TimeCardRechargeContract.View {
 
     private static final int REQ_OPEN_SELECT_PAY_TYPE = 100;

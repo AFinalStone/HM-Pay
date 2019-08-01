@@ -65,14 +65,14 @@ public class TimeCardRechargePresenter extends MvpActivityPresenter<TimeCardRech
     @Override
     public void init() {
         mView.showInitLoading();
-        PayApi.getLockedSignNum()
+        PayApi.getLockedSignNum()//获取被占用的签章
                 .compose(getProvider().<BaseResponse<Integer>>bindUntilEvent(ActivityEvent.DESTROY))
                 .map(RxUtil.<Integer>handleResponse())
                 .flatMap(new Function<Integer, Publisher<BaseResponse<SearchTimeCardListResBean>>>() {
                     @Override
                     public Publisher<BaseResponse<SearchTimeCardListResBean>> apply(Integer num) throws Exception {
                         mView.showLockSignNum(String.valueOf(num));
-                        return PayApi.searchTimeCardPackageList();
+                        return PayApi.searchTimeCardPackageList();//获取可用签章，
                     }
                 })
                 .compose(getProvider().<BaseResponse<SearchTimeCardListResBean>>bindUntilEvent(ActivityEvent.DESTROY))
