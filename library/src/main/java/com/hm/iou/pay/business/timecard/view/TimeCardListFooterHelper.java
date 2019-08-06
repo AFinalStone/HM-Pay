@@ -113,7 +113,7 @@ public class TimeCardListFooterHelper {
 
     private String getFormatDateTime(String date) {
         if (date != null && date.length() >= 10) {
-            date.replace("-", ".").subSequence(0, 10);
+            return date.replace("-", ".").substring(0, 10);
         }
         return date;
     }
