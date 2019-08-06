@@ -32,7 +32,7 @@ public class SelectPayTypeActivity extends BaseActivity<SelectPayTypePresenter> 
     TextView mTvPayCouponInfo;              //优惠信息
 
     @BindView(R2.id.tv_payTimeCardMoney)    //支付的金额
-            TextView mTvPayTimeCardMoney;
+    TextView mTvPayTimeCardMoney;
 
     @BindView(R2.id.tv_payTimeCardDesc)
     TextView mTvPayTimeCardDesc;

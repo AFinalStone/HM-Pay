@@ -2,6 +2,8 @@ package com.hm.iou.pay.business.timecard;
 
 
 import com.hm.iou.base.mvp.BaseContract;
+import com.hm.iou.pay.bean.VipCardUseBean;
+import com.hm.iou.pay.business.timecard.view.IVipCardItem;
 import com.hm.iou.pay.comm.ITimeCardItem;
 
 import java.util.List;
@@ -58,19 +60,6 @@ public interface TimeCardRechargeContract {
         void showList(List<ITimeCardItem> list);
 
         /**
-         * 显示广告
-         *
-         * @param adImageUrl 广告图片
-         * @param adLinkUrl  广告链接
-         */
-        void showAdvertisement(String adImageUrl, String adLinkUrl);
-
-        /**
-         * 隐藏广告
-         */
-        void hideAdvertisement();
-
-        /**
          * 刷新页面数据
          */
         void refresh();
@@ -79,6 +68,20 @@ public interface TimeCardRechargeContract {
          * 提醒用户剩余签章数量已超过10个
          */
         void showSignCountMoreThanTen();
+
+        /**
+         * 显示贵宾卡套餐
+         *
+         * @param list
+         */
+        void showVipCardPackage(List<IVipCardItem> list);
+
+        /**
+         * 显示贵宾卡使用情况
+         *
+         * @param data
+         */
+        void showVipCardUsage(VipCardUseBean data);
     }
 
     interface Presenter extends BaseContract.BasePresenter {

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/uikit_bg_vip_card_quarter"
+    >
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/uikit_img_water_wave"
+        android:layout_alignParentRight="true"
+        />
+
+    <TextView
+        android:id="@+id/tv_card_name"
+        style="@style/UikitTextView"
+        android:textColor="@color/white"
+        android:textSize="24dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="20dp"
+        tools:text="季卡" />
+
+    <TextView
+        android:id="@+id/tv_card_record"
+        style="@style/UikitTextView"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="24dp"
+        android:layout_below="@id/tv_card_name"
+        tools:text="使用纪录（4/40） " />
+
+    <TextView
+        android:id="@+id/tv_card_timerange"
+        style="@style/UikitTextView"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginBottom="20dp"
+        android:layout_below="@id/tv_card_record"
+        tools:text="使用期限：2019.06.02 - 2019.09.01（90天）" />
+
+</RelativeLayout>

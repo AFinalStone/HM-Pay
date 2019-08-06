@@ -1,11 +1,23 @@
 package com.hm.iou.pay.bean;
 
-import lombok.Data;
-
-@Data
 public class CreateOrderResBean {
 
-    private String orderId;
-    private boolean pay;
+    public String orderId;
+    public boolean pay;
 
+    public String getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
+    }
+
+    public boolean isPay() {
+        return pay;
+    }
+
+    public void setPay(boolean pay) {
+        this.pay = pay;
+    }
 }

@@ -12,6 +12,7 @@ import com.hm.iou.base.BaseActivity;
 import com.hm.iou.base.utils.TraceUtil;
 import com.hm.iou.pay.R;
 import com.hm.iou.pay.R2;
+import com.hm.iou.pay.bean.VipCardUseBean;
 import com.hm.iou.pay.business.timecard.TimeCardRechargeContract;
 import com.hm.iou.pay.business.timecard.TimeCardRechargePresenter;
 import com.hm.iou.pay.comm.ITimeCardItem;
@@ -24,9 +25,6 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
@@ -67,7 +65,6 @@ public class TimeCardRechargeActivity extends BaseActivity<TimeCardRechargePrese
 
     @Override
     protected void initEventAndData(Bundle bundle) {
-        EventBus.getDefault().register(this);
         initView();
         mPresenter.init();
     }
@@ -89,12 +86,6 @@ public class TimeCardRechargeActivity extends BaseActivity<TimeCardRechargePrese
         }
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        EventBus.getDefault().unregister(this);
-    }
-
     private void initView() {
         mTopBar.setOnMenuClickListener(new HMTopBarView.OnTopBarMenuClickListener() {
             @Override
@@ -113,7 +104,7 @@ public class TimeCardRechargeActivity extends BaseActivity<TimeCardRechargePrese
         mAdapter = new TimeCardListAdapter(mContext);
         mRvTimeCardList.setLayoutManager(new GridLayoutManager(mContext, 3));
         //头部
-        mTimeCardListHeaderHelper = new TimeCardListHeaderHelper(mPresenter, mRvTimeCardList);
+        mTimeCardListHeaderHelper = new TimeCardListHeaderHelper(this, mPresenter);
         mAdapter.addHeaderView(mTimeCardListHeaderHelper.getHeaderView());
 
         mRvTimeCardList.setAdapter(mAdapter);
@@ -199,22 +190,6 @@ public class TimeCardRechargeActivity extends BaseActivity<TimeCardRechargePrese
     }
 
     @Override
-    public void showAdvertisement(String adImageUrl, String adLinkUrl) {
-        if (mTimeCardListFooterHelper == null) {
-            mTimeCardListFooterHelper = new TimeCardListFooterHelper(mRvTimeCardList);
-            mAdapter.addFooterView(mTimeCardListFooterHelper.getFooterView());
-        }
-        mTimeCardListFooterHelper.showAdvertisement(adImageUrl, adLinkUrl);
-    }
-
-    @Override
-    public void hideAdvertisement() {
-        if (mTimeCardListFooterHelper != null) {
-            mTimeCardListFooterHelper.hideAdvertisement();
-        }
-    }
-
-    @Override
     public void refresh() {
         mRefreshLayout.autoRefresh();
     }
@@ -240,13 +215,21 @@ public class TimeCardRechargeActivity extends BaseActivity<TimeCardRechargePrese
                 .create().show();
     }
 
-    /**
-     * 银行卡绑定成功，重新刷新页面
-     *
-     * @param bindBankSuccessEvent
-     */
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEvenBusBindBankCard(BindBankSuccessEvent bindBankSuccessEvent) {
-        mIsNeedRefresh = true;
+    @Override
+    public void showVipCardPackage(List<IVipCardItem> list) {
+        if (mTimeCardListFooterHelper == null) {
+            mTimeCardListFooterHelper = new TimeCardListFooterHelper(this);
+            mAdapter.addFooterView(mTimeCardListFooterHelper.getFooterView());
+        }
+        mTimeCardListFooterHelper.showVipCardPackage(list);
+    }
+
+    @Override
+    public void showVipCardUsage(VipCardUseBean data) {
+        if (mTimeCardListFooterHelper == null) {
+            mTimeCardListFooterHelper = new TimeCardListFooterHelper(this);
+            mAdapter.addFooterView(mTimeCardListFooterHelper.getFooterView());
+        }
+        mTimeCardListFooterHelper.showPersonalVipCardInfo(data);
     }
 }

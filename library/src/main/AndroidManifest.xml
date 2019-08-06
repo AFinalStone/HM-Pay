@@ -40,6 +40,13 @@
             android:name=".business.locksign.view.LockSignListActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".business.timecard.view.VipCardActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait" />
+
+
         <!--微信支付回调页面-->
         <activity
             android:name="com.hm.iou.wxapi.WXPayEntryActivity"
