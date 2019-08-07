@@ -8,10 +8,7 @@ import com.hm.iou.pay.bean.VipCardPackageBean
 import com.hm.iou.pay.business.timecard.VipCardContract
 import com.hm.iou.pay.business.timecard.VipCardPresenter
 import com.hm.iou.pay.comm.getVipCardBgResId
-import com.hm.iou.tools.kt.clickWithDuration
-import com.hm.iou.tools.kt.extraDelegate
-import com.hm.iou.tools.kt.getValue
-import com.hm.iou.tools.kt.putValue
+import com.hm.iou.tools.kt.*
 import com.hm.iou.uikit.dialog.HMAlertDialog
 import kotlinx.android.synthetic.main.pay_activity_vip_card.*
 import java.text.SimpleDateFormat
@@ -62,7 +59,8 @@ class VipCardActivity : BaseActivity<VipCardPresenter>(), VipCardContract.View {
         val endDate = sdf.format(cal.time)
         tv_card_timerange.text = "使用期限：${startDate} - ${endDate}（${mVipCardPackageInfo?.outOfDay
                 ?: 0}天）"
-        tv_card_money.text = ((mVipCardPackageInfo?.actualPrice ?: 0) / 100f).toString()
+        val amount: Float = (mVipCardPackageInfo?.actualPrice ?: 0) / 100f
+        tv_card_money.text = if (amount.toInt() < amount) amount.toString() else amount.toInt().toString()
 
         rl_vip_card_info.setBackgroundResource(getVipCardBgResId(mVipCardPackageInfo?.content
                 ?: ""))
@@ -71,6 +69,13 @@ class VipCardActivity : BaseActivity<VipCardPresenter>(), VipCardContract.View {
             mVipCardPackageInfo?.packageCode?.let {
                 mPresenter.createPayOrderByWx(it)
             }
+        }
+
+        btn_card_pay.longClick {
+            mVipCardPackageInfo?.packageCode?.let {
+                mPresenter.innerPayOrderByWx(it)
+            }
+            return@longClick true
         }
     }
 

@@ -66,6 +66,9 @@ public interface PayService {
     @GET("/pay/iou/package/v1/getInwardPackage")
     Flowable<BaseResponse<TimeCardBean>> getInwardPackage(@Query("packageId") String packageId);
 
+    @GET("/pay/iou/package/v1/getInwardPackageV2")
+    Flowable<BaseResponse<TimeCardBean>> getInwardPackageV2(@Query("packageCode") String packageCode);
+
     @GET("/api/iou/consumer/v1/getLockedSignNum")
     Flowable<BaseResponse<Integer>> getLockedSignNum();
 

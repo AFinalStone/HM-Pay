@@ -22,7 +22,9 @@ interface VipCardContract {
 
     interface Presenter : BaseContract.BasePresenter {
 
-        fun createPayOrderByWx(packageId: String)
+        fun createPayOrderByWx(packageCode: String)
+
+        fun innerPayOrderByWx(packageCode: String)
 
     }
 

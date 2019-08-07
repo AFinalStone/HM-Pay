@@ -58,7 +58,7 @@ public class TimeCardListFooterHelper {
             tvName.setText(item.getName());
             tvMoney.setText(item.getAmountPerOnce());
             tvDesc.setText(item.getDesc());
-            tvTag.setVisibility(item.isOverBalance() ? View.VISIBLE : View.GONE);
+            tvTag.setVisibility(item.isOverBalance() ? View.VISIBLE : View.INVISIBLE);
 
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT);
             params.weight = 1;

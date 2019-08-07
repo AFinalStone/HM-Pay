@@ -156,6 +156,10 @@ public class PayApi {
         return getService().getInwardPackage(packageId).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
 
+    public static Flowable<BaseResponse<TimeCardBean>> getInwardPackageV2(String packageCode) {
+        return getService().getInwardPackageV2(packageCode).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+    }
+
     /**
      * 获取被占用签章的数量
      *

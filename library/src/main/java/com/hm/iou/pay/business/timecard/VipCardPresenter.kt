@@ -7,6 +7,7 @@ import com.hm.iou.base.utils.CommSubscriber
 import com.hm.iou.base.utils.RxUtil
 import com.hm.iou.pay.api.PayApi
 import com.hm.iou.pay.bean.CreateOrderResBean
+import com.hm.iou.pay.bean.TimeCardBean
 import com.hm.iou.pay.bean.WxPayBean
 import com.hm.iou.pay.dict.ChannelEnumBean
 import com.hm.iou.pay.dict.OrderPayStatusEnumBean
@@ -52,7 +53,7 @@ class VipCardPresenter(context: Context, view: VipCardContract.View) : MvpActivi
         }
     }
 
-    override fun createPayOrderByWx(packageId: String) {
+    override fun createPayOrderByWx(packageCode: String) {
         if (mWeiXinCallBackPaySuccess) {
             checkPayResult()
             return
@@ -60,7 +61,7 @@ class VipCardPresenter(context: Context, view: VipCardContract.View) : MvpActivi
         val flag = SystemUtil.isAppInstalled(mContext, PACKAGE_NAME_OF_WX_CHAT)
         if (flag) {
             mView.showLoadingView("创建订单...")
-            PayApi.createOrderV2(packageId, null)
+            PayApi.createOrderV2(packageCode, null)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .compose(provider.bindUntilEvent(ActivityEvent.DESTROY))
@@ -84,6 +85,25 @@ class VipCardPresenter(context: Context, view: VipCardContract.View) : MvpActivi
             mView.toastMessage("当前手机未安装微信")
             mView.closeCurrPage()
         }
+    }
+
+    override fun innerPayOrderByWx(packageCode: String) {
+        mView.showLoadingView()
+        PayApi.getInwardPackageV2(packageCode)
+                .compose(provider.bindUntilEvent(ActivityEvent.DESTROY))
+                .map(RxUtil.handleResponse())
+                .subscribeWith(object : CommSubscriber<TimeCardBean>(mView) {
+                    override fun handleResult(data: TimeCardBean?) {
+                        mView.dismissLoadingView()
+                        data?.let {
+                            createPayOrderByWx(it.packageCode)
+                        }
+                    }
+
+                    override fun handleException(p0: Throwable?, p1: String?, p2: String?) {
+                        mView.dismissLoadingView()
+                    }
+                })
     }
 
     /**
