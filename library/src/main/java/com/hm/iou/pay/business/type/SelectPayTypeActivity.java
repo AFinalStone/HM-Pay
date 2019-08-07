@@ -9,6 +9,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hm.iou.base.BaseActivity;
+import com.hm.iou.base.comm.CommApi;
 import com.hm.iou.base.utils.TraceUtil;
 import com.hm.iou.pay.R;
 import com.hm.iou.pay.R2;
@@ -123,6 +124,8 @@ public class SelectPayTypeActivity extends BaseActivity<SelectPayTypePresenter> 
         int id = view.getId();
         if (R.id.rl_payByWX == id) {
             TraceUtil.onEvent(this, "pay_wx_submit_click");
+            CommApi.userBehaviorStatistic("borrow_pay_wx", "");
+
             mPresenter.createPayOrderByWx(mPackageId, mCouponId);
         } else if (R.id.iv_close == id) {
             onBackPressed();
@@ -148,6 +151,8 @@ public class SelectPayTypeActivity extends BaseActivity<SelectPayTypePresenter> 
             mBtnCheckPayResult.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    CommApi.userBehaviorStatistic("borrow_pay_wake", "");
+
                     mPresenter.checkPayResult();
                 }
             });
