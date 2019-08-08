@@ -19,7 +19,9 @@
         android:layout_above="@+id/btn_card_pay"
         android:layout_below="@id/topBar"
         android:paddingLeft="28dp"
-        android:paddingRight="28dp">
+        android:paddingRight="28dp"
+        android:overScrollMode="never"
+        >
 
         <LinearLayout
             android:layout_width="match_parent"
