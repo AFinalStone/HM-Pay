@@ -67,17 +67,19 @@ class VipCardPresenter(context: Context, view: VipCardContract.View) : MvpActivi
                     .compose(provider.bindUntilEvent(ActivityEvent.DESTROY))
                     .map(RxUtil.handleResponse())
                     .subscribeWith(object : CommSubscriber<CreateOrderResBean>(mView) {
-                        override fun handleResult(orderInfo: CreateOrderResBean) {
+                        override fun handleResult(orderInfo: CreateOrderResBean?) {
                             mView.dismissLoadingView()
-                            if (orderInfo.isPay) {
-                                createPrepareOrder(orderInfo.orderId)
-                            } else {
-                                EventBus.getDefault().post(PaySuccessEvent())
-                                mView.closePageByPaySuccess()
+                            orderInfo?.let {
+                                if (orderInfo.isPay) {
+                                    createPrepareOrder(orderInfo.orderId)
+                                } else {
+                                    EventBus.getDefault().post(PaySuccessEvent())
+                                    mView.closePageByPaySuccess()
+                                }
                             }
                         }
 
-                        override fun handleException(throwable: Throwable, s: String, s1: String) {
+                        override fun handleException(throwable: Throwable?, s: String?, s1: String?) {
                             mView.dismissLoadingView()
                         }
                     })
@@ -116,13 +118,13 @@ class VipCardPresenter(context: Context, view: VipCardContract.View) : MvpActivi
                 .compose(provider.bindUntilEvent(ActivityEvent.DESTROY))
                 .map(RxUtil.handleResponse())
                 .subscribeWith(object : CommSubscriber<WxPayBean>(mView) {
-                    override fun handleResult(wxPayBean: WxPayBean) {
+                    override fun handleResult(wxPayBean: WxPayBean?) {
                         mView.dismissLoadingView()
                         mWxPayBean = wxPayBean
                         payByWx()
                     }
 
-                    override fun handleException(throwable: Throwable, s: String, s1: String) {
+                    override fun handleException(throwable: Throwable?, s: String?, s1: String?) {
                         mView.dismissLoadingView()
                     }
                 })
@@ -158,7 +160,7 @@ class VipCardPresenter(context: Context, view: VipCardContract.View) : MvpActivi
                 .compose(provider.bindUntilEvent(ActivityEvent.DESTROY))
                 .map(RxUtil.handleResponse())
                 .subscribeWith(object : CommSubscriber<String>(mView) {
-                    override fun handleResult(code: String) {
+                    override fun handleResult(code: String?) {
                         mView.dismissLoadingView()
                         if (OrderPayStatusEnumBean.PaySuccess.status == code) {
                             EventBus.getDefault().post(PaySuccessEvent())
@@ -168,7 +170,7 @@ class VipCardPresenter(context: Context, view: VipCardContract.View) : MvpActivi
                         }
                     }
 
-                    override fun handleException(throwable: Throwable, code: String, errorMsg: String) {
+                    override fun handleException(throwable: Throwable?, code: String?, errorMsg: String?) {
                         mView.dismissLoadingView()
                     }
                 })
