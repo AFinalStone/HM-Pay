@@ -8,11 +8,14 @@ import com.hm.iou.pay.bean.GetLockedSignListResBean;
 import com.hm.iou.pay.bean.HistoryItemBean;
 import com.hm.iou.pay.bean.SearchTimeCardListResBean;
 import com.hm.iou.pay.bean.TimeCardBean;
+import com.hm.iou.pay.bean.VipCardPackageBean;
+import com.hm.iou.pay.bean.VipCardUseBean;
 import com.hm.iou.pay.bean.WelfareAdvertiseBean;
 import com.hm.iou.pay.bean.WxPayBean;
 import com.hm.iou.pay.bean.req.CreateOrderReqBean;
 import com.hm.iou.pay.bean.req.CreatePreparePayReqBean;
 import com.hm.iou.pay.bean.req.GetLockSignListReqBean;
+import com.hm.iou.pay.bean.req.VipCardPackageReqBean;
 import com.hm.iou.sharedata.model.BaseResponse;
 
 import java.util.List;
@@ -63,6 +66,9 @@ public interface PayService {
     @GET("/pay/iou/package/v1/getInwardPackage")
     Flowable<BaseResponse<TimeCardBean>> getInwardPackage(@Query("packageId") String packageId);
 
+    @GET("/pay/iou/package/v1/getInwardPackageV2")
+    Flowable<BaseResponse<TimeCardBean>> getInwardPackageV2(@Query("packageCode") String packageCode);
+
     @GET("/api/iou/consumer/v1/getLockedSignNum")
     Flowable<BaseResponse<Integer>> getLockedSignNum();
 
@@ -72,5 +78,10 @@ public interface PayService {
     @POST("/pay/iou/v2/createOrder")
     Flowable<BaseResponse<CreateOrderResBean>> createOrderV2(@Body CreateOrderReqBean reqBean);
 
+    @GET("/pay/iou/signOrder/v1/getVipCardUseInfo")
+    Flowable<BaseResponse<VipCardUseBean>> getVipCardUserInfo(@Query("scene") int scene);
+
+    @POST("/pay/iou/package/v1/sign/getTimeLimitVipPackages")
+    Flowable<BaseResponse<List<VipCardPackageBean>>> getVipPackages(@Body VipCardPackageReqBean reqBean);
 
 }

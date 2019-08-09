@@ -3,17 +3,26 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:paddingTop="20dp"
     android:paddingBottom="20dp">
 
-    <ImageView
-        android:id="@+id/iv_advertisement"
+    <TextView
+        style="@style/UikitTextView.Auxiliary.Normal"
+        android:layout_marginStart="26dip"
+        android:text="《吕约收条》贵宾卡："
+        android:textColor="@color/uikit_text_sub_content" />
+
+
+    <LinearLayout
+        android:id="@+id/ll_vip_card_package_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="10dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="25dp"
-        android:scaleType="fitXY"
-        android:visibility="gone"
-        tools:visibility="visible" />
-</LinearLayout>
+        android:orientation="horizontal"
+        android:paddingLeft="25dp"
+        android:paddingRight="25dp"
+        android:layout_marginTop="15dp"
+        >
 
+    </LinearLayout>
+
+</LinearLayout>

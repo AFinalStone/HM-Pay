@@ -4,4 +4,7 @@
     <string name="pay_can_use_sign">可用签章</string>
     <string name="pay_disable_sign">占用签章</string>
 
+    <string name="pay_vip_desc1">《吕约收条》是单项签署电子协议，类似“纸质收据”，与收据具有相同的法律效力，法院与仲裁都承认。</string>
+    <string name="pay_vip_desc2">备注：特权卡仅限《吕约收条》签约时自动扣减。</string>
+
 </resources>

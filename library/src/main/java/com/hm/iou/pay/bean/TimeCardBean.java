@@ -21,13 +21,15 @@ public class TimeCardBean implements ITimeCardItem {
      * packageId : 0
      */
 
-    private long actualPrice;
-    private String concessions;
-    private String content;
-    private String goodsId;
-    private long originalPrice;
-    private String packageId;
-    private String rechargeSign;
+    public long actualPrice;
+    public String concessions;
+    public String content;
+    public String goodsId;
+    public long originalPrice;
+    public String packageId;
+    public String rechargeSign;
+
+    public String packageCode;
 
     @Override
     public String getTimeCardContent() {

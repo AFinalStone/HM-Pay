@@ -27,14 +27,14 @@ public class TimeCardListHeaderHelper {
     @BindView(R2.id.tv_disabled_num)
     TextView mTvDisabledNum;
 
-    private View mHeaderView;
-    private TimeCardRechargePresenter mPresenter;
     private Context mContext;
+    private TimeCardRechargePresenter mPresenter;
+    private View mHeaderView;
 
-    public TimeCardListHeaderHelper(TimeCardRechargePresenter presenter, ViewGroup parentView) {
+    public TimeCardListHeaderHelper(Context context, TimeCardRechargePresenter presenter) {
+        mContext = context;
         mPresenter = presenter;
-        mContext = parentView.getContext();
-        mHeaderView = LayoutInflater.from(mContext).inflate(R.layout.pay_item_time_card_recharge_header, parentView, false);
+        mHeaderView = LayoutInflater.from(mContext).inflate(R.layout.pay_item_time_card_recharge_header, null, false);
         ButterKnife.bind(this, mHeaderView);
     }
 

@@ -1,0 +1,155 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+    <com.hm.iou.uikit.HMTopBarView
+        android:id="@+id/topBar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/uikit_topbar_height"
+        app:backIcon="@mipmap/uikit_icon_close_black"
+        app:bottomDividerIsShow="false"
+        app:titleText="贵宾卡" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/btn_card_pay"
+        android:layout_below="@id/topBar"
+        android:paddingLeft="28dp"
+        android:paddingRight="28dp"
+        android:overScrollMode="never"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/rl_vip_card_info"
+                android:layout_width="match_parent"
+                android:layout_height="154dp"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical"
+                android:background="@drawable/uikit_bg_vip_card_quarter"
+                >
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/uikit_img_water_wave"
+                    android:layout_alignParentRight="true"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_card_name"
+                    style="@style/UikitTextView"
+                    android:layout_marginTop="37dp"
+                    android:textColor="@color/white"
+                    android:textSize="24dp"
+                    android:layout_marginLeft="24dp"
+                    tools:text="季卡" />
+
+                <TextView
+                    android:id="@+id/tv_card_record"
+                    style="@style/UikitTextView"
+                    android:layout_above="@+id/tv_card_timerange"
+                    android:layout_marginBottom="3dp"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    android:layout_marginLeft="24dp"
+                    tools:text="使用纪录（4/40） " />
+
+                <TextView
+                    android:id="@+id/tv_card_timerange"
+                    style="@style/UikitTextView"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="18dp"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    android:layout_marginLeft="24dp"
+                    tools:text="使用期限：2019.06.02 - 2019.09.01（90天）" />
+
+                <TextView
+                    android:id="@+id/tv_card_money"
+                    style="@style/UikitTextView"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="20dp"
+                    android:textColor="@color/white"
+                    android:textSize="48dp"
+                    android:layout_marginRight="24dp"
+                    tools:text="40" />
+
+                <TextView
+                    style="@style/UikitTextView"
+                    android:layout_marginTop="30dp"
+                    android:layout_marginRight="3dp"
+                    android:layout_toLeftOf="@id/tv_card_money"
+                    android:text="@string/uikit_money"
+                    android:textColor="@color/white"
+                    android:textSize="22dp" />
+
+            </RelativeLayout>
+
+
+            <TextView
+                style="@style/UikitTextView"
+                android:layout_marginTop="20dp"
+                android:lineSpacingExtra="5dp"
+                android:text="@string/pay_vip_desc1"
+                android:textColor="@color/uikit_text_sub_content"
+                android:textSize="16dp" />
+
+            <TextView
+                style="@style/UikitTextView.Auxiliary.Normal"
+                android:layout_marginTop="15dp"
+                android:text="@string/pay_vip_desc2"
+                android:textColor="@color/uikit_text_sub_content" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:orientation="vertical"
+                android:paddingLeft="10dp"
+                android:paddingTop="15dp"
+                android:paddingRight="10dp"
+                android:paddingBottom="15dp"
+                android:background="@drawable/pay_bg_vipcard_user_scene"
+                >
+
+                <TextView
+                    style="@style/UikitTextView"
+                    android:text="使用场景： "
+                    android:textColor="#ff758094"
+                    android:textSize="14dp" />
+
+                <TextView
+                    style="@style/UikitTextView"
+                    android:layout_marginTop="10dp"
+                    android:text="签收资金 （借款/欠款/还款/赔款/学杂费/物业费/其他）；"
+                    android:textColor="#ff758094"
+                    android:textSize="14dp" />
+
+                <TextView
+                    style="@style/UikitTextView"
+                    android:layout_marginTop="5dp"
+                    android:text="签收物品 （实体物品/虚拟物品）；"
+                    android:textColor="#ff758094"
+                    android:textSize="14dp" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/btn_card_pay"
+        style="@style/UikitHMButton.Large.Black"
+        android:layout_alignParentBottom="true"
+        android:layout_margin="35dp"
+        android:text="微信支付" />
+
+</RelativeLayout>
+

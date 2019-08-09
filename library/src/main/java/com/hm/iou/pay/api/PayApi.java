@@ -9,11 +9,14 @@ import com.hm.iou.pay.bean.GetLockedSignListResBean;
 import com.hm.iou.pay.bean.HistoryItemBean;
 import com.hm.iou.pay.bean.SearchTimeCardListResBean;
 import com.hm.iou.pay.bean.TimeCardBean;
+import com.hm.iou.pay.bean.VipCardPackageBean;
+import com.hm.iou.pay.bean.VipCardUseBean;
 import com.hm.iou.pay.bean.WelfareAdvertiseBean;
 import com.hm.iou.pay.bean.WxPayBean;
 import com.hm.iou.pay.bean.req.CreateOrderReqBean;
 import com.hm.iou.pay.bean.req.CreatePreparePayReqBean;
 import com.hm.iou.pay.bean.req.GetLockSignListReqBean;
+import com.hm.iou.pay.bean.req.VipCardPackageReqBean;
 import com.hm.iou.pay.dict.ChannelEnumBean;
 import com.hm.iou.sharedata.model.BaseResponse;
 
@@ -153,6 +156,10 @@ public class PayApi {
         return getService().getInwardPackage(packageId).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
 
+    public static Flowable<BaseResponse<TimeCardBean>> getInwardPackageV2(String packageCode) {
+        return getService().getInwardPackageV2(packageCode).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+    }
+
     /**
      * 获取被占用签章的数量
      *
@@ -177,4 +184,30 @@ public class PayApi {
         reqBean.setPackageCode(packageCode);
         return getService().createOrderV2(reqBean).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
     }
+
+    /**
+     * 获取套餐卡使用情况
+     *
+     * @param scene 传7-（签章-贵宾卡）
+     * @return
+     */
+    public static Flowable<BaseResponse<VipCardUseBean>> getVipCardUserInfo(int scene) {
+        return getService().getVipCardUserInfo(scene).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+    }
+
+    /**
+     *  获取VIP套餐信息
+     *
+     * @param channel 1-微信支付，2-苹果支付
+     * @param scene 0-套餐卡，1-签章次卡，7-贵宾卡
+     * @return
+     */
+    public static Flowable<BaseResponse<List<VipCardPackageBean>>> getVipPackages(int channel, int scene) {
+        VipCardPackageReqBean reqBean = new VipCardPackageReqBean();
+        reqBean.setChannel(channel);
+        reqBean.setScene(scene);
+        return getService().getVipPackages(reqBean).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+    }
+
+
 }
