@@ -42,7 +42,7 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".business.timecard.view.VipCardActivity"
+            android:name=".business.timecard.view.VipCardPackageDetailActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait" />
 

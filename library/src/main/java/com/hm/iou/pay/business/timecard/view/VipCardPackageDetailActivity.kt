@@ -5,8 +5,8 @@ import android.view.Gravity
 import com.hm.iou.base.BaseActivity
 import com.hm.iou.pay.R.layout.pay_activity_vip_card
 import com.hm.iou.pay.bean.VipCardPackageBean
-import com.hm.iou.pay.business.timecard.VipCardContract
-import com.hm.iou.pay.business.timecard.VipCardPresenter
+import com.hm.iou.pay.business.timecard.VipCardPackageDetailContract
+import com.hm.iou.pay.business.timecard.VipCardPackageDetailPresenter
 import com.hm.iou.pay.comm.getVipCardBgResId
 import com.hm.iou.tools.kt.*
 import com.hm.iou.uikit.dialog.HMAlertDialog
@@ -17,7 +17,7 @@ import java.util.*
 /**
  * 贵宾卡详情购买页面
  */
-class VipCardActivity : BaseActivity<VipCardPresenter>(), VipCardContract.View {
+class VipCardPackageDetailActivity : BaseActivity<VipCardPackageDetailPresenter>(), VipCardPackageDetailContract.View {
 
     companion object {
         const val EXTRA_KEY_PACKAGE_INFO = "package_info"
@@ -25,7 +25,7 @@ class VipCardActivity : BaseActivity<VipCardPresenter>(), VipCardContract.View {
 
     private var mVipCardPackageInfo: VipCardPackageBean? by extraDelegate(EXTRA_KEY_PACKAGE_INFO, null)
 
-    override fun initPresenter(): VipCardPresenter = VipCardPresenter(this, this)
+    override fun initPresenter(): VipCardPackageDetailPresenter = VipCardPackageDetailPresenter(this, this)
 
     override fun getLayoutId(): Int = pay_activity_vip_card
 

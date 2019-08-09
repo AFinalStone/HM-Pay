@@ -26,7 +26,7 @@ import org.greenrobot.eventbus.ThreadMode
 /**
  * 贵宾卡详情购买页面
  */
-class VipCardPresenter(context: Context, view: VipCardContract.View) : MvpActivityPresenter<VipCardContract.View>(context, view), VipCardContract.Presenter {
+class VipCardPackageDetailPresenter(context: Context, view: VipCardPackageDetailContract.View) : MvpActivityPresenter<VipCardPackageDetailContract.View>(context, view), VipCardPackageDetailContract.Presenter {
 
     companion object {
         private const val PACKAGE_NAME_OF_WX_CHAT = "com.tencent.mm"

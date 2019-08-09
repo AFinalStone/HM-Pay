@@ -5,7 +5,7 @@ import com.hm.iou.base.mvp.BaseContract
 /**
  * 贵宾卡详情购买
  */
-interface VipCardContract {
+interface VipCardPackageDetailContract {
 
     interface View : BaseContract.BaseView {
 
