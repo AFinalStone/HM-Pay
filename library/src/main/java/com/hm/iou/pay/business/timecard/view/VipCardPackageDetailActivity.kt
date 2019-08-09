@@ -2,6 +2,7 @@ package com.hm.iou.pay.business.timecard.view
 
 import android.os.Bundle
 import android.view.Gravity
+import com.google.gson.Gson
 import com.hm.iou.base.BaseActivity
 import com.hm.iou.pay.R.layout.pay_activity_vip_card
 import com.hm.iou.pay.bean.VipCardPackageBean
@@ -20,10 +21,11 @@ import java.util.*
 class VipCardPackageDetailActivity : BaseActivity<VipCardPackageDetailPresenter>(), VipCardPackageDetailContract.View {
 
     companion object {
-        const val EXTRA_KEY_PACKAGE_INFO = "package_info"
+        const val EXTRA_KEY_PACKAGE_INFO_JSON = "package_info"
     }
 
-    private var mVipCardPackageInfo: VipCardPackageBean? by extraDelegate(EXTRA_KEY_PACKAGE_INFO, null)
+    private var mVipCardPackageInfoJson: String? by extraDelegate(EXTRA_KEY_PACKAGE_INFO_JSON, null)
+    private var mVipCardPackageInfo: VipCardPackageBean? = null
 
     override fun initPresenter(): VipCardPackageDetailPresenter = VipCardPackageDetailPresenter(this, this)
 
@@ -31,20 +33,23 @@ class VipCardPackageDetailActivity : BaseActivity<VipCardPackageDetailPresenter>
 
     override fun initEventAndData(bundle: Bundle?) {
         if (bundle != null) {
-            mVipCardPackageInfo = bundle.getValue(EXTRA_KEY_PACKAGE_INFO)
+            mVipCardPackageInfoJson = bundle.getValue(EXTRA_KEY_PACKAGE_INFO_JSON)
         }
-
+        try {
+            mVipCardPackageInfo = Gson().fromJson(mVipCardPackageInfoJson, VipCardPackageBean::class.java)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
         if (mVipCardPackageInfo == null) {
             finish()
             return
         }
-
         initViews()
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {
         super.onSaveInstanceState(outState)
-        outState?.putValue(EXTRA_KEY_PACKAGE_INFO, mVipCardPackageInfo)
+        outState?.putValue(EXTRA_KEY_PACKAGE_INFO_JSON, mVipCardPackageInfoJson)
     }
 
     private fun initViews() {
