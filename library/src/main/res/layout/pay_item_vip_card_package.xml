@@ -37,9 +37,9 @@
 
         <TextView
             style="@style/UikitTextView"
+            android:text="/次"
             android:textColor="#ffa58672"
-            android:textSize="12dp"
-            tools:text="/次" />
+            android:textSize="12dp" />
 
     </LinearLayout>
 
@@ -56,10 +56,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/pay_bg_vipcard_package_tag"
-        android:paddingLeft="6dp"
-        android:paddingTop="2dp"
-        android:paddingRight="6dp"
         android:paddingBottom="2dp"
+        android:paddingLeft="6dp"
+        android:paddingRight="6dp"
+        android:paddingTop="2dp"
         android:text="超值"
         android:textColor="#ffa58672"
         android:textSize="10sp" />
