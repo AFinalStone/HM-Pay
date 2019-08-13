@@ -32,7 +32,7 @@
             android:id="@+id/tv_card_money"
             style="@style/UikitTextView"
             android:textColor="#ffa58672"
-            android:textSize="30dp"
+            android:textSize="28dp"
             tools:text="0.40" />
 
         <TextView

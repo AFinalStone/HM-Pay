@@ -3,8 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:paddingTop="20dp"
-    android:paddingBottom="20dp">
+    android:paddingBottom="20dp"
+    android:paddingTop="20dp">
 
     <TextView
         style="@style/UikitTextView.Auxiliary.Normal"
@@ -17,11 +17,10 @@
         android:id="@+id/ll_vip_card_package_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingLeft="25dp"
-        android:paddingRight="25dp"
         android:layout_marginTop="15dp"
-        >
+        android:orientation="horizontal"
+        android:paddingEnd="12dp"
+        android:paddingStart="12dp">
 
     </LinearLayout>
 

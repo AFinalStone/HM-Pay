@@ -26,6 +26,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.reactivestreams.Publisher;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -319,7 +320,16 @@ public class TimeCardRechargePresenter extends MvpActivityPresenter<TimeCardRech
                                     @Nullable
                                     @Override
                                     public String getDesc() {
-                                        return String.format("%d次=%d元", bean.getRechargeSign(), bean.getActualPrice() / 100);
+                                        float totalPrice = bean.getActualPrice() / 100f;
+                                        DecimalFormat df = new DecimalFormat("###.###");
+                                        String strTotalPrice;
+                                        try {
+                                            strTotalPrice = df.format(totalPrice);
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                            strTotalPrice = " ";
+                                        }
+                                        return String.format("%d次=%s元", bean.getRechargeSign(), strTotalPrice);
                                     }
 
                                     @Override

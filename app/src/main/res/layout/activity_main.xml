@@ -42,4 +42,11 @@
         android:gravity="center"
         android:text="4要素实名认证" />
 
+    <Button
+        android:id="@+id/btn_my_sign"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="我的签章页面" />
+
 </LinearLayout>

@@ -1,11 +1,13 @@
 package com.hm.iou.pay.demo;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 
 import com.hm.iou.network.HttpReqManager;
+import com.hm.iou.pay.business.timecard.view.TimeCardRechargeActivity;
 import com.hm.iou.router.Router;
 import com.hm.iou.sharedata.UserManager;
 import com.hm.iou.sharedata.model.BaseResponse;
@@ -69,6 +71,13 @@ public class MainActivity extends Activity {
             }
         });
 
+        findViewById(R.id.btn_my_sign).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, TimeCardRechargeActivity.class));
+            }
+        });
+
         test();
     }
 
@@ -79,6 +88,7 @@ public class MainActivity extends Activity {
 //        reqBean.setMobile("15967132742");
 //        reqBean.setMobile("15267163669");
         reqBean.setMobile("18337150117");
+        reqBean.setMobile("17681832816");
 
         reqBean.setQueryPswd(pwd);
         HttpReqManager.getInstance().getService(LoginService.class)
