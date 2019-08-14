@@ -38,10 +38,16 @@ class VipCardDetailPresenter(context: Context, view: VipCardDetailContract.View)
                     }
 
                     override fun handleException(p0: Throwable?, p1: String?, p2: String?) {
-                        mView.dismissLoadingView()
-                        mView.closeCurrPage()
+                        mView.showInitFailed(p2)
                     }
 
+                    override fun isShowBusinessError(): Boolean {
+                        return false
+                    }
+
+                    override fun isShowCommError(): Boolean {
+                        return false
+                    }
                 })
 
     }
@@ -61,9 +67,16 @@ class VipCardDetailPresenter(context: Context, view: VipCardDetailContract.View)
                     }
 
                     override fun handleException(p0: Throwable?, p1: String?, p2: String?) {
-                        mView.hideInitView()
+                        mView.showInitFailed(p2)
                     }
 
+                    override fun isShowBusinessError(): Boolean {
+                        return false
+                    }
+
+                    override fun isShowCommError(): Boolean {
+                        return false
+                    }
                 })
     }
 }
