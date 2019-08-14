@@ -5,6 +5,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View.GONE
 import android.view.View.VISIBLE
+import android.widget.RelativeLayout
 import android.widget.TextView
 import com.chad.library.adapter.base.BaseQuickAdapter
 import com.chad.library.adapter.base.BaseViewHolder
@@ -14,6 +15,7 @@ import com.hm.iou.pay.bean.ElecReceiveVipCardConsumerBean
 import com.hm.iou.pay.bean.ElecReceiveVipCardInfo
 import com.hm.iou.pay.business.timecard.VipCardDetailContract
 import com.hm.iou.pay.business.timecard.presenter.VipCardDetailPresenter
+import com.hm.iou.pay.comm.getVipCardBgResId
 import kotlinx.android.synthetic.main.pay_activity_vip_card_detail.*
 import java.text.SimpleDateFormat
 
@@ -59,6 +61,8 @@ class VipCardDetailActivity : BaseActivity<VipCardDetailPresenter>(), VipCardDet
     override fun showPayByVipCardView(vipCardInfo: ElecReceiveVipCardInfo?) {
         val viewHeader = LayoutInflater.from(mContext).inflate(R.layout.pay_layout_elec_receive_pay_by_vip_card_header, null)
         vipCardInfo?.let {
+            viewHeader.findViewById<RelativeLayout>(R.id.rl_vip_card_info).setBackgroundResource(getVipCardBgResId(it.content
+                    ?: ""))
             viewHeader.findViewById<TextView>(R.id.tv_card_name).text = it.content
             viewHeader.findViewById<TextView>(R.id.tv_card_money).text = it.actualPriceY
             viewHeader.findViewById<TextView>(R.id.tv_card_limit).text = "使用条件：最多签%s份（最低%s元/份）".format(it.allCount, it.yuanPer)

@@ -4,7 +4,7 @@ import android.os.Bundle
 import android.view.Gravity
 import com.google.gson.Gson
 import com.hm.iou.base.BaseActivity
-import com.hm.iou.pay.R.layout.pay_activity_vip_card_package_detail
+import com.hm.iou.pay.R
 import com.hm.iou.pay.bean.VipCardPackageBean
 import com.hm.iou.pay.business.timecard.VipCardPackageDetailContract
 import com.hm.iou.pay.business.timecard.presenter.VipCardPackageDetailPresenter
@@ -29,7 +29,7 @@ class VipCardPackageDetailActivity : BaseActivity<VipCardPackageDetailPresenter>
 
     override fun initPresenter(): VipCardPackageDetailPresenter = VipCardPackageDetailPresenter(this, this)
 
-    override fun getLayoutId(): Int = pay_activity_vip_card_package_detail
+    override fun getLayoutId(): Int = R.layout.pay_activity_vip_card_package_detail
 
     override fun initEventAndData(bundle: Bundle?) {
         if (bundle != null) {
