@@ -45,6 +45,10 @@
             android:name=".business.timecard.view.VipCardPackageDetailActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".business.timecard.view.VipCardDetailActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait" />
 
 
         <!--微信支付回调页面-->

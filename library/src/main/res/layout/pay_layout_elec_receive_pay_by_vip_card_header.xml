@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/uikit_background"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:paddingBottom="20dp"
+    android:paddingEnd="20dp"
+    android:paddingStart="20dp">
+
+    <RelativeLayout
+        android:id="@+id/rl_vip_card_info"
+        android:layout_width="match_parent"
+        android:layout_height="154dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/uikit_bg_vip_card_quarter"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:src="@mipmap/uikit_img_water_wave" />
+
+        <TextView
+            android:id="@+id/tv_card_name"
+            style="@style/UikitTextView"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="37dp"
+            android:textColor="@color/white"
+            android:textSize="24dp"
+            tools:text="季卡" />
+
+        <TextView
+            android:id="@+id/tv_card_money"
+            style="@style/UikitTextView"
+            android:layout_alignParentRight="true"
+            android:layout_marginEnd="24dp"
+            android:layout_marginRight="40dp"
+            android:layout_marginTop="20dp"
+            android:textColor="@color/white"
+            android:textSize="48dp"
+            tools:text="40" />
+
+        <TextView
+            style="@style/UikitTextView"
+            android:layout_marginRight="3dp"
+            android:layout_marginTop="30dp"
+            android:layout_toStartOf="@id/tv_card_money"
+            android:text="@string/uikit_money"
+            android:textColor="@color/white"
+            android:textSize="22dp" />
+
+        <TextView
+            android:id="@+id/tv_card_limit"
+            style="@style/UikitTextView"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="40dp"
+            android:layout_marginStart="24dp"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            tools:text="使用条件：最左签40份  （最低1.0元/份）" />
+
+        <TextView
+            android:id="@+id/tv_card_time_range"
+            style="@style/UikitTextView"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="18dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="19dp"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            tools:text="使用期限：2019.06.02 - 2019.09.01（90天）" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_record_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="33dp"
+        android:textColor="#ff575b62"
+        android:textSize="@dimen/textFontSize_18"
+        tools:text="使用纪录：暂无 " />
+</LinearLayout>

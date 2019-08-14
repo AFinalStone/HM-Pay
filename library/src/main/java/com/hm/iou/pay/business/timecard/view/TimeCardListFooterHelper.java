@@ -1,6 +1,7 @@
 package com.hm.iou.pay.business.timecard.view;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -96,6 +97,12 @@ public class TimeCardListFooterHelper {
         TextView tvName = view.findViewById(R.id.tv_card_name);
         TextView tvRecord = view.findViewById(R.id.tv_card_record);
         TextView tvTimeRange = view.findViewById(R.id.tv_card_timerange);
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mContext.startActivity(new Intent(mContext, VipCardDetailActivity.class));
+            }
+        });
 
         view.setBackgroundResource(CommUtilKt.getVipCardBgResId(useInfo.getContent()));
         tvName.setText(useInfo.getContent());
@@ -109,6 +116,7 @@ public class TimeCardListFooterHelper {
 
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         mLlVipCardPackage.addView(view, params);
+
     }
 
     private String getFormatDateTime(String date) {

@@ -3,13 +3,12 @@ package com.hm.iou.pay.business.timecard.view;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.hm.iou.pay.Constants;
 import com.hm.iou.pay.R;
 import com.hm.iou.pay.R2;
-import com.hm.iou.pay.business.timecard.TimeCardRechargePresenter;
+import com.hm.iou.pay.business.timecard.presenter.TimeCardRechargePresenter;
 import com.hm.iou.router.Router;
 
 import butterknife.BindView;

@@ -1,4 +1,4 @@
-package com.hm.iou.pay.business.timecard
+package com.hm.iou.pay.business.timecard.presenter
 
 import android.content.Context
 import com.hm.iou.base.event.OpenWxResultEvent
@@ -9,6 +9,7 @@ import com.hm.iou.pay.api.PayApi
 import com.hm.iou.pay.bean.CreateOrderResBean
 import com.hm.iou.pay.bean.TimeCardBean
 import com.hm.iou.pay.bean.WxPayBean
+import com.hm.iou.pay.business.timecard.VipCardPackageDetailContract
 import com.hm.iou.pay.dict.ChannelEnumBean
 import com.hm.iou.pay.dict.OrderPayStatusEnumBean
 import com.hm.iou.pay.event.PaySuccessEvent

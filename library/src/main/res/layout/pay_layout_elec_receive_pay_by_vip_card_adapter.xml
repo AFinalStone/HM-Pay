@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingEnd="35dp"
+    android:paddingStart="35dp">
+
+    <TextView
+        android:id="@+id/tv_index"
+        style="@style/UikitTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:gravity="center"
+        android:singleLine="true"
+        android:textColor="#ff575b62"
+        tools:text="16" />
+
+    <TextView
+        android:id="@+id/tv_record"
+        style="@style/UikitTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_marginStart="30dp"
+        android:gravity="center"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:textColor="#ff575b62"
+        tools:text=" 2019.03.10 22:47 收到：某某某 2019.03.10 22:47 收到：某某某 " />
+</LinearLayout>

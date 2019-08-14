@@ -86,9 +86,9 @@ public class MainActivity extends Activity {
         MobileLoginReqBean reqBean = new MobileLoginReqBean();
 //        reqBean.setMobile("13186975702");
 //        reqBean.setMobile("15967132742");
-//        reqBean.setMobile("15267163669");
-        reqBean.setMobile("18337150117");
-        reqBean.setMobile("17681832816");
+        reqBean.setMobile("15267163669");
+//        reqBean.setMobile("18337150117");
+//        reqBean.setMobile("17681832816");
 
         reqBean.setQueryPswd(pwd);
         HttpReqManager.getInstance().getService(LoginService.class)

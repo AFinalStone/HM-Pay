@@ -4,14 +4,14 @@ import android.os.Bundle
 import android.view.Gravity
 import com.google.gson.Gson
 import com.hm.iou.base.BaseActivity
-import com.hm.iou.pay.R.layout.pay_activity_vip_card
+import com.hm.iou.pay.R.layout.pay_activity_vip_card_package_detail
 import com.hm.iou.pay.bean.VipCardPackageBean
 import com.hm.iou.pay.business.timecard.VipCardPackageDetailContract
-import com.hm.iou.pay.business.timecard.VipCardPackageDetailPresenter
+import com.hm.iou.pay.business.timecard.presenter.VipCardPackageDetailPresenter
 import com.hm.iou.pay.comm.getVipCardBgResId
 import com.hm.iou.tools.kt.*
 import com.hm.iou.uikit.dialog.HMAlertDialog
-import kotlinx.android.synthetic.main.pay_activity_vip_card.*
+import kotlinx.android.synthetic.main.pay_activity_vip_card_package_detail.*
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -29,7 +29,7 @@ class VipCardPackageDetailActivity : BaseActivity<VipCardPackageDetailPresenter>
 
     override fun initPresenter(): VipCardPackageDetailPresenter = VipCardPackageDetailPresenter(this, this)
 
-    override fun getLayoutId(): Int = pay_activity_vip_card
+    override fun getLayoutId(): Int = pay_activity_vip_card_package_detail
 
     override fun initEventAndData(bundle: Bundle?) {
         if (bundle != null) {
