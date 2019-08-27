@@ -9,6 +9,7 @@ import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.hm.iou.base.BaseActivity;
+import com.hm.iou.base.utils.RouterUtil;
 import com.hm.iou.database.IouDbHelper;
 import com.hm.iou.database.table.IouData;
 import com.hm.iou.logger.Logger;
@@ -148,7 +149,9 @@ public class LockSignListActivity extends BaseActivity<LockSignListPresenter> im
     public void toIOUDetailByJusticeId(final String justiceId) {
         IouData iouData = IouDbHelper.queryIOUByJusticeId(justiceId);
         Logger.d("justiceId = " + justiceId);
-        if (iouData == null) {//电子借条2.0已经被隐藏，收录电子借条2.0
+        if (iouData == null) {      //电子借条2.0已经被隐藏，收录电子借条2.0
+            /*
+            需要区分借条、欠条，理论上这里应该不会被隐藏的
             new HMAlertDialog.Builder(mContext)
                     .setMessage("借条已隐藏，是否需要收录此借条")
                     .setPositiveButton("收录")
@@ -170,7 +173,7 @@ public class LockSignListActivity extends BaseActivity<LockSignListPresenter> im
                     })
                     .create()
                     .show();
-
+                    */
             return;
         }
         String iouId = iouData.getIouId();
@@ -188,10 +191,19 @@ public class LockSignListActivity extends BaseActivity<LockSignListPresenter> im
                     .navigation(mContext);
             return;
         }
-        //吕约借条2.0
-        Router.getInstance()
-                .buildWithUrl("hmiou://m.54jietiao.com/iou/elec_borrow_detail_v2")
-                .withString("iou_id", iouId)
-                .navigation(mContext);
+
+        if (IOUKindEnum.Qiantiao.getValue() == iouData.getIouKind()) {      //吕约欠条
+            RouterUtil.clickMenuLink(mContext, "hmiou://m.54jietiao.com/iou/elec_qiantiao_detial?iouId=" + iouId);
+            return;
+        }
+
+        if (IOUKindEnum.EelecBorrowV2_0.getValue() == iouData.getIouKind()) {
+            //吕约借条2.0
+            Router.getInstance()
+                    .buildWithUrl("hmiou://m.54jietiao.com/iou/elec_borrow_detail_v2")
+                    .withString("iou_id", iouId)
+                    .navigation(mContext);
+            return;
+        }
     }
 }
