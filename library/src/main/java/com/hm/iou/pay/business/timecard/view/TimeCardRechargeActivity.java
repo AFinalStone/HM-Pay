@@ -9,6 +9,7 @@ import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.hm.iou.base.BaseActivity;
+import com.hm.iou.base.utils.RouterUtil;
 import com.hm.iou.base.utils.TraceUtil;
 import com.hm.iou.pay.R;
 import com.hm.iou.pay.R2;
@@ -90,9 +91,7 @@ public class TimeCardRechargeActivity extends BaseActivity<TimeCardRechargePrese
             @Override
             public void onClickTextMenu() {
                 TraceUtil.onEvent(mContext, "my_charge_history_click");
-                Router.getInstance()
-                        .buildWithUrl("hmiou://m.54jietiao.com/login/customer_service")
-                        .navigation(mContext);
+                RouterUtil.toSubmitFeedback(TimeCardRechargeActivity.this, "Seal", "About_Seal");
             }
 
             @Override

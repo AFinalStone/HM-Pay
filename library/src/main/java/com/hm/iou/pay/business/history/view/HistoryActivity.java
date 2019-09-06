@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.hm.iou.base.BaseActivity;
+import com.hm.iou.base.utils.RouterUtil;
 import com.hm.iou.pay.R;
 import com.hm.iou.pay.R2;
 import com.hm.iou.pay.business.history.HistoryContract;
@@ -62,9 +63,7 @@ public class HistoryActivity extends BaseActivity<HistoryPresenter> implements H
         mTopBar.setOnMenuClickListener(new HMTopBarView.OnTopBarMenuClickListener() {
             @Override
             public void onClickTextMenu() {
-                Router.getInstance()
-                        .buildWithUrl("hmiou://m.54jietiao.com/login/customer_service")
-                        .navigation(mContext);
+                RouterUtil.toSubmitFeedback(HistoryActivity.this, "Seal_Use_History", "About_Seal_Use");
             }
 
             @Override

@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hm.iou.base.BaseActivity;
+import com.hm.iou.base.utils.RouterUtil;
 import com.hm.iou.base.utils.TraceUtil;
 import com.hm.iou.logger.Logger;
 import com.hm.iou.pay.Constants;
@@ -75,9 +76,7 @@ public class RealBindBankActivity extends BaseActivity<RealBindBankPresenter> im
         mTopBarView.setOnMenuClickListener(new HMTopBarView.OnTopBarMenuClickListener() {
             @Override
             public void onClickTextMenu() {
-                Router.getInstance()
-                        .buildWithUrl("hmiou://m.54jietiao.com/login/customer_service")
-                        .navigation(mContext);
+                RouterUtil.toSubmitFeedback(RealBindBankActivity.this, "Bind_Bank_Card", "About_Bank_Card_Auth");
             }
 
             @Override

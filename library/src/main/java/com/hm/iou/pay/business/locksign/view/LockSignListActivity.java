@@ -70,9 +70,7 @@ public class LockSignListActivity extends BaseActivity<LockSignListPresenter> im
         mTopBar.setOnMenuClickListener(new HMTopBarView.OnTopBarMenuClickListener() {
             @Override
             public void onClickTextMenu() {
-                Router.getInstance()
-                        .buildWithUrl("hmiou://m.54jietiao.com/login/customer_service")
-                        .navigation(mContext);
+                RouterUtil.toSubmitFeedback(LockSignListActivity.this, "Seal_Occupy", "About_Seal_Use");
             }
 
             @Override
