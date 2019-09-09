@@ -10,11 +10,13 @@ import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.hm.iou.base.BaseActivity;
+import com.hm.iou.base.utils.RouterUtil;
 import com.hm.iou.base.utils.TraceUtil;
 import com.hm.iou.pay.R;
 import com.hm.iou.pay.R2;
 import com.hm.iou.pay.business.expend.ExpendContract;
 import com.hm.iou.pay.business.expend.ExpendPresenter;
+import com.hm.iou.pay.business.timecard.view.TimeCardRechargeActivity;
 import com.hm.iou.pay.comm.ITimeCardItem;
 import com.hm.iou.router.Router;
 import com.hm.iou.uikit.HMLoadingView;
@@ -258,8 +260,7 @@ public class ExpendActivity extends BaseActivity<ExpendPresenter> implements Exp
                 .setOnClickListener(new HMAlertDialog.OnClickListener() {
                     @Override
                     public void onPosClick() {
-                        Router.getInstance().buildWithUrl("hmiou://m.54jietiao.com/person/helper_center")
-                                .navigation(ExpendActivity.this);
+                        RouterUtil.toSubmitFeedback(ExpendActivity.this, "Seal_Use", "About_Seal_Use");
                     }
 
                     @Override

@@ -201,8 +201,7 @@ public class TimeCardRechargeActivity extends BaseActivity<TimeCardRechargePrese
                 .setOnClickListener(new HMAlertDialog.OnClickListener() {
                     @Override
                     public void onPosClick() {
-                        Router.getInstance().buildWithUrl("hmiou://m.54jietiao.com/person/helper_center")
-                                .navigation(TimeCardRechargeActivity.this);
+                        RouterUtil.toSubmitFeedback(TimeCardRechargeActivity.this, "Seal_Use", "About_Seal_Use");
                     }
 
                     @Override
