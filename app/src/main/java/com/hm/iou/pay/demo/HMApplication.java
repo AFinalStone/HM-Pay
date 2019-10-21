@@ -30,8 +30,10 @@ public class HMApplication extends Application {
                 "http://dev.54jietiao.com");
 //        baseBizAppLike.initServer("https://api.54jietiao.com", "http://192.168.1.217",
 //                "http://192.168.1.217");
-//        baseBizAppLike.initServer("http://192.168.1.107:3000", "http://192.168.1.107:3000",
-//                "http://192.168.1.107:3000");
+        baseBizAppLike.initServer("http://192.168.1.226:8071", "http://192.168.1.226:8071",
+                "http://192.168.1.226:8071");
+        baseBizAppLike.initServer("http://branch.54jietiao.com", "http://192.168.1.226:8071",
+                "http://192.168.1.226:8071");
         initNetwork();
 
         SugarContext.init(this);
@@ -47,7 +49,7 @@ public class HMApplication extends Application {
                 .setAppChannel("yyb")
                 .setToken(UserManager.getInstance(getApplicationContext()).getToken())
                 .setUserId(UserManager.getInstance(getApplicationContext()).getUserId())
-                .setAppVersion("1.0.2")
+                .setAppVersion("2.7.0")
                 .setDeviceId("123abc123")
                 .setBaseUrl(BaseBizAppLike.getInstance().getApiServer())
                 .build();
