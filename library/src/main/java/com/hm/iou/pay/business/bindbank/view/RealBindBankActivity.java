@@ -20,7 +20,6 @@ import com.hm.iou.pay.business.bindbank.BankCardTextWatcher;
 import com.hm.iou.pay.business.bindbank.RealBindBinkContract;
 import com.hm.iou.pay.business.bindbank.presenter.RealBindBankPresenter;
 import com.hm.iou.pay.event.CancelBindBankEvent;
-import com.hm.iou.router.Router;
 import com.hm.iou.uikit.HMTopBarView;
 import com.hm.iou.uikit.dialog.HMAlertDialog;
 import com.jakewharton.rxbinding2.widget.RxTextView;
@@ -109,6 +108,7 @@ public class RealBindBankActivity extends BaseActivity<RealBindBankPresenter> im
             }
         });
 
+        mEtCardNo.requestFocus();
         mPresenter.getUserRealName();
     }
 
