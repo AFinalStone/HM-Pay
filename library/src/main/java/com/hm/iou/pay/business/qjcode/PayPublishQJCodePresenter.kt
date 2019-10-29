@@ -77,8 +77,22 @@ class PayPublishQJCodePresenter(context: Context, view: PayPublishQJCodeContract
                             startCountDown()
                         }
 
-                        override fun handleException(throwable: Throwable, s: String, s1: String) {
+                        override fun handleException(throwable: Throwable?, code: String?, msg: String?) {
                             mView.dismissLoadingView()
+                            if ("601003" == code) {
+                                EventBus.getDefault().post(PaySuccessEvent())
+                                mView.closePageByPaySuccess()
+                            } else {
+                                mView.toastErrorMessage(msg)
+                            }
+                        }
+
+                        override fun isShowBusinessError(): Boolean {
+                            return false
+                        }
+
+                        override fun isShowCommError(): Boolean {
+                            return false
                         }
                     })
         } else {
@@ -120,7 +134,9 @@ class PayPublishQJCodePresenter(context: Context, view: PayPublishQJCodeContract
                     override fun handleResult(status: Int?) {
                         mView.dismissLoadingView()
                         status?.let {
-                            if (status != 0) {
+                            if (status == 0) {
+                                payAgain()
+                            } else {
                                 EventBus.getDefault().post(PaySuccessEvent())
                                 mView.closePageByPaySuccess()
                             }
