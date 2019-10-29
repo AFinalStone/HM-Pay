@@ -1,8 +1,10 @@
 package com.hm.iou.create.api
 
 import com.hm.iou.network.HttpReqManager
+import com.hm.iou.pay.bean.CreatePublishQJCodeOrderResBean
 import com.hm.iou.pay.bean.ElecReceiveVipCardConsumerBean
 import com.hm.iou.pay.bean.UserIsHaveElecReceiveVipCardResBean
+import com.hm.iou.pay.bean.req.CreatePublishQJCodeOrderReqBean
 import com.hm.iou.sharedata.model.BaseResponse
 import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -35,6 +37,20 @@ class PayV2Api {
          */
         fun getElecReceiveVipCardConsumerListData(): Flowable<BaseResponse<List<ElecReceiveVipCardConsumerBean>>> {
             return getService().getElecReceiveVipCardConsumerListData().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+        }
+
+        /**
+         * 创建求借码发布订单
+         */
+        fun createPublishQJCodeOrder(reqBean: CreatePublishQJCodeOrderReqBean): Flowable<BaseResponse<CreatePublishQJCodeOrderResBean>> {
+            return getService().createPublishQJCodeOrder(reqBean).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+        }
+
+        /**
+         * 查询求借码是否发布成功
+         */
+        fun getPublishQJCodeStatus(squareApplyId: String): Flowable<BaseResponse<Int>> {
+            return getService().getPublishQJCodeStatus(squareApplyId).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
         }
 
     }

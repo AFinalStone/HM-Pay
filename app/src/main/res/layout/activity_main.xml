@@ -49,4 +49,11 @@
         android:gravity="center"
         android:text="我的签章页面" />
 
+    <Button
+        android:id="@+id/btn_pay_publish_qj_code"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="支付金额发布求借码" />
+
 </LinearLayout>

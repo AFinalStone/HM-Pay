@@ -77,6 +77,20 @@ public class MainActivity extends Activity {
                 startActivity(new Intent(MainActivity.this, TimeCardRechargeActivity.class));
             }
         });
+        findViewById(R.id.btn_pay_publish_qj_code).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Router.getInstance()
+                        .buildWithUrl("hmiou://m.54jietiao.com/pay/pay_publish_qj_code")
+                        .withString("qj_code_apply_id", "293162632238706688")
+                        .withString("qj_code_apply_publish_type", "1")
+                        .withString("package_title", "AA借款")
+                        .withString("package_money", "10元")
+                        .withString("package_sub_title", "送1次签章，每次签章包含：")
+                        .withString("package_content", " CFCA数字证书签章1个；\n国家授时中心可信时间戳2个； \n电子合同多地同步备份； \n国立公证处合同公证服务； \n\n如果同意，这笔费用不支持退款！\n如果不同意，请想清楚后再支付。")
+                        .navigation(MainActivity.this);
+            }
+        });
 
         test();
     }
