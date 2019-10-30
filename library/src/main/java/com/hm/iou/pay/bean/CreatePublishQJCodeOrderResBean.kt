@@ -7,6 +7,7 @@ import com.google.gson.annotations.SerializedName
  */
 data class CreatePublishQJCodeOrderResBean(
         val appid: String,
+        val orderId: String,
         val noncestr: String,
         @SerializedName("package")
         val packageValue: String,

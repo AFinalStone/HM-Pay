@@ -1,5 +1,6 @@
 package com.hm.iou.pay.business.qjcode
 
+import android.annotation.SuppressLint
 import android.content.Context
 import com.hm.iou.base.event.OpenWxResultEvent
 import com.hm.iou.base.mvp.MvpActivityPresenter
@@ -39,6 +40,7 @@ class PayPublishQJCodePresenter(context: Context, view: PayPublishQJCodeContract
     private var mTimeCountDownDisposable: Disposable? = null
     private var mWxPayBean: CreatePublishQJCodeOrderResBean? = null
     private var mChannel: ChannelEnumBean? = null
+    private var mOrderId: String? = null
 
     private var mWXApi: IWXAPI? = null
 
@@ -57,6 +59,7 @@ class PayPublishQJCodePresenter(context: Context, view: PayPublishQJCodeContract
         }
     }
 
+    @SuppressLint("CheckResult")
     override fun createPayOrderByWx(qjCodePublishId: String, publishType: Int) {
         mQJCodePublishId = qjCodePublishId
         val flag = SystemUtil.isAppInstalled(mContext, PACKAGE_NAME_OF_WX_CHAT)
@@ -79,7 +82,7 @@ class PayPublishQJCodePresenter(context: Context, view: PayPublishQJCodeContract
 
                         override fun handleException(throwable: Throwable?, code: String?, msg: String?) {
                             mView.dismissLoadingView()
-                            if ("601003" == code) {
+                            if ("601003" == code || "2401005" == code) {
                                 EventBus.getDefault().post(PaySuccessEvent())
                                 mView.closePageByPaySuccess()
                             } else {
@@ -123,6 +126,7 @@ class PayPublishQJCodePresenter(context: Context, view: PayPublishQJCodeContract
         }
     }
 
+    @SuppressLint("CheckResult")
     override fun checkPayResult() {
         mView.showLoadingView("请稍等...")
         val qjCodePublishId = mQJCodePublishId ?: ""
