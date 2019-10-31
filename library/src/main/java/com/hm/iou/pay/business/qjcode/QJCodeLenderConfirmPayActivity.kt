@@ -66,7 +66,6 @@ class QJCodeLenderConfirmPayActivity : BaseActivity<QJCodeLenderConfirmPayPresen
         }
         tv_package_title.text = mPackageTitle ?: ""
         tv_package_money.text = getString(R.string.uikit_money) + (mPackageMoney ?: "")
-        tv_package_sub_title.text = mPackageSubTitle ?: ""
         tv_package_content.text = mPackageContent ?: ""
         rl_payByWX.setOnClickListener {
             try {

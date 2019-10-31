@@ -6,7 +6,7 @@
 
     <LinearLayout
         android:layout_width="279dp"
-        android:layout_height="wrap_content"
+        android:layout_height="377dp"
         android:layout_gravity="center"
         android:background="@drawable/pay_shape_bg_select_pay_type"
         android:clickable="true"
@@ -78,6 +78,11 @@
             android:paddingLeft="10dip"
             android:paddingRight="10dip"
             tools:text="CFCA数字证书签章2个； \n国家授时中心可信时间戳4个； \n电子合同多地同步备份；\n国立公证处合同公证服务； \n\n如果同意，这笔费用不支持退款！ \n如果不同意，请想清楚后再支付。  " />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
 
         <RelativeLayout
             android:id="@+id/rl_payByWX"
