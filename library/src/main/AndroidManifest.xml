@@ -54,6 +54,11 @@
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait"
             android:theme="@style/PaySelectPayTypeThemeActivity" />
+        <activity
+            android:name=".business.qjcode.QJCodeLenderConfirmPayActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:theme="@style/PaySelectPayTypeThemeActivity" />
 
 
         <!--微信支付回调页面-->

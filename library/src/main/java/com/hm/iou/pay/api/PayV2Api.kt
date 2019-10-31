@@ -3,8 +3,10 @@ package com.hm.iou.create.api
 import com.hm.iou.network.HttpReqManager
 import com.hm.iou.pay.bean.CreatePublishQJCodeOrderResBean
 import com.hm.iou.pay.bean.ElecReceiveVipCardConsumerBean
+import com.hm.iou.pay.bean.QJCodeLenderConfirmResBean
 import com.hm.iou.pay.bean.UserIsHaveElecReceiveVipCardResBean
 import com.hm.iou.pay.bean.req.CreatePublishQJCodeOrderReqBean
+import com.hm.iou.pay.bean.req.QJCodeLenderConfirmReqBean
 import com.hm.iou.sharedata.model.BaseResponse
 import io.reactivex.Flowable
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -53,6 +55,19 @@ class PayV2Api {
             return getService().getPublishQJCodeStatus(squareApplyId).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
         }
 
+        /**
+         * 出借人输入签约密码/支付签章之后 确认签署
+         */
+        fun qjCodeLenderConfirm(reqBean: QJCodeLenderConfirmReqBean): Flowable<BaseResponse<QJCodeLenderConfirmResBean>> {
+            return getService().qjCodeLenderConfirm(reqBean).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+        }
+
+        /**
+         * 查询求借码出借人是否确认成功
+         */
+        fun getQjCodeLenderConfirmStatus(contentId: Int): Flowable<BaseResponse<Int>> {
+            return getService().getQjCodeLenderConfirmStatus(contentId).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+        }
     }
 
 

@@ -68,7 +68,7 @@
             android:paddingLeft="10dip"
             android:paddingRight="10dip"
             android:textSize="@dimen/textFontSize_14"
-            tools:text="送2次签章，每次签章包含：" />
+            android:visibility="gone" />
 
         <TextView
             android:id="@+id/tv_package_content"

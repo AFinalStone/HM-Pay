@@ -658,6 +658,11 @@
       "url": "hmiou://m.54jietiao.com/iou_create/elec_iou_by_qrcode",
       "iclass": "",
       "aclass": "com.hm.iou.create.business.elecborrow.view.CreateByBorrowCodeActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/iou_create/qjcode_lender_confirm?qj_code_id=*",
+      "iclass": "",
+      "aclass": "com.hm.iou.create.business.elecborrow.qjcode.QJCodeLenderConfirmActivity"
     }
   ],
   "iou_search": [
@@ -793,9 +798,14 @@
       "aclass": "com.hm.iou.pay.business.timecard.view.VipCardPackageDetailActivity"
     },
     {
-      "url": "hmiou://m.54jietiao.com/pay/pay_publish_qj_code?package_id=*&package_title=&package_money=&package_sub_title=&package_content=",
+      "url": "hmiou://m.54jietiao.com/pay/pay_publish_qj_code?qj_code_apply_id=*&qj_code_apply_publish_type=*&package_title=&package_money=&package_sub_title=&package_content=",
       "iclass": "",
       "aclass": "com.hm.iou.pay.business.qjcode.PayPublishQJCodeActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/pay/qjcode_lender_confirm_pay?package_title=&package_money=&package_content=&loaner_email=*&loaner_account=*&loaner_remit_way=*&seal_id=*&square_apply_id=*&trans_dead_line=*&trans_pswd=*",
+      "iclass": "",
+      "aclass": "com.hm.iou.pay.business.qjcode.QJCodeLenderConfirmPayActivity"
     }
   ],
   "select_pic": [
@@ -851,6 +861,16 @@
       "url": "hmiou://m.54jietiao.com/ioucode/qjcode_create_share_detail?qj_code_id=*&qj_code_pic_url=*",
       "iclass": "",
       "aclass": "com.hm.iou.iouqrcode.business.qj.create.QJCodeShareDetailActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/ioucode/qjcode_detail?qj_code_id=*",
+      "iclass": "",
+      "aclass": "com.hm.iou.iouqrcode.business.qj.detail.QJCodeDetailActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/ioucode/qjcode_square_home",
+      "iclass": "",
+      "aclass": "com.hm.iou.iouqrcode.business.qj.borrowsquare.view.BorrowSquareIndexActivity"
     }
   ]
 }

@@ -2,8 +2,10 @@ package com.hm.iou.create.api
 
 import com.hm.iou.pay.bean.CreatePublishQJCodeOrderResBean
 import com.hm.iou.pay.bean.ElecReceiveVipCardConsumerBean
+import com.hm.iou.pay.bean.QJCodeLenderConfirmResBean
 import com.hm.iou.pay.bean.UserIsHaveElecReceiveVipCardResBean
 import com.hm.iou.pay.bean.req.CreatePublishQJCodeOrderReqBean
+import com.hm.iou.pay.bean.req.QJCodeLenderConfirmReqBean
 import com.hm.iou.sharedata.model.BaseResponse
 import io.reactivex.Flowable
 import retrofit2.http.Body
@@ -29,5 +31,10 @@ interface PayV2Service {
     @POST("/api/square/v1/order/publish/createOrder")
     fun createPublishQJCodeOrder(@Body reqBean: CreatePublishQJCodeOrderReqBean): Flowable<BaseResponse<CreatePublishQJCodeOrderResBean>>
 
+    @POST("/api/square/v1/moneyV2/loaner/loanerConfirm")
+    fun qjCodeLenderConfirm(@Body reqBean: QJCodeLenderConfirmReqBean): Flowable<BaseResponse<QJCodeLenderConfirmResBean>>
+
+    @POST("/api/square/v1/moneyV2/getContentStep")
+    fun getQjCodeLenderConfirmStatus(@Query("contentId") contentId: Int): Flowable<BaseResponse<Int>>
 
 }
