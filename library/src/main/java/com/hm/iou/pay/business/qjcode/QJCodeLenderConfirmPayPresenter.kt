@@ -42,6 +42,7 @@ class QJCodeLenderConfirmPayPresenter(context: Context, view: QJCodeLenderConfir
     private var mWxPayBean: WxPayAppParamResp? = null
     private var mChannel: ChannelEnumBean? = null
     private var mOrderId: String? = null//订单编号
+    private var mContentId: Int? = null//补偿订单编号
 
     private var mWXApi: IWXAPI? = null
 
@@ -72,11 +73,8 @@ class QJCodeLenderConfirmPayPresenter(context: Context, view: QJCodeLenderConfir
                     .subscribeWith(object : CommSubscriber<QJCodeLenderConfirmResBean>(mView) {
                         override fun handleResult(data: QJCodeLenderConfirmResBean?) {
                             mView.dismissLoadingView()
-                            val contentId = data?.contentId
-                            contentId?.let {
-                                getResultStatus(it)
-                            }
                             mOrderId = data?.wxPayAppParamResp?.orderId
+                            mContentId = data?.contentId
                             mWxPayBean = data?.wxPayAppParamResp
                             payAgain()
                             startCountDown()
@@ -123,69 +121,74 @@ class QJCodeLenderConfirmPayPresenter(context: Context, view: QJCodeLenderConfir
     }
 
     @SuppressLint("CheckResult")
-    private fun getResultStatus(contentId: Int) {
-        PayV2Api.getQjCodeLenderConfirmStatus(contentId)
-                .compose(provider.bindUntilEvent(ActivityEvent.DESTROY))
-                .map(RxUtil.handleResponse())
-                .subscribeWith(object : CommSubscriber<Int>(mView) {
+    private fun getResultStatus() {
+        val contentId = mContentId
+        if (contentId != null) {
+            mView.showLoadingView()
+            PayV2Api.getQjCodeLenderConfirmStatus(contentId)
+                    .compose(provider.bindUntilEvent(ActivityEvent.DESTROY))
+                    .map(RxUtil.handleResponse())
+                    .subscribeWith(object : CommSubscriber<Int>(mView) {
 
-                    override fun handleResult(status: Int?) {
-                        mView.dismissLoadingView()
-                    }
+                        override fun handleResult(status: Int?) {
+                            checkPayResult()
+                        }
 
-                    override fun handleException(p0: Throwable?, p1: String?, p2: String?) {
-                        mView.dismissLoadingView()
-                    }
+                        override fun handleException(p0: Throwable?, p1: String?, p2: String?) {
+                            mView.dismissLoadingView()
+                        }
 
-                    override fun isShowBusinessError(): Boolean {
-                        return false
-                    }
+                        override fun isShowBusinessError(): Boolean {
+                            return false
+                        }
 
-                    override fun isShowCommError(): Boolean {
-                        return false
-                    }
-                })
+                        override fun isShowCommError(): Boolean {
+                            return false
+                        }
+                    })
+        }
     }
 
     @SuppressLint("CheckResult")
     override fun checkPayResult() {
-        mView.showLoadingView("请稍等...")
-        val orderId = mOrderId ?: ""
-        mView.showLoadingView("校验结果...")
-        PayApi.queryOrderPayState(orderId)
-                .compose(provider.bindUntilEvent(ActivityEvent.DESTROY))
-                .map(RxUtil.handleResponse())
-                .subscribeWith(object : CommSubscriber<String>(mView) {
-                    override fun handleResult(code: String) {
-                        mView.dismissLoadingView()
-                        if (OrderPayStatusEnumBean.PaySuccess.status == code) {
-                            EventBus.getDefault().post(PaySuccessEvent())
-                            mView.closePageByPaySuccess()
-                        } else if (OrderPayStatusEnumBean.PayFailed.status == code) {
-                            mTimeCountDownDisposable?.let {
-                                if (!it.isDisposed) {
-                                    it.dispose()
+        val orderId = mOrderId
+        if (orderId != null) {
+            mView.showLoadingView("校验结果...")
+            PayApi.queryOrderPayState(orderId)
+                    .compose(provider.bindUntilEvent(ActivityEvent.DESTROY))
+                    .map(RxUtil.handleResponse())
+                    .subscribeWith(object : CommSubscriber<String>(mView) {
+                        override fun handleResult(code: String) {
+                            mView.dismissLoadingView()
+                            if (OrderPayStatusEnumBean.PaySuccess.status == code) {
+                                EventBus.getDefault().post(PaySuccessEvent())
+                                mView.closePageByPaySuccess()
+                            } else if (OrderPayStatusEnumBean.PayFailed.status == code) {
+                                mTimeCountDownDisposable?.let {
+                                    if (!it.isDisposed) {
+                                        it.dispose()
+                                    }
                                 }
+                                mView.setPayFailedBtnVisible(true)
+                            } else if (OrderPayStatusEnumBean.PayWait.status == code || OrderPayStatusEnumBean.Paying.status == code) {
+                                payAgain()
+                            } else if (OrderPayStatusEnumBean.PayFinish.status == code) {
+                                mView.toastMessage("订单已经关闭...")
+                                mView.closeCurrPage()
+                            } else if (OrderPayStatusEnumBean.RefundMoney.status == code) {
+                                mView.toastMessage("订单已经退款...")
+                                mView.closeCurrPage()
+                            } else {
+                                mView.toastMessage("发生未知异常...")
+                                mView.closeCurrPage()
                             }
-                            mView.setPayFailedBtnVisible(true)
-                        } else if (OrderPayStatusEnumBean.PayWait.status == code || OrderPayStatusEnumBean.Paying.status == code) {
-                            payAgain()
-                        } else if (OrderPayStatusEnumBean.PayFinish.status == code) {
-                            mView.toastMessage("订单已经关闭...")
-                            mView.closeCurrPage()
-                        } else if (OrderPayStatusEnumBean.RefundMoney.status == code) {
-                            mView.toastMessage("订单已经退款...")
-                            mView.closeCurrPage()
-                        } else {
-                            mView.toastMessage("发生未知异常...")
-                            mView.closeCurrPage()
                         }
-                    }
 
-                    override fun handleException(throwable: Throwable, code: String, errorMsg: String) {
-                        mView.dismissLoadingView()
-                    }
-                })
+                        override fun handleException(throwable: Throwable, code: String, errorMsg: String) {
+                            mView.dismissLoadingView()
+                        }
+                    })
+        }
     }
 
     /**
@@ -246,7 +249,7 @@ class QJCodeLenderConfirmPayPresenter(context: Context, view: QJCodeLenderConfir
     fun onEvenBusOpenWXResult(openWxResultEvent: OpenWxResultEvent) {
         if (KEY_WX_PAY_CODE == openWxResultEvent.key) {
             if (openWxResultEvent.ifPaySuccess) {
-                checkPayResult()
+                getResultStatus()
             }
         }
     }

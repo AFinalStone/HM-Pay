@@ -7,9 +7,11 @@ import com.hm.iou.base.mvp.MvpActivityPresenter
 import com.hm.iou.base.utils.CommSubscriber
 import com.hm.iou.base.utils.RxUtil
 import com.hm.iou.create.api.PayV2Api
+import com.hm.iou.pay.api.PayApi
 import com.hm.iou.pay.bean.CreatePublishQJCodeOrderResBean
 import com.hm.iou.pay.bean.req.CreatePublishQJCodeOrderReqBean
 import com.hm.iou.pay.dict.ChannelEnumBean
+import com.hm.iou.pay.dict.OrderPayStatusEnumBean
 import com.hm.iou.pay.event.PaySuccessEvent
 import com.hm.iou.tools.SystemUtil
 import com.hm.iou.wxapi.WXEntryActivity
@@ -36,10 +38,10 @@ class PayPublishQJCodePresenter(context: Context, view: PayPublishQJCodeContract
     }
 
     private val mCountDownTime: Long = 1800
-    private var mQJCodePublishId: String? = null//求借码发布id
     private var mTimeCountDownDisposable: Disposable? = null
     private var mWxPayBean: CreatePublishQJCodeOrderResBean? = null
     private var mChannel: ChannelEnumBean? = null
+    private var mQJCodePublishId: String? = null//求借码发布id
     private var mOrderId: String? = null
 
     private var mWXApi: IWXAPI? = null
@@ -73,9 +75,10 @@ class PayPublishQJCodePresenter(context: Context, view: PayPublishQJCodeContract
                     .compose(provider.bindUntilEvent(ActivityEvent.DESTROY))
                     .map(RxUtil.handleResponse())
                     .subscribeWith(object : CommSubscriber<CreatePublishQJCodeOrderResBean>(mView) {
-                        override fun handleResult(res: CreatePublishQJCodeOrderResBean?) {
+                        override fun handleResult(data: CreatePublishQJCodeOrderResBean?) {
                             mView.dismissLoadingView()
-                            mWxPayBean = res
+                            mOrderId = data?.orderId
+                            mWxPayBean = data
                             payAgain()
                             startCountDown()
                         }
@@ -127,33 +130,80 @@ class PayPublishQJCodePresenter(context: Context, view: PayPublishQJCodeContract
     }
 
     @SuppressLint("CheckResult")
-    override fun checkPayResult() {
-        mView.showLoadingView("请稍等...")
-        val qjCodePublishId = mQJCodePublishId ?: ""
-        PayV2Api.getPublishQJCodeStatus(qjCodePublishId)
-                .compose(provider.bindUntilEvent(ActivityEvent.DESTROY))
-                .map(RxUtil.handleResponse())
-                .subscribeWith(object : CommSubscriber<Int>(mView) {
+    private fun getResultStatus() {
+        val qjCodePublishId = mQJCodePublishId
+        if (qjCodePublishId != null) {
+            mView.showLoadingView()
+            PayV2Api.getPublishQJCodeStatus(qjCodePublishId)
+                    .compose(provider.bindUntilEvent(ActivityEvent.DESTROY))
+                    .map(RxUtil.handleResponse())
+                    .subscribeWith(object : CommSubscriber<Int>(mView) {
 
-                    override fun handleResult(status: Int?) {
-                        mView.dismissLoadingView()
-                        status?.let {
-                            if (status == 0) {
-                                payAgain()
-                            } else {
+                        override fun handleResult(status: Int?) {
+                            mView.dismissLoadingView()
+                            if (status != 0) {
                                 EventBus.getDefault().post(PaySuccessEvent())
                                 mView.closePageByPaySuccess()
+                            } else {
+                                checkPayResult()
                             }
                         }
 
-                    }
+                        override fun handleException(p0: Throwable?, p1: String?, p2: String?) {
+                            mView.dismissLoadingView()
+                        }
 
-                    override fun handleException(p0: Throwable?, p1: String?, p2: String?) {
-                        mView.dismissLoadingView()
+                        override fun isShowBusinessError(): Boolean {
+                            return false
+                        }
 
-                    }
+                        override fun isShowCommError(): Boolean {
+                            return false
+                        }
+                    })
+        }
+    }
 
-                })
+    @SuppressLint("CheckResult")
+    override fun checkPayResult() {
+        val orderId = mOrderId
+        if (orderId != null) {
+            mView.showLoadingView("校验结果...")
+            PayApi.queryOrderPayState(orderId)
+                    .compose(provider.bindUntilEvent(ActivityEvent.DESTROY))
+                    .map(RxUtil.handleResponse())
+                    .subscribeWith(object : CommSubscriber<String>(mView) {
+                        override fun handleResult(code: String) {
+                            mView.dismissLoadingView()
+                            if (OrderPayStatusEnumBean.PaySuccess.status == code) {
+                                EventBus.getDefault().post(PaySuccessEvent())
+                                mView.closePageByPaySuccess()
+                            } else if (OrderPayStatusEnumBean.PayFailed.status == code) {
+                                mTimeCountDownDisposable?.let {
+                                    if (!it.isDisposed) {
+                                        it.dispose()
+                                    }
+                                }
+                                mView.setPayFailedBtnVisible(true)
+                            } else if (OrderPayStatusEnumBean.PayWait.status == code || OrderPayStatusEnumBean.Paying.status == code) {
+                                payAgain()
+                            } else if (OrderPayStatusEnumBean.PayFinish.status == code) {
+                                mView.toastMessage("订单已经关闭...")
+                                mView.closeCurrPage()
+                            } else if (OrderPayStatusEnumBean.RefundMoney.status == code) {
+                                mView.toastMessage("订单已经退款...")
+                                mView.closeCurrPage()
+                            } else {
+                                mView.toastMessage("发生未知异常...")
+                                mView.closeCurrPage()
+                            }
+                        }
+
+                        override fun handleException(throwable: Throwable, code: String, errorMsg: String) {
+                            mView.dismissLoadingView()
+                        }
+                    })
+        }
     }
 
     /**
@@ -214,7 +264,7 @@ class PayPublishQJCodePresenter(context: Context, view: PayPublishQJCodeContract
     fun onEvenBusOpenWXResult(openWxResultEvent: OpenWxResultEvent) {
         if (KEY_WX_PAY_CODE == openWxResultEvent.key) {
             if (openWxResultEvent.ifPaySuccess) {
-                checkPayResult()
+                getResultStatus()
             }
         }
     }
