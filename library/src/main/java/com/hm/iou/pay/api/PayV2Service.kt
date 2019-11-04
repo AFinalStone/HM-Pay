@@ -1,4 +1,4 @@
-package com.hm.iou.create.api
+package com.hm.iou.pay.api
 
 import com.hm.iou.pay.bean.CreatePublishQJCodeOrderResBean
 import com.hm.iou.pay.bean.ElecReceiveVipCardConsumerBean
@@ -34,7 +34,7 @@ interface PayV2Service {
     @POST("/api/square/v1/moneyV2/loaner/loanerConfirm")
     fun qjCodeLenderConfirm(@Body reqBean: QJCodeLenderConfirmReqBean): Flowable<BaseResponse<QJCodeLenderConfirmResBean>>
 
-    @POST("/api/square/v1/moneyV2/getContentStep")
+    @GET("/api/square/v1/moneyV2/getContentStep")
     fun getQjCodeLenderConfirmStatus(@Query("contentId") contentId: Int): Flowable<BaseResponse<Int>>
 
 }

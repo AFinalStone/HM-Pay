@@ -6,7 +6,7 @@ import com.hm.iou.base.event.OpenWxResultEvent
 import com.hm.iou.base.mvp.MvpActivityPresenter
 import com.hm.iou.base.utils.CommSubscriber
 import com.hm.iou.base.utils.RxUtil
-import com.hm.iou.create.api.PayV2Api
+import com.hm.iou.pay.api.PayV2Api
 import com.hm.iou.pay.api.PayApi
 import com.hm.iou.pay.bean.CreatePublishQJCodeOrderResBean
 import com.hm.iou.pay.bean.req.CreatePublishQJCodeOrderReqBean
