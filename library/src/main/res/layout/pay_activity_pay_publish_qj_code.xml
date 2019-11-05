@@ -6,7 +6,7 @@
 
     <LinearLayout
         android:layout_width="279dp"
-        android:layout_height="377dp"
+        android:layout_height="385dp"
         android:layout_gravity="center"
         android:background="@drawable/pay_shape_bg_select_pay_type"
         android:clickable="true"
@@ -138,7 +138,7 @@
 
             <TextView
                 style="@style/UikitTextView.Auxiliary.Small"
-                android:layout_marginTop="22dp"
+                android:layout_marginTop="15dp"
                 android:minHeight="17dp"
                 android:text="30分钟内不支付，订单自动关闭。"
                 android:textSize="@dimen/textFontSize_12" />
@@ -146,10 +146,10 @@
 
         <ImageView
             android:id="@+id/iv_close"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_gravity="center"
-            android:padding="23dp"
+            android:padding="15dp"
             android:src="@mipmap/uikit_icon_close_black" />
     </LinearLayout>
 
