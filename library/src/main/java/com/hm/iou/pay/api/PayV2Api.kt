@@ -44,8 +44,8 @@ class PayV2Api {
         /**
          * 创建求借码发布订单
          */
-        fun createPublishQJCodeOrder(reqBean: CreatePublishQJCodeOrderReqBean): Flowable<BaseResponse<CreatePublishQJCodeOrderResBean>> {
-            return getService().createPublishQJCodeOrder(reqBean).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+        fun createPublishQJCodeOrder(reqBean: CreatePublishQJCodeOrderReqBean, innerUser: Boolean): Flowable<BaseResponse<CreatePublishQJCodeOrderResBean>> {
+            return getService().createPublishQJCodeOrder(reqBean, if (innerUser) "1" else "").subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
         }
 
         /**
@@ -58,8 +58,8 @@ class PayV2Api {
         /**
          * 出借人输入签约密码/支付签章之后 确认签署
          */
-        fun qjCodeLenderConfirm(reqBean: QJCodeLenderConfirmReqBean): Flowable<BaseResponse<QJCodeLenderConfirmResBean>> {
-            return getService().qjCodeLenderConfirm(reqBean).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+        fun qjCodeLenderConfirm(reqBean: QJCodeLenderConfirmReqBean, innerUser: Boolean): Flowable<BaseResponse<QJCodeLenderConfirmResBean>> {
+            return getService().qjCodeLenderConfirm(reqBean, if (innerUser) "1" else "").subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
         }
 
         /**

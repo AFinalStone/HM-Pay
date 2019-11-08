@@ -8,10 +8,7 @@ import com.hm.iou.pay.bean.req.CreatePublishQJCodeOrderReqBean
 import com.hm.iou.pay.bean.req.QJCodeLenderConfirmReqBean
 import com.hm.iou.sharedata.model.BaseResponse
 import io.reactivex.Flowable
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Query
+import retrofit2.http.*
 
 /**
  * Created by syl on 2019/8/5.
@@ -29,10 +26,10 @@ interface PayV2Service {
     fun getPublishQJCodeStatus(@Query("squareApplyId") squareApplyId: String): Flowable<BaseResponse<Int>>
 
     @POST("/api/square/v1/order/publish/createOrder")
-    fun createPublishQJCodeOrder(@Body reqBean: CreatePublishQJCodeOrderReqBean): Flowable<BaseResponse<CreatePublishQJCodeOrderResBean>>
+    fun createPublishQJCodeOrder(@Body reqBean: CreatePublishQJCodeOrderReqBean, @Header("hmpop") flag: String): Flowable<BaseResponse<CreatePublishQJCodeOrderResBean>>
 
     @POST("/api/square/v1/moneyV2/loaner/loanerConfirm")
-    fun qjCodeLenderConfirm(@Body reqBean: QJCodeLenderConfirmReqBean): Flowable<BaseResponse<QJCodeLenderConfirmResBean>>
+    fun qjCodeLenderConfirm(@Body reqBean: QJCodeLenderConfirmReqBean, @Header("hmpop") flag: String): Flowable<BaseResponse<QJCodeLenderConfirmResBean>>
 
     @GET("/api/square/v1/moneyV2/getContentStep")
     fun getQjCodeLenderConfirmStatus(@Query("contentId") contentId: Int): Flowable<BaseResponse<Int>>

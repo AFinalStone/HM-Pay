@@ -58,7 +58,7 @@ class PayPublishQJCodeContract {
          * @param qjCodePublishId 求借码发布id
          * @param publishType 发布类型
          */
-        fun createPayOrderByWx(qjCodePublishId: String, publishType: Int)
+        fun createPayOrderByWx(qjCodePublishId: String, publishType: Int, innerUser: Boolean)
 
         /**
          * 再次进行支付

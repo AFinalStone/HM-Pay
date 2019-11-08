@@ -22,6 +22,9 @@ class PayPublishQJCodeActivity : BaseActivity<PayPublishQJCodePresenter>(), PayP
         const val EXTRA_PACKAGE_MONEY = "package_money"
         const val EXTRA_PACKAGE_SUB_TITLE = "package_sub_title"
         const val EXTRA_PACKAGE_CONTENT = "package_content"
+        const val EXTRA_INNER_USER = "inner_user"                   //是否触发内部白名单支付判断，当且仅当为1时，才会触发
+
+        const val FLAG_INNER_USER = "1"
     }
 
     private var mQJCodeApplyPublishId: String? by extraDelegate(EXTRA_QJ_CODE_APPLY_ID, null)
@@ -30,7 +33,7 @@ class PayPublishQJCodeActivity : BaseActivity<PayPublishQJCodePresenter>(), PayP
     private var mPackageMoney: String? by extraDelegate(EXTRA_PACKAGE_MONEY, null)
     private var mPackageSubTitle: String? by extraDelegate(EXTRA_PACKAGE_SUB_TITLE, null)
     private var mPackageContent: String? by extraDelegate(EXTRA_PACKAGE_CONTENT, null)
-
+    private var mInnerUser: String? by extraDelegate(EXTRA_INNER_USER, null)
 
     override fun initPresenter(): PayPublishQJCodePresenter = PayPublishQJCodePresenter(this, this)
 
@@ -44,6 +47,7 @@ class PayPublishQJCodeActivity : BaseActivity<PayPublishQJCodePresenter>(), PayP
             mPackageMoney = bundle.getValue(EXTRA_PACKAGE_MONEY)
             mPackageSubTitle = bundle.getValue(EXTRA_PACKAGE_SUB_TITLE)
             mPackageContent = bundle.getValue(EXTRA_PACKAGE_CONTENT)
+            mInnerUser = bundle.getValue(EXTRA_INNER_USER)
         }
         tv_package_title.text = mPackageTitle ?: ""
         tv_package_money.text = getString(R.string.uikit_money) + (mPackageMoney ?: "")
@@ -53,7 +57,7 @@ class PayPublishQJCodeActivity : BaseActivity<PayPublishQJCodePresenter>(), PayP
             try {
                 val qjCodeApplyPublishId = mQJCodeApplyPublishId ?: ""
                 val qjCodeApplyPublishType: Int = mQJCodeApplyPublishType?.toInt() ?: 0
-                mPresenter.createPayOrderByWx(qjCodeApplyPublishId, qjCodeApplyPublishType)
+                mPresenter.createPayOrderByWx(qjCodeApplyPublishId, qjCodeApplyPublishType, mInnerUser == FLAG_INNER_USER)
             } catch (e: Exception) {
                 toastErrorMessage("参数异常")
                 e.printStackTrace()
@@ -72,6 +76,7 @@ class PayPublishQJCodeActivity : BaseActivity<PayPublishQJCodePresenter>(), PayP
         outState?.putValue(EXTRA_PACKAGE_MONEY, mPackageMoney)
         outState?.putValue(EXTRA_PACKAGE_SUB_TITLE, mPackageSubTitle)
         outState?.putValue(EXTRA_PACKAGE_CONTENT, mPackageContent)
+        outState?.putValue(EXTRA_INNER_USER, mInnerUser)
     }
 
     //关闭Activity的切换动画

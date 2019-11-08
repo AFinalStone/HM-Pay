@@ -30,6 +30,8 @@ class QJCodeLenderConfirmPayActivity : BaseActivity<QJCodeLenderConfirmPayPresen
         const val EXTRA_PAY_SQUARE_APPLY_ID = "square_apply_id"
         const val EXTRA_PAY_TRANS_DEAD_LINE = "trans_dead_line"
         const val EXTRA_PAY_TRANS_PSWD = "trans_pswd"
+
+        const val FLAG_INNER_USER = "1"
     }
 
     private var mPackageTitle: String? by extraDelegate(EXTRA_PACKAGE_TITLE, null)
@@ -44,6 +46,9 @@ class QJCodeLenderConfirmPayActivity : BaseActivity<QJCodeLenderConfirmPayPresen
     private var sealId: String? by extraDelegate(EXTRA_PAY_SEAL_ID, null)
     private var transDeadLine: String? by extraDelegate(EXTRA_PAY_TRANS_DEAD_LINE, null)
     private var transPswd: String? by extraDelegate(EXTRA_PAY_TRANS_PSWD, null)
+
+    private var mInnerUser: String? by extraDelegate(PayPublishQJCodeActivity.EXTRA_INNER_USER, null)
+
 
     override fun initPresenter(): QJCodeLenderConfirmPayPresenter = QJCodeLenderConfirmPayPresenter(this, this)
 
@@ -63,6 +68,8 @@ class QJCodeLenderConfirmPayActivity : BaseActivity<QJCodeLenderConfirmPayPresen
             sealId = bundle.getValue(EXTRA_PAY_SEAL_ID)
             transDeadLine = bundle.getValue(EXTRA_PAY_TRANS_DEAD_LINE)
             transPswd = bundle.getValue(EXTRA_PAY_TRANS_PSWD)
+
+            mInnerUser = bundle.getValue(PayPublishQJCodeActivity.EXTRA_INNER_USER)
         }
         tv_package_title.text = mPackageTitle ?: ""
         tv_package_money.text = getString(R.string.uikit_money) + (mPackageMoney ?: "")
@@ -77,7 +84,7 @@ class QJCodeLenderConfirmPayActivity : BaseActivity<QJCodeLenderConfirmPayPresen
                 val transPswd: String = Md5Util.getMd5ByString(transPswd)
                 val sealId: String = sealId ?: ""
                 val reqBean = QJCodeLenderConfirmReqBean(loanerAccount, loanerEmail, loanerRemitWay, sealId, squareApplyId, transDeadLine, transPswd)
-                mPresenter.createPayOrderByWx(reqBean)
+                mPresenter.createPayOrderByWx(reqBean, mInnerUser == FLAG_INNER_USER)
             } catch (e: Exception) {
                 e.printStackTrace()
                 toastErrorMessage("发生未知异常，请稍后重试")
@@ -102,6 +109,7 @@ class QJCodeLenderConfirmPayActivity : BaseActivity<QJCodeLenderConfirmPayPresen
         outState?.putValue(EXTRA_PAY_SEAL_ID, sealId)
         outState?.putValue(EXTRA_PAY_TRANS_DEAD_LINE, transDeadLine)
         outState?.putValue(EXTRA_PAY_TRANS_PSWD, transPswd)
+        outState?.putValue(PayPublishQJCodeActivity.EXTRA_INNER_USER, mInnerUser)
     }
 
     //关闭Activity的切换动画

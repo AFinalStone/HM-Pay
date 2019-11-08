@@ -6,8 +6,8 @@ import com.hm.iou.base.event.OpenWxResultEvent
 import com.hm.iou.base.mvp.MvpActivityPresenter
 import com.hm.iou.base.utils.CommSubscriber
 import com.hm.iou.base.utils.RxUtil
-import com.hm.iou.pay.api.PayV2Api
 import com.hm.iou.pay.api.PayApi
+import com.hm.iou.pay.api.PayV2Api
 import com.hm.iou.pay.bean.QJCodeLenderConfirmResBean
 import com.hm.iou.pay.bean.WxPayAppParamResp
 import com.hm.iou.pay.bean.req.QJCodeLenderConfirmReqBean
@@ -62,12 +62,12 @@ class QJCodeLenderConfirmPayPresenter(context: Context, view: QJCodeLenderConfir
     }
 
     @SuppressLint("CheckResult")
-    override fun createPayOrderByWx(reqBean: QJCodeLenderConfirmReqBean) {
+    override fun createPayOrderByWx(reqBean: QJCodeLenderConfirmReqBean, innerUser: Boolean) {
         val flag = SystemUtil.isAppInstalled(mContext, PACKAGE_NAME_OF_WX_CHAT)
         if (flag) {
             mView.showLoadingView("创建订单...")
             mChannel = ChannelEnumBean.PayByWx
-            PayV2Api.qjCodeLenderConfirm(reqBean)
+            PayV2Api.qjCodeLenderConfirm(reqBean, innerUser)
                     .compose(provider.bindUntilEvent(ActivityEvent.DESTROY))
                     .map(RxUtil.handleResponse())
                     .subscribeWith(object : CommSubscriber<QJCodeLenderConfirmResBean>(mView) {
@@ -184,7 +184,7 @@ class QJCodeLenderConfirmPayPresenter(context: Context, view: QJCodeLenderConfir
                             }
                         }
 
-                        override fun handleException(throwable: Throwable, code: String, errorMsg: String) {
+                        override fun handleException(p0: Throwable?, p1: String?, p2: String?) {
                             mView.dismissLoadingView()
                         }
                     })

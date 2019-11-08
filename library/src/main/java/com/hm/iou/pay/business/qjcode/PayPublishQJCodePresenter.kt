@@ -6,8 +6,8 @@ import com.hm.iou.base.event.OpenWxResultEvent
 import com.hm.iou.base.mvp.MvpActivityPresenter
 import com.hm.iou.base.utils.CommSubscriber
 import com.hm.iou.base.utils.RxUtil
-import com.hm.iou.pay.api.PayV2Api
 import com.hm.iou.pay.api.PayApi
+import com.hm.iou.pay.api.PayV2Api
 import com.hm.iou.pay.bean.CreatePublishQJCodeOrderResBean
 import com.hm.iou.pay.bean.req.CreatePublishQJCodeOrderReqBean
 import com.hm.iou.pay.dict.ChannelEnumBean
@@ -62,14 +62,14 @@ class PayPublishQJCodePresenter(context: Context, view: PayPublishQJCodeContract
     }
 
     @SuppressLint("CheckResult")
-    override fun createPayOrderByWx(qjCodePublishId: String, publishType: Int) {
+    override fun createPayOrderByWx(qjCodePublishId: String, publishType: Int, innerUser: Boolean) {
         mQJCodePublishId = qjCodePublishId
         val flag = SystemUtil.isAppInstalled(mContext, PACKAGE_NAME_OF_WX_CHAT)
         if (flag) {
             mView.showLoadingView("创建订单...")
             mChannel = ChannelEnumBean.PayByWx
             val req = CreatePublishQJCodeOrderReqBean(publishType, qjCodePublishId)
-            PayV2Api.createPublishQJCodeOrder(req)
+            PayV2Api.createPublishQJCodeOrder(req, innerUser)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .compose(provider.bindUntilEvent(ActivityEvent.DESTROY))
@@ -199,7 +199,7 @@ class PayPublishQJCodePresenter(context: Context, view: PayPublishQJCodeContract
                             }
                         }
 
-                        override fun handleException(throwable: Throwable, code: String, errorMsg: String) {
+                        override fun handleException(p0: Throwable?, p1: String?, p2: String?) {
                             mView.dismissLoadingView()
                         }
                     })

@@ -58,7 +58,7 @@ class QJCodeLenderConfirmPayContract {
          * 创建微信支付订单
          *
          */
-        fun createPayOrderByWx(reqBean: QJCodeLenderConfirmReqBean)
+        fun createPayOrderByWx(reqBean: QJCodeLenderConfirmReqBean, innerUser: Boolean)
 
         /**
          * 再次进行支付
