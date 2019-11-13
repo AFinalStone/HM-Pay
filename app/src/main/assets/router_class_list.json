@@ -806,6 +806,11 @@
       "url": "hmiou://m.54jietiao.com/pay/qjcode_lender_confirm_pay?package_title=&package_money=&package_content=&loaner_email=*&loaner_account=*&loaner_remit_way=*&seal_id=*&square_apply_id=*&trans_dead_line=*&trans_pswd=*",
       "iclass": "",
       "aclass": "com.hm.iou.pay.business.qjcode.QJCodeLenderConfirmPayActivity"
+    },
+    {
+      "url": "hmiou://m.54jietiao.com/pay/lawyer_letter_pay?package_title=&package_money=&package_content=&bill_id=&inner_user=1",
+      "iclass": "",
+      "aclass": "com.hm.iou.pay.business.lawyer.PayLawyerLetterActivity"
     }
   ],
   "select_pic": [
