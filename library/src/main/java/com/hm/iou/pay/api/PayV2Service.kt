@@ -1,9 +1,7 @@
 package com.hm.iou.pay.api
 
-import com.hm.iou.pay.bean.CreatePublishQJCodeOrderResBean
-import com.hm.iou.pay.bean.ElecReceiveVipCardConsumerBean
-import com.hm.iou.pay.bean.QJCodeLenderConfirmResBean
-import com.hm.iou.pay.bean.UserIsHaveElecReceiveVipCardResBean
+import com.hm.iou.pay.bean.*
+import com.hm.iou.pay.bean.req.CreateLawyerLetterReqBean
 import com.hm.iou.pay.bean.req.CreatePublishQJCodeOrderReqBean
 import com.hm.iou.pay.bean.req.QJCodeLenderConfirmReqBean
 import com.hm.iou.sharedata.model.BaseResponse
@@ -33,5 +31,14 @@ interface PayV2Service {
 
     @GET("/api/square/v1/moneyV2/getContentStep")
     fun getQjCodeLenderConfirmStatus(@Query("contentId") contentId: Int): Flowable<BaseResponse<Int>>
+
+    @POST("/api/lawyer/v1/order/createOrder")
+    suspend fun createLawyerLetterOrder(@Body reqBean: CreateLawyerLetterReqBean, @Header("hmpop") flag: String): BaseResponse<CreateLawyerLetterOrderResBean>
+
+    @GET("/api/lawyer/v1/order/getBillStatus")
+    suspend fun getLawyerLetterOrderStatus(@Query("billId") billId: String): BaseResponse<Int>
+
+    @GET("/pay/iou/v1/queryOrderWhilePaying")
+    suspend fun queryOrderPayState(@Query("orderId") orderId: String): BaseResponse<String>
 
 }

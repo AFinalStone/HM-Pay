@@ -73,6 +73,12 @@
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="portrait" />
 
+        <activity
+            android:name=".business.lawyer.PayLawyerLetterActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:screenOrientation="portrait"
+            android:theme="@style/PaySelectPayTypeThemeActivity" />
+
     </application>
 
 

@@ -56,4 +56,11 @@
         android:gravity="center"
         android:text="支付金额发布求借码" />
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="律师函支付"
+        android:onClick="lawyerLetterPay"
+        />
+
 </LinearLayout>

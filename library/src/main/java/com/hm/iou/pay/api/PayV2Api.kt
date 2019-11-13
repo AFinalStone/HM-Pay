@@ -1,10 +1,8 @@
 package com.hm.iou.pay.api
 
 import com.hm.iou.network.HttpReqManager
-import com.hm.iou.pay.bean.CreatePublishQJCodeOrderResBean
-import com.hm.iou.pay.bean.ElecReceiveVipCardConsumerBean
-import com.hm.iou.pay.bean.QJCodeLenderConfirmResBean
-import com.hm.iou.pay.bean.UserIsHaveElecReceiveVipCardResBean
+import com.hm.iou.pay.bean.*
+import com.hm.iou.pay.bean.req.CreateLawyerLetterReqBean
 import com.hm.iou.pay.bean.req.CreatePublishQJCodeOrderReqBean
 import com.hm.iou.pay.bean.req.QJCodeLenderConfirmReqBean
 import com.hm.iou.sharedata.model.BaseResponse
@@ -68,6 +66,23 @@ class PayV2Api {
         fun getQjCodeLenderConfirmStatus(contentId: Int): Flowable<BaseResponse<Int>> {
             return getService().getQjCodeLenderConfirmStatus(contentId).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
         }
+
+        /**
+         * 律师函创建订单
+         */
+        suspend fun createLawyerLetterOrder(billId: String, innerUser: Boolean): BaseResponse<CreateLawyerLetterOrderResBean> {
+            val reqBean = CreateLawyerLetterReqBean(billId)
+            return getService().createLawyerLetterOrder(reqBean, if (innerUser) "1" else "")
+        }
+
+        suspend fun getLawyerLetterOrderStatus(billId: String): BaseResponse<Int> {
+            return getService().getLawyerLetterOrderStatus(billId)
+        }
+
+        suspend fun queryOrderPayState(orderId: String): BaseResponse<String> {
+            return getService().queryOrderPayState(orderId)
+        }
+
     }
 
 

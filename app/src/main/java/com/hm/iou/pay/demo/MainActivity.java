@@ -147,4 +147,15 @@ public class MainActivity extends Activity {
         System.out.println("USER=" + Build.USER);
     }
 
+
+    public void lawyerLetterPay(View view) {
+        Router.getInstance().buildWithUrl("hmiou://m.54jietiao.com/pay/lawyer_letter_pay")
+                .withString("package_title", "律师函服务费")
+                .withString("package_money", "300")
+                .withString("package_content", "文案待定")
+                .withString("bill_id", "123455")
+                .withString("inner_user", "1")
+                .navigation(this);
+    }
+
 }
