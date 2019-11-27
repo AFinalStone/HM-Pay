@@ -26,15 +26,18 @@ public class HMApplication extends Application {
 
         BaseBizAppLike baseBizAppLike = new BaseBizAppLike();
         baseBizAppLike.onCreate(this);
-        baseBizAppLike.initServer("http://dev.54jietiao.com", "http://dev.54jietiao.com",
-                "http://dev.54jietiao.com");
+//        baseBizAppLike.initServer("http://dev.54jietiao.com", "http://dev.54jietiao.com",
+//                "http://dev.54jietiao.com");
 //        baseBizAppLike.initServer("https://api.54jietiao.com", "http://192.168.1.217",
 //                "http://192.168.1.217");
-        baseBizAppLike.initServer("http://192.168.1.226:8071", "http://192.168.1.226:8071",
-                "http://192.168.1.226:8071");
-        baseBizAppLike.initServer("http://branch.54jietiao.com", "http://192.168.1.226:8071",
-                "http://192.168.1.226:8071");
-        initNetwork();
+//        baseBizAppLike.initServer("http://192.168.1.226:8071", "http://192.168.1.226:8071",
+//                "http://192.168.1.226:8071");
+//        baseBizAppLike.initServer("http://branch.54jietiao.com", "http://192.168.1.226:8071",
+//                "http://192.168.1.226:8071");
+        baseBizAppLike.initServer(
+                "http://192.168.1.107:3000", "http://192.168.1.107:3000",
+                "http://192.168.1.107:3000"
+        );
 
         SugarContext.init(this);
         PayAppLike payAppLike = new PayAppLike();
